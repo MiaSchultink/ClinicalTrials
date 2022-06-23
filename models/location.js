@@ -13,7 +13,8 @@ const locationSchema = new Schema({
         type: String
     },
     facility: {
-        type: String
+        type: String,
+        unique:true
     }
 
 
