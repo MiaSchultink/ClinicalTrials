@@ -31,8 +31,6 @@ app.set('views', 'views')
 
 // const favicon = require('serve-favicon');
 
-
-//  const errorController = require('./controllers/error.js')
 // const adminController = require('./controllers/admin')
 const trialsController = require('./controllers/trials');
 
@@ -63,23 +61,6 @@ app.use((req, res, next) => {
 app.use('/trials', trialsRoutes);
 
 app.get('/', async (req, res, next) => {
-    // const url = 'https://ClinicalTrials.gov/api/query/full_studies?expr=Duchenne+Muscular+Dystrophy&fmt=JSON&max_rnk=100'
-    // const response = await fetch(url);
-    // const json = await response.json();
-    
-    // // res.send(json)
- 
-    // const data = JSON.stringify(json);
-    // console.log(JSON.parse(data).length)
-
-    // write JSON string to a file
-    // fs.writeFile('user.json', data, (err) => {
-    //     if (err) {
-    //         throw err;
-    //     }
-    //     console.log("JSON data is saved.");
-    // });
-
 
     res.render('home');
 })
