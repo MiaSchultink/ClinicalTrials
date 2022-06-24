@@ -18,10 +18,6 @@ const methodSchema= new Schema({
     outcomeMeasureDescription:{
         type:String
     }
-    // primaryPurpous:{
-    //     type:String
-    // }
-
    
 })
 
