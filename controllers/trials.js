@@ -7,12 +7,11 @@ const Method = require('../models/method');
 const participants = require('../models/participants');
 //const Participants = require('../models/participants');
 
-const generalFields = ["NCTId","OfficialTitle", "OverallStatus", "Phase", "BriefSummary","CollaboratorName", "CompletionDate", "DetailedDescription","EnrollmentCount","IsFDARegulatedDevice", "IsFDARegulatedDrug"];
+const generalFields = ["NCTId","OfficialTitle", "OverallStatus", "Phase", "BriefSummary","CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription","EnrollmentCount","IsFDARegulatedDevice", "IsFDARegulatedDrug","DesignPrimaryPurpose"];
 
 const locationFields = ["NCTId","LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId","InterventionModel", "InterventionModelDescription", "Allocation","OutcomeMeasureDescription"];
+const methodFields = ["NCTId","DesignInterventionModel", ,"InterventionType","DesignInterventionModelDescription","DesignAllocation","OutcomeMeasureDescription"];
 const participantFields = ["NCTId","Gender", "MinimumAge", "MaximumAge"];
-
 const resultFields = ["NCTId","PrimaryOutcomeDescription","WhyStopped"]
 
 //const fieldsArray = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "CompletionDate", "DetailedDescription", "EnrollmentCount", "Gender", "MinimumAge", "MaximumAge", "InterventionDescription", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "LocationFacility", "LocationCity", "LocationCountry", "OutcomeMeasureDescription", "PrimaryOutcomeDescription"];
@@ -105,20 +104,27 @@ async function makeStudies() {
 
     //const json = await fetchJSON(fieldsArray)
     const json = await fetchJSON(generalFields);
-
+//console.log(json)
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     const numStudies = jsonStudies.length;
 
     for (let i = 0; i < numStudies; i++) {
         console.log(i);
+        const isFDA =  jsonStudies[i].IsFDARegulatedDevice[0] =="Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
         const study = new Study({
             rank: jsonStudies[i].Rank,
             NCTID: jsonStudies[i].NCTId[0],
+            phase: jsonStudies[i].Phase[0],
+            status: jsonStudies[i].OverallStatus[0],
             officialTitle: jsonStudies[i].OfficialTitle[0],
             briefSumarry: jsonStudies[i].BriefSummary[0],
             detailedDescription: jsonStudies[i].DetailedDescription[0],
             enrollment: jsonStudies[i].EnrollmentCount[0],
+            isFDAreg: isFDA,
+            creators: jsonStudies[i].CollaboratorName[0],
+            purpose: jsonStudies[i].DesignPrimaryPurpose[0]
+            
         })
 
         await study.save();
@@ -132,11 +138,13 @@ async function addLocations() {
     //const json = await fetchJSON(fieldsArray);
     const json = await fetchJSON(locationFields);
 
+    console.log(json);
+
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        console.log(dbStudy);
+        //console.log(dbStudy);
         if (dbStudy != null) {
             let loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
             if (!loc) {
@@ -145,6 +153,7 @@ async function addLocations() {
                     city: jsonStudy.LocationCity[0],
                     facility: jsonStudy.LocationFacility[0]
                 })
+                //console.log(loc);
                 await loc.save();
             }
             dbStudy.location = loc._id;
@@ -175,9 +184,9 @@ async function addMethod(){
 
 
 ///doesnt work yet becuase response redirects
-exports.run = (req, res, next) => {
+exports.run = async (req, res, next) => {
     //making studies
-     this.makeStudies();
+   await makeStudies();
     //adding locations
-     this.addLocations();
+   await  addLocations();
 }

@@ -12,6 +12,12 @@ const studySchema = new Schema({
         required: true,
         unique: true
     },
+    phase:{
+        type: String
+    },
+    status:{
+        type:String,
+    },
     officialTitle: {
         type: String
     },
@@ -27,6 +33,15 @@ const studySchema = new Schema({
     location: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location'
+    },
+    isFDAreg:{
+        type: Boolean
+    },
+    creators:{
+        type:String
+    },
+    purpose:{
+        type:String
     }
 })
 
