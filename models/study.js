@@ -30,6 +30,10 @@ const studySchema = new Schema({
     enrollment: {
         type: Number,
     },
+    method:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Method'
+    },
     location: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location'

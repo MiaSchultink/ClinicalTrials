@@ -4,13 +4,13 @@ const fs = require('fs');
 const Study = require('../models/study');
 const Location = require('../models/location');
 const Method = require('../models/method');
-const participants = require('../models/participants');
+const Participants = require('../models/participants');
 //const Participants = require('../models/participants');
 
-const generalFields = ["NCTId","OfficialTitle", "OverallStatus", "Phase", "BriefSummary","CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription","EnrollmentCount","IsFDARegulatedDevice", "IsFDARegulatedDrug","DesignPrimaryPurpose"];
+const generalFields = ["NCTId","OfficialTitle", "OverallStatus", "Phase", "BriefSummary","CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription","EnrollmentCount","IsFDARegulatedDevice", "IsFDARegulatedDrug","DesignPrimaryPurpose","DesignPrimaryPurpose"];
 
 const locationFields = ["NCTId","LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId","DesignInterventionModel", ,"InterventionType","DesignInterventionModelDescription","DesignAllocation","OutcomeMeasureDescription"];
+const methodFields = ["NCTId","DesignInterventionModel", ,"InterventionType","DesignInterventionModelDescription","DesignAllocation","PrimaryOutcomeMeasure","OutcomeMeasureDescription"];
 const participantFields = ["NCTId","Gender", "MinimumAge", "MaximumAge"];
 const resultFields = ["NCTId","PrimaryOutcomeDescription","WhyStopped"]
 
@@ -21,7 +21,7 @@ exports.WIPEALL =async (req, res, next)=>{
     await Study.deleteMany().exec();
     await Location.deleteMany().exec();
     await Method.deleteMany().exec();
-    await participants.deleteMany().exec();
+    await Participants.deleteMany().exec();
     res.redirect('/');
     }
 
@@ -86,10 +86,11 @@ exports.buildJSONFiles = async (req, res, next) =>{
     makeJASONfile(data,"locations");
 
     console.log("location file made");
-    // console.log("making method file")
-    // const methodJSON = await fetchJSON(methodFields);
-    // data = JSON.stringify(methodJSON);
-    // makeJASONfile(data,"methods");
+
+    console.log("making method file")
+    const methodJSON = await fetchJSON(methodFields);
+    data = JSON.stringify(methodJSON);
+    makeJASONfile(data,"methods");
 
     // console.log("making participants file")
     // const participantJSON = await fetchJSON(participantFields);
@@ -174,10 +175,21 @@ async function addMethod(){
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            let method = await Method.find({interventionModel: jsonStudy.InterventionModel[0]})
-            if(!method){
-               
-            }
+            const alloc = jsonStudy.DesignAllocation[0];
+            const interModel = jsonStudy.DesignInterventionModel[0];
+            const pOutcomeMeasure= jsonStudy.PrimaryOutcomeMeasure[0];
+            const OMDescription = jsonStudy.OutcomeMeasureDescription[0];
+
+            const method = new Method({
+                allocation:alloc,
+                interventionModel: interModel,
+                primaryOutcomeMeasure: pOutcomeMeasure,
+                outcomeMeasureDescription:OMDescription
+            })
+            await method.save();
+            dbStudy.method = method._id;
+            await dbStudy.save();
+            
         }
     }
 }

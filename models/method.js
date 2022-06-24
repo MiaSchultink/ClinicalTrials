@@ -12,9 +12,15 @@ const methodSchema= new Schema({
     inverventionModelDescription:{
         type:String
     },
-    primaryPurpous:{
+    primaryOutcomeMeasure:{
+        type:String
+    },
+    outcomeMeasureDescription:{
         type:String
     }
+    // primaryPurpous:{
+    //     type:String
+    // }
 
    
 })
