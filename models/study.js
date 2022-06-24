@@ -30,6 +30,10 @@ const studySchema = new Schema({
     enrollment: {
         type: Number,
     },
+    participants:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Participants'
+    },
     method:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Method'
@@ -46,6 +50,10 @@ const studySchema = new Schema({
     },
     purpose:{
         type:String
+    },
+    results:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resutls'
     }
 })
 

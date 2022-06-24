@@ -5,7 +5,7 @@ const Study = require('../models/study');
 const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
-//const Participants = require('../models/participants');
+const Results = require('../models/results');
 
 const generalFields = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "DesignPrimaryPurpose"];
 
@@ -75,10 +75,10 @@ exports.buildJSONFiles = async (req, res, next) => {
     const methodData = JSON.stringify(methodJSON);
     makeJASONfile(methodData, "methods");
 
-    // console.log("making participants file")
-    // const participantJSON = await fetchJSON(participantFields);
-    // const parData = JSON.stringify(participantJSON);
-    // makeJASONfile(parData,"participants");
+    console.log("making participants file")
+    const participantJSON = await fetchJSON(participantFields);
+    const parData = JSON.stringify(participantJSON);
+    makeJASONfile(parData, "participants");
 
     res.status(200).end()
 }
@@ -119,15 +119,13 @@ async function makeStudies() {
 
 async function addLocations() {
     await Location.deleteMany().exec();
-    //const json = await fetchJSON(fieldsArray);
     const json = await fetchJSON(locationFields);
-
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        console.log(dbStudy.officialTitle);
         if (dbStudy != null) {
+            console.log(dbStudy.officialTitle);
             let loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
             if (!loc) {
                 loc = new Location({
@@ -176,6 +174,49 @@ async function addMethods() {
     }
 }
 
+async function addParticipatns() {
+    await Participants.deleteMany().exec();
+    const json = await fetchJSON(participantFields);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for (jsonStudy of jsonStudies) {
+        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+        if (dbStudy != null) {
+            const splitMinAge = jsonStudy.MinimumAge[0].split(" ");
+            const splitMaxAge = jsonStudy.MaximumAge[0].split(" ");
+
+            const pars = new Participants({
+                minAge: splitMinAge[0],
+                maxAge: splitMaxAge[0],
+                gender: jsonStudy.Gender[0],
+            })
+            await pars.save();
+            dbStudy.participants = pars._id;
+            await dbStudy.save();
+        }
+    }
+
+}
+
+async function addResults() {
+    await Results.deleteMany().exec();
+    const json = await fetchJSON(resultFields);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for (jsonStudy of jsonStudies) {
+        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+        if (dbStudy != null) {
+            const res = new Results({
+                primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
+                whyStopped: jsonStudy.WhyStopped[0]
+            })
+            await res.save();
+            dbStudy.results = res_id
+            await dbStudy.save();
+        }
+    }
+}
+
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
@@ -187,4 +228,10 @@ exports.run = async (req, res, next) => {
     //adding methods
     await addMethods();
     console.log("methods added")
+    //adding participants
+    await addParticipatns();
+    console.log('participants added')
+    //adding results
+    await addResults();
+    console.log("resutls added");
 }
