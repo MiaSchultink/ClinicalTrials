@@ -3,16 +3,26 @@ const fetch = require('node-fetch')
 const fs = require('fs');
 const Study = require('../models/study');
 const Location = require('../models/location');
+const Method = require('../models/method');
+const participants = require('../models/participants');
+//const Participants = require('../models/participants');
 
+const generalFields = ["NCTId","OfficialTitle", "OverallStatus", "Phase", "BriefSummary","CollaboratorName", "CompletionDate", "DetailedDescription","EnrollmentCount","IsFDARegulatedDevice", "IsFDARegulatedDrug"];
 
-const fieldsArray = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "CompletionDate", "DetailedDescription", "EnrollmentCount", "Gender", "MinimumAge", "MaximumAge", "InterventionDescription", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "LocationFacility", "LocationCity", "LocationCountry", "OutcomeMeasureDescription", "PrimaryOutcomeDescription"];
+const locationFields = ["NCTId","LocationFacility", "LocationCity", "LocationCountry"];
+const methodFields = ["NCTId","InterventionModel", "InterventionModelDescription", "Allocation","OutcomeMeasureDescription"];
+const participantFields = ["NCTId","Gender", "MinimumAge", "MaximumAge"];
 
+const resultFields = ["NCTId","PrimaryOutcomeDescription","WhyStopped"]
 
-//const testFields = ["NCTId", "CollaboratorName", "MinimumAge", "MaximumAge", "LocationFacility", "StartDate", "CompletionDate"];
+//const fieldsArray = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "CompletionDate", "DetailedDescription", "EnrollmentCount", "Gender", "MinimumAge", "MaximumAge", "InterventionDescription", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "LocationFacility", "LocationCity", "LocationCountry", "OutcomeMeasureDescription", "PrimaryOutcomeDescription"];
+
 
 exports.WIPEALL =async (req, res, next)=>{
     await Study.deleteMany().exec();
     await Location.deleteMany().exec();
+    await Method.deleteMany().exec();
+    await participants.deleteMany().exec();
     res.redirect('/');
     }
 
@@ -32,13 +42,11 @@ function buildURL(fields) {
     return URL;
 }
 
-function makeJASONfile(data) {
-    fs.writeFile('trials.json', data, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log("JSON data is saved.");
-    });
+function makeJASONfile(data, fileName) {
+    const name = fileName+".json";
+    fs.writeFileSync(name, data);
+    console.log("JSON data is saved.");
+
 }
 
 
@@ -49,34 +57,55 @@ async function fetchJSON(fields) {
     return json;
 }
 
-// exports.printAllTrials2 = async (req, res, next) => {
-//     const url = 'https://ClinicalTrials.gov/api/query/full_studies?expr=heart+attack&fmt=JSON'
-//     const response = await fetch(url);
-//     const json = await response.json();
+// //makes big json file
+// exports.getAllTrials = async (req, res, next) => {
+//     const url = buildURL(fieldsArray);
 
-//     console.log(json.FullStudiesResponse.FullStudies[0])
+//     //const url = buildURL(testFields);
+
+//     const response = await fetch(url);
+//     console.log(response)
+//     const json = await response.json();
+//     console.log(json);
+//     const data = JSON.stringify(json);
+
+
+//     makeJASONfile(data,"alltrials");
+//     res.redirect('/');
 // }
 
-exports.getAllTrials = async (req, res, next) => {
-    const url = buildURL(fieldsArray);
+exports.buildJSONFiles = async (req, res, next) =>{
 
-    //const url = buildURL(testFields);
+    console.log("making general file")
+    const generalJSON = await fetchJSON(generalFields);
+    let data = JSON.stringify(generalJSON);
+    makeJASONfile(data,"studies");
 
-    const response = await fetch(url);
-    console.log(response)
-    const json = await response.json();
-    console.log(json);
-    const data = JSON.stringify(json);
+    console.log("making location file")
+    const locationJSON = await fetchJSON(locationFields);
+    data = JSON.stringify(locationJSON);
+    makeJASONfile(data,"locations");
 
+    console.log("location file made");
+    // console.log("making method file")
+    // const methodJSON = await fetchJSON(methodFields);
+    // data = JSON.stringify(methodJSON);
+    // makeJASONfile(data,"methods");
 
-    makeJASONfile(data);
-    res.redirect('/');
+    // console.log("making participants file")
+    // const participantJSON = await fetchJSON(participantFields);
+    // data = JSON.stringify(participantJSON);
+    // makeJASONfile(data,"participants");
+
+    res.redirect('/')
 }
 
-exports.makeStudies = async (req, res, next) => {
+async function makeStudies() {
     await Study.deleteMany().exec();
 
-    const json = await fetchJSON(fieldsArray)
+    //const json = await fetchJSON(fieldsArray)
+    const json = await fetchJSON(generalFields);
+
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     const numStudies = jsonStudies.length;
@@ -95,12 +124,13 @@ exports.makeStudies = async (req, res, next) => {
         await study.save();
         console.log("title",study.officialTitle);
     }
-    res.redirect('/');
+
 }
 
-exports.addLocations = async (req, res, next) => {
+async function addLocations() {
     await Location.deleteMany().exec();
-    const json = await fetchJSON(fieldsArray);
+    //const json = await fetchJSON(fieldsArray);
+    const json = await fetchJSON(locationFields);
 
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
@@ -122,14 +152,32 @@ exports.addLocations = async (req, res, next) => {
         }
     }
 
-    res.redirect('/');
+}
+
+async function addMethod(){
+    await Method.deleteMany().exec();
+
+   // const json = await fetchJSON(fieldsArray);
+   const json = await fetchJSON(methodFields);
+
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for (jsonStudy of jsonStudies) {
+        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+        if (dbStudy != null) {
+            let method = await Method.find({interventionModel: jsonStudy.InterventionModel[0]})
+            if(!method){
+               
+            }
+        }
+    }
 }
 
 
-
+///doesnt work yet becuase response redirects
 exports.run = (req, res, next) => {
     //making studies
-    this.makeStudies(req, res, next);
+     this.makeStudies();
     //adding locations
-    this.addLocations(req, res, next);
+     this.addLocations();
 }
