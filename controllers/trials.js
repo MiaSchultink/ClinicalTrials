@@ -20,7 +20,7 @@ const Phase = require("../models/phase");
 const Status = require('../models/status');
 
 const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug"];
-const statateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
+const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
 const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "OutcomeMeasureDescription"];
@@ -106,6 +106,16 @@ exports.buildJSONFiles = async (req, res, next) => {
     const parData = JSON.stringify(participantJSON);
     makeJASONfile(parData, "participants");
 
+    console.log("making dates file")
+    const datesJSON = await fetchJSON(dateFields);
+    const dateData = JSON.stringify(datesJSON);
+    makeJASONfile(dateData, "dates");
+
+    console.log("making state files")
+    const statJSON = await fetchJSON(stateFields);
+    const statData = JSON.stringify(statJSON);
+    makeJASONfile(statData, "states");
+
     console.log("making results files")
     const resultsJSON = await fetchJSON(resultFields);
     const resData = JSON.stringify(resultsJSON);
@@ -128,26 +138,15 @@ async function makeStudies() {
         console.log(i);
         const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
 
-        // let pur = await Purpose.findOne({ purpose: jsonStudies[i].DesignPrimaryPurpose[0] }).exec();
-        // if (!pur) {
-        //     pur = new Purpose({
-        //         purpose: jsonStudies[i].DesignPrimaryPurpose[0]
-        //     })
-        //     await pur.save();
-        // }
-
         const study = new Study({
             rank: jsonStudies[i].Rank,
             NCTID: jsonStudies[i].NCTId[0],
-            //phase: jsonStudies[i].Phase[0],// fix
-            //status: jsonStudies[i].OverallStatus[0],
             officialTitle: jsonStudies[i].OfficialTitle[0],
             briefSumarry: jsonStudies[i].BriefSummary[0],
             detailedDescription: jsonStudies[i].DetailedDescription[0],
             enrollment: jsonStudies[i].EnrollmentCount[0],
             isFDAreg: isFDA,
-            creators: jsonStudies[i].CollaboratorName[0],
-            //purpose: pur
+            creators: jsonStudies[i].CollaboratorName[0]
         })
         console.log("study made id", study.NCTID)
         await study.save();
@@ -341,8 +340,6 @@ async function addDates() {
                 sYear = splitSDate[2];
             }
             const sMonth = splitSDate[0];
-            //const sDay = splitSDate[1];
-            //let sYear = splitSDate[2];
             sYear = sYear.substring(0, sYear.length - 1);
 
             let startYear = await StartYear.findOne({ year: sYear }).exec();
@@ -369,10 +366,6 @@ async function addDates() {
                 let stringCDate = JSON.stringify(jsonCDate);
                 stringSDate = stringCDate.substring(1);
                 const splitCDate = stringCDate.split(" ");
-                
-                // const cMonth = splitCDate[0];
-                // const cDay = splitCDate[1];
-                // let cYear = splitCDate[2];
 
                 let cYear ="";
                 let cDay = "";
@@ -409,13 +402,12 @@ async function addDates() {
     }
 }
 
-//this adds the differnt categories of status, phase and porpose
 async function addStates() {
     await Purpose.deleteMany().exec();
     await Phase.deleteMany().exec();
     await Status.deleteMany().exec();
 
-    const json = await fetchJSON(statateFields);
+    const json = await fetchJSON(stateFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     for (jsonStudy of jsonStudies) {

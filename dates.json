@@ -1,0 +1,139 @@
+{
+    "StudyFieldsResponse": {
+        "APIVrs": "1.01.05",
+        "DataVrs": "2022:06:23 23:12:38.411",
+        "Expression": "Duchenne Muscular Dystrophy",
+        "NStudiesAvail": 419313,
+        "NStudiesFound": 795,
+        "MinRank": 1,
+        "MaxRank": 10,
+        "NStudiesReturned": 10,
+        "FieldList": [
+            "NCTId",
+            "StartDate",
+            "CompletionDate"
+        ],
+        "StudyFields": [
+            {
+                "Rank": 1,
+                "NCTId": [
+                    "NCT04740554"
+                ],
+                "StartDate": [
+                    "March 1, 2013"
+                ],
+                "CompletionDate": [
+                    "February 1, 2015"
+                ]
+            },
+            {
+                "Rank": 2,
+                "NCTId": [
+                    "NCT05244395"
+                ],
+                "StartDate": [
+                    "February 10, 2020"
+                ],
+                "CompletionDate": [
+                    "February 10, 2022"
+                ]
+            },
+            {
+                "Rank": 3,
+                "NCTId": [
+                    "NCT04607824"
+                ],
+                "StartDate": [
+                    "March 2014"
+                ],
+                "CompletionDate": [
+                    "June 2020"
+                ]
+            },
+            {
+                "Rank": 4,
+                "NCTId": [
+                    "NCT05305976"
+                ],
+                "StartDate": [
+                    "January 11, 2021"
+                ],
+                "CompletionDate": [
+                    "January 1, 2022"
+                ]
+            },
+            {
+                "Rank": 5,
+                "NCTId": [
+                    "NCT05249361"
+                ],
+                "StartDate": [
+                    "September 1, 2022"
+                ],
+                "CompletionDate": [
+                    "February 1, 2025"
+                ]
+            },
+            {
+                "Rank": 6,
+                "NCTId": [
+                    "NCT03513367"
+                ],
+                "StartDate": [
+                    "September 19, 2018"
+                ],
+                "CompletionDate": [
+                    "September 19, 2019"
+                ]
+            },
+            {
+                "Rank": 7,
+                "NCTId": [
+                    "NCT05209087"
+                ],
+                "StartDate": [
+                    "March 1, 2020"
+                ],
+                "CompletionDate": [
+                    "June 2022"
+                ]
+            },
+            {
+                "Rank": 8,
+                "NCTId": [
+                    "NCT02069756"
+                ],
+                "StartDate": [
+                    "October 2007"
+                ],
+                "CompletionDate": [
+                    "October 2047"
+                ]
+            },
+            {
+                "Rank": 9,
+                "NCTId": [
+                    "NCT02530905"
+                ],
+                "StartDate": [
+                    "October 8, 2015"
+                ],
+                "CompletionDate": [
+                    "October 3, 2018"
+                ]
+            },
+            {
+                "Rank": 10,
+                "NCTId": [
+                    "NCT03039686"
+                ],
+                "StartDate": [
+                    "July 6, 2017"
+                ],
+                "CompletionDate": [
+                    "April 28, 2020"
+                ]
+            }
+        ]
+    }
+}
