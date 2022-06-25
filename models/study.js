@@ -49,7 +49,8 @@ const studySchema = new Schema({
         type:String
     },
     purpose:{
-        type:String
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Purpose'
     },
     results:{
         type: mongoose.Schema.Types.ObjectId,

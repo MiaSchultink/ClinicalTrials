@@ -4,13 +4,16 @@ const Schema = mongoose.Schema;
 const participantsSchema= new Schema({
 
     minAge:{
-        type:Number
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'MinAge'
     },
     maxAge:{
-        type:Number
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'MaxAge'
     },
     gender:{
-        type:String
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Gender'
     }
    
 })

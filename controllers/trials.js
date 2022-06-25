@@ -5,7 +5,11 @@ const Study = require('../models/study');
 const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
+const MinAge = require('../models/minAge');
+const MaxAge = require('../models/maxAge');
+const Gender = require('../models/gender');
 const Results = require('../models/results');
+const Purpose = require('../models/purpose');
 
 const generalFields = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "DesignPrimaryPurpose"];
 
@@ -19,14 +23,19 @@ exports.wipeAll = async (req, res, next) => {
     await Location.deleteMany().exec();
     await Method.deleteMany().exec();
     await Participants.deleteMany().exec();
-   // await Results.deleteMany.exec();
+   await Results.deleteMany.exec();
+   await MinAge.deleteMany().exec();
+   await Purpose.deleteMany().exec();
+   await MaxAge.deleteMany().exec();  
+   await Gender.deleteMany().exec();
     res.redirect('/');
 }
 
 
 function buildURL(fields) {
+    const numStudiesToServe = 10;
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=Duchenne+Muscular+Dystrophy&fields=";
-    const urlEnd = "&min_rnk=1&max_rnk=795&fmt=JSON";
+    const urlEnd = "&min_rnk=1&max_rnk="+numStudiesToServe+"&fmt=JSON";
 
     let urlMiddle = "";
     for (let i = 0; i < fields.length - 1; i++) {
@@ -78,6 +87,11 @@ exports.buildJSONFiles = async (req, res, next) => {
     const parData = JSON.stringify(participantJSON);
     makeJASONfile(parData, "participants");
 
+    console.log("making results files")
+    const resultsJSON = await fetchJSON(resultFields);
+    const resData = JSON.stringify(resultsJSON);
+    makeJASONfile(resData, "resutls");
+
     res.status(200).end()
 }
 
@@ -94,6 +108,16 @@ async function makeStudies() {
     for (let i = 0; i < numStudies; i++) {
         console.log(i);
         const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
+
+        let pur = await Purpose.findOne({purpose:jsonStudies[i].DesignPrimaryPurpose[0]}).exec();
+        if(!pur){
+            pur =new Purpose({
+                purpose:jsonStudies[i].DesignPrimaryPurpose[0]
+            })
+            await pur.save();
+        }
+        
+
         const study = new Study({
             rank: jsonStudies[i].Rank,
             NCTID: jsonStudies[i].NCTId[0],
@@ -105,8 +129,7 @@ async function makeStudies() {
             enrollment: jsonStudies[i].EnrollmentCount[0],
             isFDAreg: isFDA,
             creators: jsonStudies[i].CollaboratorName[0],
-            purpose: jsonStudies[i].DesignPrimaryPurpose[0]
-
+            purpose: pur
         })
         console.log("study made id", study.NCTID)
         await study.save();
@@ -172,7 +195,11 @@ async function addMethods() {
 }
 
 async function addParticipatns() {
+    await MinAge.deleteMany().exec();
+    await MaxAge.deleteMany().exec();
+    await Gender.deleteMany().exec();
     await Participants.deleteMany().exec();
+
     const json = await fetchJSON(participantFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
@@ -181,10 +208,16 @@ async function addParticipatns() {
         if (dbStudy != null) {
             console.log("participants study id", dbStudy.NCTID);
 
+            let gen = await Gender.findOne({gender:jsonStudy.Gender[0]}).exec();
+            if(!gen){
+                gen = new Gender({
+                    gender:jsonStudy.Gender[0]
+                })
+                await gen.save();
+            }
+
             const pars = new Participants({
-                // minAge: numMinAge,
-                // maxAge: numMaxAge,
-                gender: jsonStudy.Gender[0],
+                gender: gen,
             })
 
             if (jsonStudy.MinimumAge[0] != null) {
@@ -193,16 +226,31 @@ async function addParticipatns() {
                 const minStrNum = splitMinAge[0].substring(1);
                 const numMinAge = Number(minStrNum);
 
+                let objMinAge = await  MinAge.findOne({minAge:numMinAge}).exec();
+                if(!objMinAge){
+                    objMinAge = new MinAge({
+                        minAge: numMinAge
+                    })
+                    await objMinAge.save();
+                }
                 console.log(numMinAge);
-                pars.minAge = numMinAge;
+                pars.minAge = objMinAge;
             }
             if (jsonStudy.MaximumAge[0] != null) {
                 const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
                 const splitMaxAge = strMaxAge.split(" ");
                 const maxStrNum = splitMaxAge[0].substring(1);
                 const numMaxAge = Number(maxStrNum);
+
+                let objMaxAge = await MaxAge.findOne({maxAge:numMaxAge}).exec();
+                if(!objMaxAge){
+                    objMaxAge = new MaxAge({
+                        maxAge:numMaxAge
+                    })
+                    await objMaxAge.save();
+                }
                 console.log(numMaxAge);
-                pars.maxAge = numMaxAge;
+                pars.maxAge = objMaxAge;
 
             }
             await pars.save();
@@ -226,7 +274,7 @@ async function addResults() {
                 primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
                 whyStopped: jsonStudy.WhyStopped[0]
             })
-            await res.save();
+            await result.save();
             dbStudy.results = result._id
             await dbStudy.save();
         }
@@ -250,4 +298,6 @@ exports.run = async (req, res, next) => {
     //adding results
     await addResults();
     console.log("resutls added");
+
+    res.redirect('/');
 }

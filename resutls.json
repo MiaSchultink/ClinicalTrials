@@ -1,0 +1,145 @@
+{
+    "StudyFieldsResponse": {
+        "APIVrs": "1.01.05",
+        "DataVrs": "2022:06:23 23:12:38.411",
+        "Expression": "Duchenne Muscular Dystrophy",
+        "NStudiesAvail": 419313,
+        "NStudiesFound": 795,
+        "MinRank": 1,
+        "MaxRank": 10,
+        "NStudiesReturned": 10,
+        "FieldList": [
+            "NCTId",
+            "PrimaryOutcomeDescription",
+            "WhyStopped"
+        ],
+        "StudyFields": [
+            {
+                "Rank": 1,
+                "NCTId": [
+                    "NCT04740554"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "Heart rate variability indices at rest in adolescents with duchenne muscular dystrophy will be analyzed, which will be divided into the following groups: Under the use of Deflazacort, Predinisone / Predinisolone and without the use of corticosteroids, in addition to the analysis of a control group with typical development."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 2,
+                "NCTId": [
+                    "NCT05244395"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "The scale which developed specifically for DMD with this study. The DMD-GAS was designed to consist of 10 items and each item scored as 0 (excessive compensation in the relevant body part), 1 (minimal compensation) or 2 (no compensation). Low score indicate compensated gait.",
+                    "MFM, which was valid and reliable in Neuromuscular Diseases, was used for gross motor function assessment. The items in MFM, which evaluate functions in 3 different sections (D1, standing position and transfers; D2, axial and proximal motor function; D3, distal motor function) in 32 items in total, are scored between 0-3. 0; cannot initiate any movement and maintain the starting position, 1; partially completes the exercise, 2; performs the exercise slowly and visibly clumsily, with compensations, 3; performs the exercise in the specified standard pattern. High scores indicate higher motor function and the result is expressed as a percentage of the maximum possible score to enable comparison with other scores"
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 3,
+                "NCTId": [
+                    "NCT04607824"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "Linear, non-linear and complexity indices of heart rate variability will be assessed at rest and during computational task, in order to analyse it's behavior."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 4,
+                "NCTId": [
+                    "NCT05305976"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "Brooke Function Classification System",
+                    "gender, body weight, height",
+                    "The distance of 10 m was determined in a suitable indoor environment.",
+                    "The distance of 10 m was determined in a suitable indoor environment.",
+                    "The time to stand up from the supine position was recorded.",
+                    "The time to stand up from the supine position was recorded.",
+                    "Flexion the shoulder to 90 degrees, flexion the shoulder above 90 degrees (above eye level), abduction of the shoulder 90 degrees, abduction of the shoulder above 90 degrees, doing the same movements with weight, bringing the empty glass to the mouth in a sitting position, bringing the full glass to the mouth",
+                    "Flexion the shoulder to 90 degrees, flexion the shoulder above 90 degrees (above eye level), abduction of the shoulder 90 degrees, abduction of the shoulder above 90 degrees, doing the same movements with weight, bringing the empty glass to the mouth in a sitting position, bringing the full glass to the mouth",
+                    "The number of knee extensions and elbow flexions they can do in sitting position in 30 seconds",
+                    "The number of knee extensions and elbow flexions they can do in sitting position in 30 seconds",
+                    "Value when the patient counts audibly in a single expiration after maximum inspiratory effort",
+                    "Value when the patient counts audibly in a single expiration after maximum inspiratory effort"
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 5,
+                "NCTId": [
+                    "NCT05249361"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "We analyze the correlation between the change in activity counts from baseline to 48-week and the change in muscle quantitative measures of upper and lower extremities from baseline to 48-week. The activity counts will be measured with ActiGraph wgt3x-bt worn on patient's dominant ankle and wrist. Accelerometers recorded acceleration in three orthogonal axes (x, y, z) at 30 Hz. Accelerometer recordings were uploaded to ActiLife software, integrated into 15-second epochs, and converted into an omnidirectional acceleration estimate, or vector magnitude (VM), calculated as the square root of the sum of the triaxial signals squared.\n\nThe muscle quantitative will be measured with Microfet2. Muscle quantitative of upper extremity is the sum of the flexion and extension of both elbows and lower extremity is the sum of both knee flexion and extension and bilateral ankle dorsiflexion."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 6,
+                "NCTId": [
+                    "NCT03513367"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "The validation process is confirmatory, the scale being widely used in English 201/5000 The internal consistency of the 4 dimensions of the PedsQL ™ DMD module will be evaluated by measuring the Cronbach Alpha. In terms of data availability to children (activity report).\n\nthe validation of the DMD module will focus on the validity of constructs, internal structure validity, discriminant validity and reliability",
+                    "PedsQLTM is a model for measuring quality of life in children with acute or chronic pathology. Pathology-specific PedsQL ™ provides a better assessment of the quality of life of this population"
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 7,
+                "NCTId": [
+                    "NCT05209087"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "The International Physical Activity Questionnaire-Short Form is used to determine the physical activity level of parents between the ages of 18-65. It contains 7 questions about the activities done in the last 7 days.",
+                    "The Physical Activity Questionnaire for Children is used to determine the physical activity level of children between the ages of 8-14. It contains 7 questions about the activities done in the last 7 days.",
+                    "The Physical Activity Questionnaire for Adolescents is used to determine the physical activity level of children between the ages of 14-18. It contains 7 questions about the activities done in the last 7 days.",
+                    "Six Minute Walk Test is used to measure walking function and physical capacity at the submaximal level in children with DMD. 6MWT is used as the gold standard in evaluating the functional capacity of patient with Duchenne Muscular Dystrophy.",
+                    "North Star Ambulatory Assessment is a performance-based test developed to evaluate the ambulation level of children with DMD who can walk.",
+                    "Children's Attraction to Physical Activity Scale is a questionnaire that used to assess children's interest in physical activity. It consists of 15 questions. The questionnaire is filled by the researcher reading the questions aloud and the child responding.",
+                    "The Pediatric Outcomes Data Collection Instrument is a questionnaire used to measure functional outcomes. Functional dimensions assessed include upper extremity functioning, transfers and basic mobility, sports and physical function, comfort/pain, global function and happiness with physical condition. This study uses PODCI to quantify the physical activity participation of a group of DMD patients.",
+                    "Pedometers are measurement tools developed for counting steps that can measure and record vertical movements. This study used pedometer to determine the physical activity level of children.",
+                    "Children's Physical Activity Correlates used to evaluate the factors affecting physical activity in children. It consists of 44 questions. The questionnaire is filled by the researcher reading the questions aloud and the child responding."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 8,
+                "NCTId": [
+                    "NCT02069756"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "Genetic mutation data is collected by patient report and verified by curation/review of genetic test report when provided. Genetic test report is requested for each registrant and is required for participation in global DMD (TREAT-NMD) registry."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 9,
+                "NCTId": [
+                    "NCT02530905"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "Adverse event (AE) was any untoward medical occurrence in a clinical trial participant, which does not necessarily have a causal relationship with the investigational drug. AEs also included abnormal physical examination findings (Physical examination were conducted per protocol and any clinically significant abnormal findings were recorded in medical history if pre-existing or addressed as an AE if new or worsening). TEAEs was defined as AEs that started, worsened, or became serious on or after the start of first infusion through 148 weeks. Number of participants with TEAEs were reported.",
+                    "Laboratory parameters included serum chemistry (hepatic chemistry and renal chemistry), hematology, coagulation, and urinalysis. Number of participants with potentially clinically significant abnormal finding were reported as TEAEs. The Investigator determined whether abnormal assessment results were potentially clinically significant or not. Potentially clinical significance was defined as any variation in assessment results that had medical relevance resulting in an alteration in medical care.",
+                    "Vital sign parameters included systolic blood pressure (SBP), diastolic blood pressure (DBP), heart rate (HR), and body temperature. Number of participants with at least one potentially clinically significant abnormal vital signs findings were reported as TEAEs. The Investigator determined whether abnormal assessment results were potentially clinically significant or not. Potential clinical significance was defined as any variation in assessment results that had medical relevance resulting in an alteration in medical care.",
+                    "Twelve-lead ECGs were performed at a consistent time of day throughout the study. Electrocardiograms were performed only after the participant was in the supine position, resting, and quiet for a minimum of 15 minutes. The ECG was manually reviewed and interpreted by medically qualified personnel. Number of participants with potentially clinically significant abnormalities in ECG reported as TEAEs were presented here. The Investigator determined whether abnormal assessment results were potentially clinically significant or not.",
+                    "Standard, 2-dimensional ECHOs were performed at a consistent time of day throughout the study.The ECHO was reviewed and interpreted by medically qualified personnel. Number of participants with potentially clinically significant abnormalities in ECHO were reported."
+                ],
+                "WhyStopped": []
+            },
+            {
+                "Rank": 10,
+                "NCTId": [
+                    "NCT03039686"
+                ],
+                "PrimaryOutcomeDescription": [
+                    "The NSAA is a functional scale specifically designed for ambulant boys with Duchenne muscular dystrophy (DMD) that can provide information about motor function. The NSAA is a 17-item test of standing, ability to transition from lying to sitting, sitting to standing, and other mobility assessments. Each of the 17 items is evaluated on an ordinal scale of 0-2: 0 = unable to achieve independently, 1 = modified method but achieves goal independent of physical assistance from another, or 2 = normal with no obvious modification of activity. Total score range is 0 to 34. Higher scores reflect better performance.",
+                    "The NSAA is a functional scale specifically designed for ambulant boys with Duchenne muscular dystrophy (DMD) that can provide information about motor function. The NSAA is a 17-item test of standing, ability to transition from lying to sitting, sitting to standing, and other mobility assessments. Each of the 17 items is evaluated on an ordinal scale of 0-2: 0 = unable to achieve independently, 1 = modified method but achieves goal independent of physical assistance from another, or 2 = normal with no obvious modification of activity. Total score range is 0 to 34. Higher scores reflect better performance. A positive change from baseline indicates an improvement. Based on the mixed-effect model of repeated measures (MMRM)."
+                ],
+                "WhyStopped": []
+            }
+        ]
+    }
+}
