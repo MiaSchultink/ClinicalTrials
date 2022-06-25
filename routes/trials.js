@@ -8,6 +8,6 @@ router.get('/run', trialsController.run);// full run of everything
 // router.get('/add/location', trialsController.addLocations); //adds locations to studies
 router.get('/make/files',trialsController.buildJSONFiles);
 
-router.get('/delete/all', trialsController.WIPEALL)
+router.get('/delete/all', trialsController.wipeAll)
 
 module.exports = router ; 

@@ -14,21 +14,19 @@ const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionMod
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
 const resultFields = ["NCTId", "PrimaryOutcomeDescription", "WhyStopped"]
 
-//const fieldsArray = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "CompletionDate", "DetailedDescription", "EnrollmentCount", "Gender", "MinimumAge", "MaximumAge", "InterventionDescription", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "LocationFacility", "LocationCity", "LocationCountry", "OutcomeMeasureDescription", "PrimaryOutcomeDescription"];
-
-
-exports.WIPEALL = async (req, res, next) => {
+exports.wipeAll = async (req, res, next) => {
     await Study.deleteMany().exec();
     await Location.deleteMany().exec();
     await Method.deleteMany().exec();
     await Participants.deleteMany().exec();
+   // await Results.deleteMany.exec();
     res.redirect('/');
 }
 
 
 function buildURL(fields) {
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=Duchenne+Muscular+Dystrophy&fields=";
-    const urlEnd = "&min_rnk=1&max_rnk=794&fmt=JSON";
+    const urlEnd = "&min_rnk=1&max_rnk=795&fmt=JSON";
 
     let urlMiddle = "";
     for (let i = 0; i < fields.length - 1; i++) {
@@ -110,9 +108,8 @@ async function makeStudies() {
             purpose: jsonStudies[i].DesignPrimaryPurpose[0]
 
         })
-
+        console.log("study made id", study.NCTID)
         await study.save();
-        console.log("title", study.officialTitle);
     }
 
 }
@@ -125,7 +122,7 @@ async function addLocations() {
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            console.log(dbStudy.officialTitle);
+            console.log("location id", dbStudy.NCTID)
             let loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
             if (!loc) {
                 loc = new Location({
@@ -154,7 +151,7 @@ async function addMethods() {
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            console.log(dbStudy.officialTitle)
+            console.log("method id", dbStudy.NCTID)
             const alloc = jsonStudy.DesignAllocation[0];
             const interModel = jsonStudy.DesignInterventionModel[0];
             const pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
@@ -182,14 +179,32 @@ async function addParticipatns() {
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            const splitMinAge = jsonStudy.MinimumAge[0].split(" ");
-            const splitMaxAge = jsonStudy.MaximumAge[0].split(" ");
+            console.log("participants study id", dbStudy.NCTID);
 
             const pars = new Participants({
-                minAge: splitMinAge[0],
-                maxAge: splitMaxAge[0],
+                // minAge: numMinAge,
+                // maxAge: numMaxAge,
                 gender: jsonStudy.Gender[0],
             })
+
+            if (jsonStudy.MinimumAge[0] != null) {
+                const strMinAge = JSON.stringify(jsonStudy.MinimumAge[0]);
+                const splitMinAge = strMinAge.split(" ");
+                const minStrNum = splitMinAge[0].substring(1);
+                const numMinAge = Number(minStrNum);
+
+                console.log(numMinAge);
+                pars.minAge = numMinAge;
+            }
+            if (jsonStudy.MaximumAge[0] != null) {
+                const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
+                const splitMaxAge = strMaxAge.split(" ");
+                const maxStrNum = splitMaxAge[0].substring(1);
+                const numMaxAge = Number(maxStrNum);
+                console.log(numMaxAge);
+                pars.maxAge = numMaxAge;
+
+            }
             await pars.save();
             dbStudy.participants = pars._id;
             await dbStudy.save();
@@ -206,12 +221,13 @@ async function addResults() {
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            const res = new Results({
+            console.log("results id",dbStudy.NCTID)
+            const result = new Results({
                 primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
                 whyStopped: jsonStudy.WhyStopped[0]
             })
             await res.save();
-            dbStudy.results = res_id
+            dbStudy.results = result._id
             await dbStudy.save();
         }
     }
