@@ -52,6 +52,14 @@ const studySchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'Purpose'
     },
+    startDate:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'StartDate'
+    },
+    compDate:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'CompDate'
+    },
     results:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Resutls'

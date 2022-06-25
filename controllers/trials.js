@@ -10,24 +10,43 @@ const MaxAge = require('../models/maxAge');
 const Gender = require('../models/gender');
 const Results = require('../models/results');
 const Purpose = require('../models/purpose');
+const IntervenModel = require('../models/intervenModel');
+const Allocation = require('../models/allocation');
+const StartDate = require('../models/startDate');
+const CompDate = require('../models/compDate');
+const StartYear = require("../models/startYear");
+const CompYear = require('../models/compYear');
+const Phase = require("../models/phase");
+const Status = require('../models/status');
 
-const generalFields = ["NCTId", "OfficialTitle", "OverallStatus", "Phase", "BriefSummary", "CollaboratorName", "StartDate", "CompletionDate", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "DesignPrimaryPurpose"];
+const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug"];
+const statateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
 const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "OutcomeMeasureDescription"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
-const resultFields = ["NCTId", "PrimaryOutcomeDescription", "WhyStopped"]
+const resultFields = ["NCTId", "PrimaryOutcomeDescription", "WhyStopped"];
+
+const dateFields = ["NCTId", "StartDate", "CompletionDate"]
 
 exports.wipeAll = async (req, res, next) => {
     await Study.deleteMany().exec();
     await Location.deleteMany().exec();
     await Method.deleteMany().exec();
     await Participants.deleteMany().exec();
-   await Results.deleteMany.exec();
-   await MinAge.deleteMany().exec();
-   await Purpose.deleteMany().exec();
-   await MaxAge.deleteMany().exec();  
-   await Gender.deleteMany().exec();
+    //await Results.deleteMany.exec();
+    await Purpose.deleteMany().exec();
+    await MinAge.deleteMany().exec();
+    await MaxAge.deleteMany().exec();
+    await Gender.deleteMany().exec();
+    await IntervenModel.deleteMany().exec();
+    await Allocation.deleteMany().exec();
+    await StartYear.deleteMany().exec();
+    await CompYear.deleteMany().exec();
+    await StartDate.deleteMany().exec();
+    await CompDate.deleteMany().exec();
+    await Phase.deleteMany().exec();
+    await Status.deleteMany().exec();
     res.redirect('/');
 }
 
@@ -35,7 +54,7 @@ exports.wipeAll = async (req, res, next) => {
 function buildURL(fields) {
     const numStudiesToServe = 10;
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=Duchenne+Muscular+Dystrophy&fields=";
-    const urlEnd = "&min_rnk=1&max_rnk="+numStudiesToServe+"&fmt=JSON";
+    const urlEnd = "&min_rnk=1&max_rnk=" + numStudiesToServe + "&fmt=JSON";
 
     let urlMiddle = "";
     for (let i = 0; i < fields.length - 1; i++) {
@@ -109,27 +128,26 @@ async function makeStudies() {
         console.log(i);
         const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
 
-        let pur = await Purpose.findOne({purpose:jsonStudies[i].DesignPrimaryPurpose[0]}).exec();
-        if(!pur){
-            pur =new Purpose({
-                purpose:jsonStudies[i].DesignPrimaryPurpose[0]
-            })
-            await pur.save();
-        }
-        
+        // let pur = await Purpose.findOne({ purpose: jsonStudies[i].DesignPrimaryPurpose[0] }).exec();
+        // if (!pur) {
+        //     pur = new Purpose({
+        //         purpose: jsonStudies[i].DesignPrimaryPurpose[0]
+        //     })
+        //     await pur.save();
+        // }
 
         const study = new Study({
             rank: jsonStudies[i].Rank,
             NCTID: jsonStudies[i].NCTId[0],
-            phase: jsonStudies[i].Phase[0],
-            status: jsonStudies[i].OverallStatus[0],
+            //phase: jsonStudies[i].Phase[0],// fix
+            //status: jsonStudies[i].OverallStatus[0],
             officialTitle: jsonStudies[i].OfficialTitle[0],
             briefSumarry: jsonStudies[i].BriefSummary[0],
             detailedDescription: jsonStudies[i].DetailedDescription[0],
             enrollment: jsonStudies[i].EnrollmentCount[0],
             isFDAreg: isFDA,
             creators: jsonStudies[i].CollaboratorName[0],
-            purpose: pur
+            //purpose: pur
         })
         console.log("study made id", study.NCTID)
         await study.save();
@@ -180,9 +198,24 @@ async function addMethods() {
             const pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
             const OMDescription = jsonStudy.OutcomeMeasureDescription[0];
 
+            let objAlloc = await Allocation.findOne({ allocation: alloc }).exec();
+            if (!objAlloc) {
+                objAlloc = new Allocation({
+                    allocation: jsonStudy.DesignAllocation[0]
+                })
+                await objAlloc.save();
+            }
+            let objInterModel = await IntervenModel.findOne({ intervenModel: interModel })
+            if (!objInterModel) {
+                objInterModel = new IntervenModel({
+                    intervenModel: jsonStudy.DesignInterventionModel[0]
+                })
+                await objInterModel.save();
+            }
+
             const method = new Method({
-                allocation: alloc,
-                interventionModel: interModel,
+                allocation: objAlloc,
+                interventionModel: objInterModel,
                 primaryOutcomeMeasure: pOutcomeMeasure,
                 outcomeMeasureDescription: OMDescription
             })
@@ -208,10 +241,10 @@ async function addParticipatns() {
         if (dbStudy != null) {
             console.log("participants study id", dbStudy.NCTID);
 
-            let gen = await Gender.findOne({gender:jsonStudy.Gender[0]}).exec();
-            if(!gen){
+            let gen = await Gender.findOne({ gender: jsonStudy.Gender[0] }).exec();
+            if (!gen) {
                 gen = new Gender({
-                    gender:jsonStudy.Gender[0]
+                    gender: jsonStudy.Gender[0]
                 })
                 await gen.save();
             }
@@ -226,8 +259,8 @@ async function addParticipatns() {
                 const minStrNum = splitMinAge[0].substring(1);
                 const numMinAge = Number(minStrNum);
 
-                let objMinAge = await  MinAge.findOne({minAge:numMinAge}).exec();
-                if(!objMinAge){
+                let objMinAge = await MinAge.findOne({ minAge: numMinAge }).exec();
+                if (!objMinAge) {
                     objMinAge = new MinAge({
                         minAge: numMinAge
                     })
@@ -242,10 +275,10 @@ async function addParticipatns() {
                 const maxStrNum = splitMaxAge[0].substring(1);
                 const numMaxAge = Number(maxStrNum);
 
-                let objMaxAge = await MaxAge.findOne({maxAge:numMaxAge}).exec();
-                if(!objMaxAge){
+                let objMaxAge = await MaxAge.findOne({ maxAge: numMaxAge }).exec();
+                if (!objMaxAge) {
                     objMaxAge = new MaxAge({
-                        maxAge:numMaxAge
+                        maxAge: numMaxAge
                     })
                     await objMaxAge.save();
                 }
@@ -269,7 +302,7 @@ async function addResults() {
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
-            console.log("results id",dbStudy.NCTID)
+            console.log("results id", dbStudy.NCTID)
             const result = new Results({
                 primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
                 whyStopped: jsonStudy.WhyStopped[0]
@@ -279,6 +312,152 @@ async function addResults() {
             await dbStudy.save();
         }
     }
+}
+
+async function addDates() {
+    await StartDate.deleteMany().exec();
+    await CompDate.deleteMany().exec();
+
+    const json = await fetchJSON(dateFields);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for (jsonStudy of jsonStudies) {
+        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+        if (dbStudy != null) {
+            console.log("date id", dbStudy.NCTID);
+
+            const jsonSDate = jsonStudy.StartDate[0];
+            let stringSDate = JSON.stringify(jsonSDate);
+            stringSDate = stringSDate.substring(1);
+            const splitSDate = stringSDate.split(" ");
+           
+            let sYear ="";
+            let sDay = "";
+            if(splitSDate.length ==2){
+                sYear = splitSDate[1];
+            }
+            else if(splitSDate.length==3){
+                sDay = splitSDate[1];
+                sYear = splitSDate[2];
+            }
+            const sMonth = splitSDate[0];
+            //const sDay = splitSDate[1];
+            //let sYear = splitSDate[2];
+            sYear = sYear.substring(0, sYear.length - 1);
+
+            let startYear = await StartYear.findOne({ year: sYear }).exec();
+            if (!startYear) {
+                startYear = new StartYear({
+                    year: sYear
+                })
+                await startYear.save();
+            }
+
+            const startDate = new StartDate({
+                month: sMonth,
+                year: startYear
+            })
+            if(sDay!=""){
+                startDate.day = sDay;
+            }
+
+            await startDate.save();
+            dbStudy.startDate = startDate._id;
+
+            if (jsonStudy.CompletionDate[0]!=null) {
+                const jsonCDate = jsonStudy.CompletionDate[0];
+                let stringCDate = JSON.stringify(jsonCDate);
+                stringSDate = stringCDate.substring(1);
+                const splitCDate = stringCDate.split(" ");
+                
+                // const cMonth = splitCDate[0];
+                // const cDay = splitCDate[1];
+                // let cYear = splitCDate[2];
+
+                let cYear ="";
+                let cDay = "";
+                if(splitCDate.length ==2){
+                    cYear = splitCDate[1];
+                }
+                else if(splitCDate.length==3){
+                    cDay = splitCDate[1];
+                    cYear = splitCDate[2];
+                }
+                const cMonth = splitSDate[0];
+                cYear = cYear.substring(0, cYear.length - 1);
+
+                let compYear = await CompYear.findOne({ year: cYear }).exec();
+                if (!compYear) {
+                    compYear = new CompYear({
+                        year: cYear
+                    })
+                    await compYear.save();
+                }
+                const compDate = new CompDate({
+                    month: cMonth,
+                    year: compYear
+                })
+                if(cDay!=""){
+                    compDate.day = cDay;
+                }
+                await compDate.save();
+                dbStudy.compDate = compDate._id;
+            }
+            await dbStudy.save();
+        }
+
+    }
+}
+
+//this adds the differnt categories of status, phase and porpose
+async function addStates() {
+    await Purpose.deleteMany().exec();
+    await Phase.deleteMany().exec();
+    await Status.deleteMany().exec();
+
+    const json = await fetchJSON(statateFields);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for (jsonStudy of jsonStudies) {
+        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+        if(dbStudy!=null){
+            console.log('state id',dbStudy.NCTID);
+
+            let pur = await Purpose.findOne({ purpose: jsonStudy.DesignPrimaryPurpose[0] }).exec();
+            if (!pur) {
+                pur = new Purpose({
+                    purpose: jsonStudy.DesignPrimaryPurpose[0]
+                })
+                await pur.save();
+            }
+
+            let phas = await Phase.findOne({phase:jsonStudy.Phase[0]}).exec();
+            if(!phas){
+                phas = new Phase({
+                    phase: jsonStudy.Phase[0]
+                })
+                await phas.save();
+            }
+
+            let stat = await Status.findOne({status: jsonStudy.OverallStatus[0]}).exec();
+            if(!stat){
+                stat = new Status({
+                    status:jsonStudy.OverallStatus[0]
+                })
+                await stat.save();
+            }
+
+            dbStudy.phase = phas._id;
+            dbStudy.status = stat._id;
+            dbStudy.purpose = pur._id;
+
+            await dbStudy.save();
+        }
+       
+
+        
+    }
+
 }
 
 ///doesnt work yet becuase response redirects
@@ -295,9 +474,14 @@ exports.run = async (req, res, next) => {
     //adding participants
     await addParticipatns();
     console.log('participants added')
-    //adding results
-    await addResults();
-    console.log("resutls added");
-
+    //adding study dates
+    await addDates();
+    console.log('dates added');
+    //adding state of study
+    // await addStates();
+    // console.log('states added')
+    // //adding results
+    // await addResults();
+    // console.log("resutls added");
     res.redirect('/');
 }
