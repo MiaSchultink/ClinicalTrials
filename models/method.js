@@ -4,12 +4,10 @@ const Schema = mongoose.Schema;
 const methodSchema= new Schema({
 
     allocation:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Allocation'
+        type:String
     },
     interventionModel:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'IntervenModel'
+       type:String
     },
     inverventionModelDescription:{
         type:String

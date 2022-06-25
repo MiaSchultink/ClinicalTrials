@@ -49,16 +49,13 @@ const studySchema = new Schema({
         type:String
     },
     purpose:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Purpose'
+        type:String
     },
     startDate:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'StartDate'
+        type: Date
     },
     compDate:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'CompDate'
+        type: Date
     },
     results:{
         type: mongoose.Schema.Types.ObjectId,

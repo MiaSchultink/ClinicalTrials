@@ -5,19 +5,19 @@ const Study = require('../models/study');
 const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
-const MinAge = require('../models/minAge');
-const MaxAge = require('../models/maxAge');
-const Gender = require('../models/gender');
+// const MinAge = require('../models/minAge');
+// const MaxAge = require('../models/maxAge');
+// const Gender = require('../models/gender');
 const Results = require('../models/results');
-const Purpose = require('../models/purpose');
-const IntervenModel = require('../models/intervenModel');
-const Allocation = require('../models/allocation');
-const StartDate = require('../models/startDate');
-const CompDate = require('../models/compDate');
-const StartYear = require("../models/startYear");
-const CompYear = require('../models/compYear');
-const Phase = require("../models/phase");
-const Status = require('../models/status');
+// const Purpose = require('../models/purpose');
+// const IntervenModel = require('../models/intervenModel');
+// const Allocation = require('../models/allocation');
+// const StartDate = require('../models/startDate');
+// const CompDate = require('../models/compDate');
+// const StartYear = require("../models/startYear");
+// const CompYear = require('../models/compYear');
+// const Phase = require("../models/phase");
+// const Status = require('../models/status');
 
 const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
@@ -35,21 +35,63 @@ exports.wipeAll = async (req, res, next) => {
     await Method.deleteMany().exec();
     await Participants.deleteMany().exec();
     //await Results.deleteMany.exec();
-    await Purpose.deleteMany().exec();
-    await MinAge.deleteMany().exec();
-    await MaxAge.deleteMany().exec();
-    await Gender.deleteMany().exec();
-    await IntervenModel.deleteMany().exec();
-    await Allocation.deleteMany().exec();
-    await StartYear.deleteMany().exec();
-    await CompYear.deleteMany().exec();
-    await StartDate.deleteMany().exec();
-    await CompDate.deleteMany().exec();
-    await Phase.deleteMany().exec();
-    await Status.deleteMany().exec();
+    // await Purpose.deleteMany().exec();
+    // await MinAge.deleteMany().exec();
+    // await MaxAge.deleteMany().exec();
+    // await Gender.deleteMany().exec();
+    //await IntervenModel.deleteMany().exec();
+    // await Allocation.deleteMany().exec();
+    // await StartYear.deleteMany().exec();
+    //await CompYear.deleteMany().exec();
+    // await StartDate.deleteMany().exec();
+    // await CompDate.deleteMany().exec();
+    // await Phase.deleteMany().exec();
+    // await Status.deleteMany().exec();
     res.redirect('/');
 }
 
+function monthToIndex(month){
+    let index = 0;
+    switch(month){
+        case 'January':{
+            index = 0;
+        }
+        case 'February':{
+            index=1;
+        }
+        case 'March':{
+            index=2;
+        }
+        case 'April':{
+            index=3;
+        }
+        case 'May':{
+            index=4;
+        }
+        case 'June':{
+            index=5
+        }
+        case 'July':{
+            index=6;
+        }
+        case 'August':{
+            index=7;
+        }
+        case 'September':{
+            index=8;
+        }
+        case 'October':{
+            index=9;
+        }
+        case 'November':{
+            index=10;
+        }
+        case 'December':{
+            index=11;
+        }
+    }
+    return index;
+}
 
 function buildURL(fields) {
     const numStudiesToServe = 10;
@@ -197,24 +239,24 @@ async function addMethods() {
             const pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
             const OMDescription = jsonStudy.OutcomeMeasureDescription[0];
 
-            let objAlloc = await Allocation.findOne({ allocation: alloc }).exec();
-            if (!objAlloc) {
-                objAlloc = new Allocation({
-                    allocation: jsonStudy.DesignAllocation[0]
-                })
-                await objAlloc.save();
-            }
-            let objInterModel = await IntervenModel.findOne({ intervenModel: interModel })
-            if (!objInterModel) {
-                objInterModel = new IntervenModel({
-                    intervenModel: jsonStudy.DesignInterventionModel[0]
-                })
-                await objInterModel.save();
-            }
+            // let objAlloc = await Allocation.findOne({ allocation: alloc }).exec();
+            // if (!objAlloc) {
+            //     objAlloc = new Allocation({
+            //         allocation: jsonStudy.DesignAllocation[0]
+            //     })
+            //     await objAlloc.save();
+            // }
+            // let objInterModel = await IntervenModel.findOne({ intervenModel: interModel })
+            // if (!objInterModel) {
+            //     objInterModel = new IntervenModel({
+            //         intervenModel: jsonStudy.DesignInterventionModel[0]
+            //     })
+            //     await objInterModel.save();
+            // }
 
             const method = new Method({
-                allocation: objAlloc,
-                interventionModel: objInterModel,
+                allocation: alloc,
+                interventionModel: interModel,
                 primaryOutcomeMeasure: pOutcomeMeasure,
                 outcomeMeasureDescription: OMDescription
             })
@@ -227,9 +269,9 @@ async function addMethods() {
 }
 
 async function addParticipatns() {
-    await MinAge.deleteMany().exec();
-    await MaxAge.deleteMany().exec();
-    await Gender.deleteMany().exec();
+    // await MinAge.deleteMany().exec();
+    // await MaxAge.deleteMany().exec();
+    // await Gender.deleteMany().exec();
     await Participants.deleteMany().exec();
 
     const json = await fetchJSON(participantFields);
@@ -240,16 +282,16 @@ async function addParticipatns() {
         if (dbStudy != null) {
             console.log("participants study id", dbStudy.NCTID);
 
-            let gen = await Gender.findOne({ gender: jsonStudy.Gender[0] }).exec();
-            if (!gen) {
-                gen = new Gender({
-                    gender: jsonStudy.Gender[0]
-                })
-                await gen.save();
-            }
+            // let gen = await Gender.findOne({ gender: jsonStudy.Gender[0] }).exec();
+            // if (!gen) {
+            //     gen = new Gender({
+            //         gender: jsonStudy.Gender[0]
+            //     })
+            //     await gen.save();
+            // }
 
             const pars = new Participants({
-                gender: gen,
+                gender: jsonStudy.Gender[0],
             })
 
             if (jsonStudy.MinimumAge[0] != null) {
@@ -258,15 +300,17 @@ async function addParticipatns() {
                 const minStrNum = splitMinAge[0].substring(1);
                 const numMinAge = Number(minStrNum);
 
-                let objMinAge = await MinAge.findOne({ minAge: numMinAge }).exec();
-                if (!objMinAge) {
-                    objMinAge = new MinAge({
-                        minAge: numMinAge
-                    })
-                    await objMinAge.save();
-                }
+                // let objMinAge = await MinAge.findOne({ minAge: numMinAge }).exec();
+                // if (!objMinAge) {
+                //     objMinAge = new MinAge({
+                //         minAge: numMinAge
+                //     })
+                //     await objMinAge.save();
+                // }
+                // 
+                // pars.minAge = objMinAge;
                 console.log(numMinAge);
-                pars.minAge = objMinAge;
+                pars.minAge = numMinAge
             }
             if (jsonStudy.MaximumAge[0] != null) {
                 const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
@@ -274,15 +318,15 @@ async function addParticipatns() {
                 const maxStrNum = splitMaxAge[0].substring(1);
                 const numMaxAge = Number(maxStrNum);
 
-                let objMaxAge = await MaxAge.findOne({ maxAge: numMaxAge }).exec();
-                if (!objMaxAge) {
-                    objMaxAge = new MaxAge({
-                        maxAge: numMaxAge
-                    })
-                    await objMaxAge.save();
-                }
+                // let objMaxAge = await MaxAge.findOne({ maxAge: numMaxAge }).exec();
+                // if (!objMaxAge) {
+                //     objMaxAge = new MaxAge({
+                //         maxAge: numMaxAge
+                //     })
+                //     await objMaxAge.save();
+                // }
                 console.log(numMaxAge);
-                pars.maxAge = objMaxAge;
+                pars.maxAge = numMaxAge;
 
             }
             await pars.save();
@@ -314,8 +358,8 @@ async function addResults() {
 }
 
 async function addDates() {
-    await StartDate.deleteMany().exec();
-    await CompDate.deleteMany().exec();
+    // await StartDate.deleteMany().exec();
+    // await CompDate.deleteMany().exec();
 
     const json = await fetchJSON(dateFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
@@ -339,27 +383,33 @@ async function addDates() {
                 sDay = splitSDate[1];
                 sYear = splitSDate[2];
             }
-            const sMonth = splitSDate[0];
+            const sMonthStr = splitSDate[0];
+            const sMonthIndex = monthToIndex(sMonthStr);
+            sDay = sDay.substring(0, sDay.length - 1)
             sYear = sYear.substring(0, sYear.length - 1);
 
-            let startYear = await StartYear.findOne({ year: sYear }).exec();
-            if (!startYear) {
-                startYear = new StartYear({
-                    year: sYear
-                })
-                await startYear.save();
-            }
+            // let startYear = await StartYear.findOne({ year: sYear }).exec();
+            // if (!startYear) {
+            //     startYear = new StartYear({
+            //         year: sYear
+            //     })
+            //     await startYear.save();
+            // }
 
-            const startDate = new StartDate({
-                month: sMonth,
-                year: startYear
-            })
-            if(sDay!=""){
-                startDate.day = sDay;
-            }
+            // const startDate = new StartDate({
+            //     month: sMonth,
+            //     year: sYear
+            // })
+            // if(sDay!=""){
+            //     startDate.day = sDay;
+            // }
 
-            await startDate.save();
-            dbStudy.startDate = startDate._id;
+            // await startDate.save();
+            // dbStudy.startDate = startDate._id;
+
+            const startD = new Date(sYear+'/'+ sMonthIndex +'/'+sDay)
+            console.log(startD);
+            dbStudy.startDate = startD;
 
             if (jsonStudy.CompletionDate[0]!=null) {
                 const jsonCDate = jsonStudy.CompletionDate[0];
@@ -376,25 +426,34 @@ async function addDates() {
                     cDay = splitCDate[1];
                     cYear = splitCDate[2];
                 }
-                const cMonth = splitSDate[0];
+                const cMonthStr = splitSDate[0];
+                const cMonthIndex = monthToIndex(cMonthStr);
+                cDay = cDay.substring(0, cDay.length - 1)
                 cYear = cYear.substring(0, cYear.length - 1);
+                
+                const compD = new Date(cYear+'/'+ cMonthIndex+'/'+cDay);
+                console.log(compD);
 
-                let compYear = await CompYear.findOne({ year: cYear }).exec();
-                if (!compYear) {
-                    compYear = new CompYear({
-                        year: cYear
-                    })
-                    await compYear.save();
-                }
-                const compDate = new CompDate({
-                    month: cMonth,
-                    year: compYear
-                })
-                if(cDay!=""){
-                    compDate.day = cDay;
-                }
-                await compDate.save();
-                dbStudy.compDate = compDate._id;
+                //const compDStr = compD.getMonth()+'/'+compD.getDete()+'/'+compD.getFullYear()
+
+                dbStudy.compDate = compD;
+
+                // let compYear = await CompYear.findOne({ year: cYear }).exec();
+                // if (!compYear) {
+                //     compYear = new CompYear({
+                //         year: cYear
+                //     })
+                //     await compYear.save();
+                // }
+                // const compDate = new CompDate({
+                //     month: cMonth,
+                //     year: cYear
+                // })
+                // if(cDay!=""){
+                //     compDate.day = cDay;
+                // }
+                // await compDate.save();
+                // dbStudy.compDate = compDate._id;
             }
             await dbStudy.save();
         }
@@ -403,9 +462,9 @@ async function addDates() {
 }
 
 async function addStates() {
-    await Purpose.deleteMany().exec();
-    await Phase.deleteMany().exec();
-    await Status.deleteMany().exec();
+    // await Purpose.deleteMany().exec();
+    // await Phase.deleteMany().exec();
+    // await Status.deleteMany().exec();
 
     const json = await fetchJSON(stateFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
@@ -415,33 +474,37 @@ async function addStates() {
         if(dbStudy!=null){
             console.log('state id',dbStudy.NCTID);
 
-            let pur = await Purpose.findOne({ purpose: jsonStudy.DesignPrimaryPurpose[0] }).exec();
-            if (!pur) {
-                pur = new Purpose({
-                    purpose: jsonStudy.DesignPrimaryPurpose[0]
-                })
-                await pur.save();
-            }
+            // let pur = await Purpose.findOne({ purpose: jsonStudy.DesignPrimaryPurpose[0] }).exec();
+            // if (!pur) {
+            //     pur = new Purpose({
+            //         purpose: jsonStudy.DesignPrimaryPurpose[0]
+            //     })
+            //     await pur.save();
+            // }
 
-            let phas = await Phase.findOne({phase:jsonStudy.Phase[0]}).exec();
-            if(!phas){
-                phas = new Phase({
-                    phase: jsonStudy.Phase[0]
-                })
-                await phas.save();
-            }
+            // let phas = await Phase.findOne({phase:jsonStudy.Phase[0]}).exec();
+            // if(!phas){
+            //     phas = new Phase({
+            //         phase: jsonStudy.Phase[0]
+            //     })
+            //     await phas.save();
+            // }
 
-            let stat = await Status.findOne({status: jsonStudy.OverallStatus[0]}).exec();
-            if(!stat){
-                stat = new Status({
-                    status:jsonStudy.OverallStatus[0]
-                })
-                await stat.save();
-            }
+            // let stat = await Status.findOne({status: jsonStudy.OverallStatus[0]}).exec();
+            // if(!stat){
+            //     stat = new Status({
+            //         status:jsonStudy.OverallStatus[0]
+            //     })
+            //     await stat.save();
+            // }
 
-            dbStudy.phase = phas._id;
-            dbStudy.status = stat._id;
-            dbStudy.purpose = pur._id;
+            // dbStudy.phase = phas._id;
+            // dbStudy.status = stat._id;
+            // dbStudy.purpose = pur._id;
+
+            dbStudy.phase = jsonStudy.Phase[0];
+            dbStudy.status = jsonStudy.OverallStatus[0];
+            dbStudy.purpose = jsonStudy.DesignPrimaryPurpose[0];
 
             await dbStudy.save();
         }
@@ -470,10 +533,10 @@ exports.run = async (req, res, next) => {
     await addDates();
     console.log('dates added');
     //adding state of study
-    // await addStates();
-    // console.log('states added')
-    // //adding results
-    // await addResults();
-    // console.log("resutls added");
+    await addStates();
+    console.log('states added')
+    //adding results
+    await addResults();
+    console.log("resutls added");
     res.redirect('/');
 }
