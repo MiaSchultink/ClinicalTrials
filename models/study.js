@@ -30,18 +30,60 @@ const studySchema = new Schema({
     enrollment: {
         type: Number,
     },
+
+    //participants and participanet fields
     participants:{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Participants'
     },
+    minAge:{
+        type:Number
+    },
+    maxAge:{
+        type:Number
+    },
+    gender:{
+        type:String
+    },
+    //method and method fields
     method:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Method'
     },
+    allocation:{
+        type:String
+    },
+    interventionModel:{
+        type:String
+     },
+     inverventionModelDescription:{
+         type:String
+     },
+     primaryOutcomeMeasure:{
+         type:String
+     },
+     outcomeMeasureDescription:{
+         type:String
+     },
+     //location and location fields
     location: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location'
     },
+    country: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    state: {
+        type: String
+    },
+    facility: {
+        type: String,
+        unique:true
+    },
+
     isFDAreg:{
         type: Boolean
     },
@@ -57,10 +99,26 @@ const studySchema = new Schema({
     compDate:{
         type: Date
     },
+    //resutls and resutls data
     results:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Resutls'
-    }
+    },
+    primaryOutcomeDescription: {
+        type: String
+    },
+    secondaryOutComesDescription:{
+        type:String,
+    },
+    otherOutcomesDescription:{
+        type:String
+    },
+    whyStopped: {
+        type: String
+    },
+    url:{
+        type:String,
+    },
 })
 
 module.exports = mongoose.model('Study', studySchema)

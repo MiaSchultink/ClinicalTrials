@@ -7,13 +7,13 @@ const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
 
-const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug"];
+const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug","AvailIPDURL"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
 const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "OutcomeMeasureDescription"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
-const resultFields = ["NCTId", "PrimaryOutcomeDescription", "WhyStopped"];
+const resultFields = ["NCTId", "PrimaryOutcomeDescription","SecondaryOutcomeDescription","OtherOutcomeDescription","WhyStopped"];
 
 const dateFields = ["NCTId", "StartDate", "CompletionDate"]
 
@@ -67,6 +67,7 @@ function monthToIndex(month){
     }
     return index;
 }
+
 
 function buildURL(fields) {
     const numStudiesToServe = 10;
@@ -147,12 +148,14 @@ async function makeStudies() {
     const json = await fetchJSON(generalFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    const numStudies = 10;
+    const numStudies = jsonStudies.length; 
 
     for (let i = 0; i < numStudies; i++) {
         console.log(i);
         const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
 
+        const studyURL = 'https://clinicaltrials.gov/ct2/show/'+jsonStudies[i].NCTId[0];
+        
         const study = new Study({
             rank: jsonStudies[i].Rank,
             NCTID: jsonStudies[i].NCTId[0],
@@ -161,7 +164,8 @@ async function makeStudies() {
             detailedDescription: jsonStudies[i].DetailedDescription[0],
             enrollment: jsonStudies[i].EnrollmentCount[0],
             isFDAreg: isFDA,
-            creators: jsonStudies[i].CollaboratorName[0]
+            creators: jsonStudies[i].CollaboratorName[0],
+            url: studyURL
         })
         console.log("study made id", study.NCTID)
         await study.save();
@@ -278,6 +282,7 @@ async function addResults() {
             console.log("results id", dbStudy.NCTID)
             const result = new Results({
                 primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
+                otherOutcomesDescription: jsonStudy.OtherOutcomeDescription[0],
                 whyStopped: jsonStudy.WhyStopped[0]
             })
             await result.save();
@@ -297,7 +302,9 @@ async function addDates() {
         if (dbStudy != null) {
             console.log("date id", dbStudy.NCTID);
 
+            if(jsonStudy.StartDate[0]!=null){
             const jsonSDate = jsonStudy.StartDate[0];
+            console.log(jsonSDate);
             let stringSDate = JSON.stringify(jsonSDate);
             stringSDate = stringSDate.substring(1);
             const splitSDate = stringSDate.split(" ");
@@ -316,10 +323,9 @@ async function addDates() {
             sDay = sDay.substring(0, sDay.length - 1)
             sYear = sYear.substring(0, sYear.length - 1);
 
-            const startD = new Date(sYear+'/'+ sMonthIndex +'/'+sDay)
-            console.log(startD);
+            const startD = new Date(sYear+'/'+ sMonthIndex +'/'+sDay);
             dbStudy.startDate = startD;
-
+        }
             if (jsonStudy.CompletionDate[0]!=null) {
                 const jsonCDate = jsonStudy.CompletionDate[0];
                 let stringCDate = JSON.stringify(jsonCDate);
@@ -335,13 +341,14 @@ async function addDates() {
                     cDay = splitCDate[1];
                     cYear = splitCDate[2];
                 }
-                const cMonthStr = splitSDate[0];
+                const cMonthStr = splitCDate[0];
                 const cMonthIndex = monthToIndex(cMonthStr);
                 cDay = cDay.substring(0, cDay.length - 1)
                 cYear = cYear.substring(0, cYear.length - 1);
+
+                console.log(cDay, cMonthIndex, cYear);
                 
-                const compD = new Date(cYear+'/'+ cMonthIndex+'/'+cDay);
-                console.log(compD);
+                const compD = new Date(cYear, cMonthIndex,cDay);
 
                 dbStudy.compDate = compD;
             }
@@ -361,8 +368,12 @@ async function addStates() {
         if(dbStudy!=null){
             console.log('state id',dbStudy.NCTID);
 
+           let studyPhase= jsonStudy.Phase[0];
+           if(studyPhase!='Not Applicable'){
+            studyPhase = studyPhase.match(/(\d+)/);
+           }
 
-            dbStudy.phase = jsonStudy.Phase[0];
+            dbStudy.phase = studyPhase;
             dbStudy.status = jsonStudy.OverallStatus[0];
             dbStudy.purpose = jsonStudy.DesignPrimaryPurpose[0];
 
@@ -378,17 +389,17 @@ async function addStates() {
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
-    await makeStudies();
-    console.log("studies made");
-    //adding locations
-    await addLocations();
-    console.log("locations added");
-    //adding methods
-    await addMethods();
-    console.log("methods added")
-    //adding participants
-    await addParticipatns();
-    console.log('participants added')
+    // await makeStudies();
+    // console.log("studies made");
+    // //adding locations
+    // await addLocations();
+    // console.log("locations added");
+    // //adding methods
+    // await addMethods();
+    // console.log("methods added")
+    // //adding participants
+    // await addParticipatns();
+    // console.log('participants added')
     //adding study dates
     await addDates();
     console.log('dates added');
