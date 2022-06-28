@@ -6,9 +6,8 @@ const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
-const { count } = require('console');
 
-const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL"];
+const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
@@ -214,7 +213,7 @@ async function addLocations() {
                     loc = new Location({
                         country: jsonStudy.LocationCountry[0],
                         city: jsonStudy.LocationCity[0],
-                        // facility: jsonStudy.LocationFacility[0]
+                        facility: jsonStudy.LocationFacility[0]
                     })
                     //console.log(loc);
                     await loc.save();
@@ -354,7 +353,7 @@ async function addResults() {
             //code added for convenience
             dbStudy.primaryOutcomeDescription = result.primaryOutcomeDescription;
             dbStudy.otherOutcomesDescription = result.otherOutcomesDescription;
-            dbstudy.whyStopped = result.whyStopped;
+            dbStudy.whyStopped = result.whyStopped;
             await dbStudy.save();
         }
     }
@@ -447,12 +446,23 @@ async function addStates() {
             console.log('state id', dbStudy.NCTID);
 
             let studyPhase = "";
-            if (jsonStudy.Phase != null) {
+            if (jsonStudy.Phase[0] != null) {
 
-                studyPhase = jsonStudy.Phase[0];
-                if (studyPhase != 'Not Applicable') {
-                    studyPhase = studyPhase.match(/(\d+)/);
+                for(let i=0; i<jsonStudy.Phase.length; i++){
+                    studyPhase = jsonStudy.Phase[i];
+                    if (studyPhase != 'Not Applicable') {
+                        console.log(studyPhase)
+                        studyPhase = studyPhase.match(/(\d+)/)[0];
+                    }
+                    else{
+                        studyPhase = 'Not Applicable'
+                    }
                 }
+                // studyPhase = jsonStudy.Phase[0]; 
+                // if (studyPhase != 'Not Applicable') {
+                //     console.log(studyPhase)
+                //     studyPhase = studyPhase.match(/(\d+)/)[0];
+                // }
             }
 
             dbStudy.phase = studyPhase;
@@ -471,24 +481,24 @@ async function addStates() {
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
-    await makeStudies();
-    console.log("studies made");
-    //adding locations
-    await addLocations();
-    console.log("locations added");
-    //adding methods
-    await addMethods();
-    console.log("methods added")
-    //adding participants
-    await addParticipatns();
-    console.log('participants added')
-    //adding study dates
-    await addDates();
-    console.log('dates added');
+    // await makeStudies();
+    // console.log("studies made");
+    // //adding locations
+    // await addLocations();
+    // console.log("locations added");
+    // //adding methods
+    // await addMethods();
+    // console.log("methods added")
+    // //adding participants
+    // await addParticipatns();
+    // console.log('participants added')
+    // //adding study dates
+    // await addDates();
+    // console.log('dates added');
     //adding state of study
-    await addStates();
-    console.log('states added')
-    //adding results
+    // await addStates();
+    // console.log('states added')
+     //adding results
     await addResults();
     console.log("resutls added");
     res.redirect('/');

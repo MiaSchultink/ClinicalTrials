@@ -13,7 +13,7 @@ const studySchema = new Schema({
         unique: true
     },
     phase:{
-        type: String
+        type: [String]
     },
     status:{
         type:String,
