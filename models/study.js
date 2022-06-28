@@ -79,9 +79,9 @@ const studySchema = new Schema({
     state: {
         type: String
     },
-    facility: {
+    studyFacility: {
         type: String,
-        unique:true
+        //unique:true
     },
 
     isFDAreg:{
@@ -96,8 +96,29 @@ const studySchema = new Schema({
     startDate:{
         type: Date
     },
+    startYear:{
+        type:String,
+    },
+    startMonth:{
+        type:String,
+    },
+    startDay:{
+        type:String
+    },
+    compDay:{
+        type:String,
+    },
     compDate:{
         type: Date
+    },
+    compYear:{
+        type:String,
+    },
+    compMonth:{
+        type:String
+    },
+    compDay:{
+        type:String
     },
     //resutls and resutls data
     results:{

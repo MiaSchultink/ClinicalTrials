@@ -6,14 +6,15 @@ const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
+const { count } = require('console');
 
-const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug","AvailIPDURL"];
+const generalFields = ["NCTId", "OfficialTitle", "Phase", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
 const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "OutcomeMeasureDescription"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
-const resultFields = ["NCTId", "PrimaryOutcomeDescription","SecondaryOutcomeDescription","OtherOutcomeDescription","WhyStopped"];
+const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped"];
 
 const dateFields = ["NCTId", "StartDate", "CompletionDate"]
 
@@ -25,44 +26,44 @@ exports.wipeAll = async (req, res, next) => {
     res.redirect('/');
 }
 
-function monthToIndex(month){
+function monthToIndex(month) {
     let index = 0;
-    switch(month){
-        case 'January':{
+    switch (month) {
+        case 'January': {
             index = 0;
         }
-        case 'February':{
-            index=1;
+        case 'February': {
+            index = 1;
         }
-        case 'March':{
-            index=2;
+        case 'March': {
+            index = 2;
         }
-        case 'April':{
-            index=3;
+        case 'April': {
+            index = 3;
         }
-        case 'May':{
-            index=4;
+        case 'May': {
+            index = 4;
         }
-        case 'June':{
-            index=5
+        case 'June': {
+            index = 5
         }
-        case 'July':{
-            index=6;
+        case 'July': {
+            index = 6;
         }
-        case 'August':{
-            index=7;
+        case 'August': {
+            index = 7;
         }
-        case 'September':{
-            index=8;
+        case 'September': {
+            index = 8;
         }
-        case 'October':{
-            index=9;
+        case 'October': {
+            index = 9;
         }
-        case 'November':{
-            index=10;
+        case 'November': {
+            index = 10;
         }
-        case 'December':{
-            index=11;
+        case 'December': {
+            index = 11;
         }
     }
     return index;
@@ -143,37 +144,60 @@ exports.buildJSONFiles = async (req, res, next) => {
 }
 
 async function makeStudies() {
-    await Study.deleteMany().exec();
+    try {
+        await Study.deleteMany().exec();
 
-    const json = await fetchJSON(generalFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+        const json = await fetchJSON(generalFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    const numStudies = jsonStudies.length; 
+        const numStudies = jsonStudies.length;
 
-    for (let i = 0; i < numStudies; i++) {
-        console.log(i);
-        const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
+        for (let i = 0; i < numStudies; i++) {
+            console.log(i);
+            const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
 
-        const studyURL = 'https://clinicaltrials.gov/ct2/show/'+jsonStudies[i].NCTId[0];
-        
-        const study = new Study({
-            rank: jsonStudies[i].Rank,
-            NCTID: jsonStudies[i].NCTId[0],
-            officialTitle: jsonStudies[i].OfficialTitle[0],
-            briefSumarry: jsonStudies[i].BriefSummary[0],
-            detailedDescription: jsonStudies[i].DetailedDescription[0],
-            enrollment: jsonStudies[i].EnrollmentCount[0],
-            isFDAreg: isFDA,
-            creators: jsonStudies[i].CollaboratorName[0],
-            url: studyURL
-        })
-        console.log("study made id", study.NCTID)
-        await study.save();
+            const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
+
+            let facility = "";
+            if (jsonStudies[i].LocationFacility != null) {
+                facility = jsonStudies[i].LocationFacility[0];
+            }
+            let country = "";
+            if (jsonStudies[i].LocationCountry != null) {
+                country = jsonStudies[i].LocationCountry[0];
+            }
+            let city = "";
+            if (jsonStudies[i].LocationCity != null) {
+                city = jsonStudies[i].LocationCity[0];
+            }
+
+            const study = new Study({
+                rank: jsonStudies[i].Rank,
+                NCTID: jsonStudies[i].NCTId[0],
+                officialTitle: jsonStudies[i].OfficialTitle[0],
+                briefSumarry: jsonStudies[i].BriefSummary[0],
+                detailedDescription: jsonStudies[i].DetailedDescription[0],
+                enrollment: jsonStudies[i].EnrollmentCount[0],
+                isFDAreg: isFDA,
+                creators: jsonStudies[i].CollaboratorName[0],
+                url: studyURL,
+                country: country,
+                city: city,
+                studyFacility: facility
+            })
+            console.log("study made id", study.NCTID)
+            await study.save();
+        }
     }
+    catch (err) {
+        console.log(err)
+    }
+
 
 }
 
 async function addLocations() {
+    console.log('addLocations')
     await Location.deleteMany().exec();
     const json = await fetchJSON(locationFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
@@ -182,16 +206,27 @@ async function addLocations() {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
             console.log("location id", dbStudy.NCTID)
-            let loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
-            if (!loc) {
-                loc = new Location({
-                    country: jsonStudy.LocationCountry[0],
-                    city: jsonStudy.LocationCity[0],
-                    facility: jsonStudy.LocationFacility[0]
-                })
-                //console.log(loc);
-                await loc.save();
+
+            let loc = null;
+            if(jsonStudy.LocationFacility!=null){
+                loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
+                if (!loc) {
+                    loc = new Location({
+                        country: jsonStudy.LocationCountry[0],
+                        city: jsonStudy.LocationCity[0],
+                        // facility: jsonStudy.LocationFacility[0]
+                    })
+                    //console.log(loc);
+                    await loc.save();
+                }
             }
+            
+
+            //code added for convience
+            // dbStudy.country = loc.country;
+            // dbStudy.city = loc.city;
+            //dbStudy.facility = loc.facility;
+
             dbStudy.location = loc._id;
             await dbStudy.save();
         }
@@ -210,10 +245,23 @@ async function addMethods() {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
         if (dbStudy != null) {
             console.log("method id", dbStudy.NCTID)
-            const alloc = jsonStudy.DesignAllocation[0];
-            const interModel = jsonStudy.DesignInterventionModel[0];
-            const pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
-            const OMDescription = jsonStudy.OutcomeMeasureDescription[0];
+
+            let alloc = "";
+            if (jsonStudy.DesignAllocation = !null) {
+                alloc = jsonStudy.DesignAllocation[0];
+            }
+            let interModel = "";
+            if (jsonStudy.DesignInterventionModel != null) {
+                interModel = jsonStudy.DesignInterventionModel[0];
+            }
+            let pOutcomeMeasure = "";
+            if (jsonStudy.PrimaryOutcomeMeasure != null) {
+                pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
+            }
+            let OMDescription = "";
+            if (jsonStudy.OutcomeMeasureDescription != null) {
+                OMDescription = jsonStudy.OutcomeMeasureDescription[0];
+            }
 
             const method = new Method({
                 allocation: alloc,
@@ -223,6 +271,13 @@ async function addMethods() {
             })
             await method.save();
             dbStudy.method = method._id;
+
+            //code added for convenience
+            dbStudy.allocation = method.allocation;
+            dbStudy.interventionModel = method.interventionModel;
+            dbStudy.primaryOutcomeDescription = method.primaryOutcomeDescription;
+            dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription
+
             await dbStudy.save();
 
         }
@@ -243,6 +298,8 @@ async function addParticipatns() {
             const pars = new Participants({
                 gender: jsonStudy.Gender[0],
             })
+            //code added for convenience
+            dbStudy.gender = jsonStudy.Gender[0];
 
             if (jsonStudy.MinimumAge[0] != null) {
                 const strMinAge = JSON.stringify(jsonStudy.MinimumAge[0]);
@@ -252,6 +309,9 @@ async function addParticipatns() {
 
                 console.log(numMinAge);
                 pars.minAge = numMinAge
+
+                //code added for convenience
+                dbStudy.minAge = numMinAge;
             }
             if (jsonStudy.MaximumAge[0] != null) {
                 const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
@@ -261,6 +321,10 @@ async function addParticipatns() {
 
                 console.log(numMaxAge);
                 pars.maxAge = numMaxAge;
+
+                //code added for convenience
+                dbStudy.maxAge = numMaxAge;
+
 
             }
             await pars.save();
@@ -287,13 +351,17 @@ async function addResults() {
             })
             await result.save();
             dbStudy.results = result._id
+            //code added for convenience
+            dbStudy.primaryOutcomeDescription = result.primaryOutcomeDescription;
+            dbStudy.otherOutcomesDescription = result.otherOutcomesDescription;
+            dbstudy.whyStopped = result.whyStopped;
             await dbStudy.save();
         }
     }
 }
 
 async function addDates() {
-   
+
     const json = await fetchJSON(dateFields);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
@@ -302,42 +370,48 @@ async function addDates() {
         if (dbStudy != null) {
             console.log("date id", dbStudy.NCTID);
 
-            if(jsonStudy.StartDate[0]!=null){
-            const jsonSDate = jsonStudy.StartDate[0];
-            console.log(jsonSDate);
-            let stringSDate = JSON.stringify(jsonSDate);
-            stringSDate = stringSDate.substring(1);
-            const splitSDate = stringSDate.split(" ");
-           
-            let sYear ="";
-            let sDay = "";
-            if(splitSDate.length ==2){
-                sYear = splitSDate[1];
-            }
-            else if(splitSDate.length==3){
-                sDay = splitSDate[1];
-                sYear = splitSDate[2];
-            }
-            const sMonthStr = splitSDate[0];
-            const sMonthIndex = monthToIndex(sMonthStr);
-            sDay = sDay.substring(0, sDay.length - 1)
-            sYear = sYear.substring(0, sYear.length - 1);
+            if (jsonStudy.StartDate[0] != null) {
+                const jsonSDate = jsonStudy.StartDate[0];
+                console.log(jsonSDate);
+                let stringSDate = JSON.stringify(jsonSDate);
+                stringSDate = stringSDate.substring(1);
+                const splitSDate = stringSDate.split(" ");
 
-            const startD = new Date(sYear+'/'+ sMonthIndex +'/'+sDay);
-            dbStudy.startDate = startD;
-        }
-            if (jsonStudy.CompletionDate[0]!=null) {
+                let sYear = "";
+                let sDay = "";
+                if (splitSDate.length == 2) {
+                    sYear = splitSDate[1];
+                }
+                else if (splitSDate.length == 3) {
+                    sDay = splitSDate[1];
+                    sYear = splitSDate[2];
+                }
+                const sMonthStr = splitSDate[0];
+                const sMonthIndex = monthToIndex(sMonthStr);
+                sDay = sDay.substring(0, sDay.length - 1)
+                sYear = sYear.substring(0, sYear.length - 1);
+
+                const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
+                dbStudy.startDate = startD;
+
+                //code added for convenience
+                dbStudy.startYear = sYear;
+                dbStudy.startMonth = sMonthStr;
+                dbStudy.startDay = sDay;
+
+            }
+            if (jsonStudy.CompletionDate[0] != null) {
                 const jsonCDate = jsonStudy.CompletionDate[0];
                 let stringCDate = JSON.stringify(jsonCDate);
                 stringSDate = stringCDate.substring(1);
                 const splitCDate = stringCDate.split(" ");
 
-                let cYear ="";
+                let cYear = "";
                 let cDay = "";
-                if(splitCDate.length ==2){
+                if (splitCDate.length == 2) {
                     cYear = splitCDate[1];
                 }
-                else if(splitCDate.length==3){
+                else if (splitCDate.length == 3) {
                     cDay = splitCDate[1];
                     cYear = splitCDate[2];
                 }
@@ -347,10 +421,14 @@ async function addDates() {
                 cYear = cYear.substring(0, cYear.length - 1);
 
                 console.log(cDay, cMonthIndex, cYear);
-                
-                const compD = new Date(cYear, cMonthIndex,cDay);
+
+                const compD = new Date(cYear, cMonthIndex, cDay);
 
                 dbStudy.compDate = compD;
+                //code added for convenience
+                dbStudy.compYear = cYear;
+                dbStudy.compMonth = cMonthStr;
+                dbStudy.compDay = cDay;
             }
             await dbStudy.save();
         }
@@ -365,13 +443,17 @@ async function addStates() {
 
     for (jsonStudy of jsonStudies) {
         const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if(dbStudy!=null){
-            console.log('state id',dbStudy.NCTID);
+        if (dbStudy != null) {
+            console.log('state id', dbStudy.NCTID);
 
-           let studyPhase= jsonStudy.Phase[0];
-           if(studyPhase!='Not Applicable'){
-            studyPhase = studyPhase.match(/(\d+)/);
-           }
+            let studyPhase = "";
+            if (jsonStudy.Phase != null) {
+
+                studyPhase = jsonStudy.Phase[0];
+                if (studyPhase != 'Not Applicable') {
+                    studyPhase = studyPhase.match(/(\d+)/);
+                }
+            }
 
             dbStudy.phase = studyPhase;
             dbStudy.status = jsonStudy.OverallStatus[0];
@@ -379,9 +461,9 @@ async function addStates() {
 
             await dbStudy.save();
         }
-       
 
-        
+
+
     }
 
 }
@@ -389,17 +471,17 @@ async function addStates() {
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
-    // await makeStudies();
-    // console.log("studies made");
-    // //adding locations
-    // await addLocations();
-    // console.log("locations added");
-    // //adding methods
-    // await addMethods();
-    // console.log("methods added")
-    // //adding participants
-    // await addParticipatns();
-    // console.log('participants added')
+    await makeStudies();
+    console.log("studies made");
+    //adding locations
+    await addLocations();
+    console.log("locations added");
+    //adding methods
+    await addMethods();
+    console.log("methods added")
+    //adding participants
+    await addParticipatns();
+    console.log('participants added')
     //adding study dates
     await addDates();
     console.log('dates added');
