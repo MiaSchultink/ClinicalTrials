@@ -15,6 +15,9 @@ const methodSchema= new Schema({
     primaryOutcomeMeasure:{
         type:String
     },
+    secondaryOutcomeMeasure:{
+        type:String
+    },
     outcomeMeasureDescription:{
         type:String
     }

@@ -11,9 +11,9 @@ const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorNa
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "OutcomeMeasureDescription"];
+const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure","SecondaryOutcomeMeasure", "OutcomeMeasureDescription"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
-const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped"];
+const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate"];
 
 const dateFields = ["NCTId", "StartDate", "CompletionDate"]
 
@@ -70,7 +70,7 @@ function monthToIndex(month) {
 
 
 function buildURL(fields) {
-    const numStudiesToServe = 10;
+    const numStudiesToServe = 795;
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=Duchenne+Muscular+Dystrophy&fields=";
     const urlEnd = "&min_rnk=1&max_rnk=" + numStudiesToServe + "&fmt=JSON";
 
@@ -103,36 +103,36 @@ async function fetchJSON(fields) {
 // dont run with nodemon
 exports.buildJSONFiles = async (req, res, next) => {
 
-    console.log("making general file")
-    const generalJSON = await fetchJSON(generalFields);
-    const generalData = JSON.stringify(generalJSON);
-    makeJASONfile(generalData, "studies");
+    // console.log("making general file")
+    // const generalJSON = await fetchJSON(generalFields);
+    // const generalData = JSON.stringify(generalJSON);
+    // makeJASONfile(generalData, "studies");
 
-    console.log("making location file")
-    const locationJSON = await fetchJSON(locationFields);
-    const locData = JSON.stringify(locationJSON);
-    makeJASONfile(locData, "locations");
-    console.log("location file made");
+    // console.log("making location file")
+    // const locationJSON = await fetchJSON(locationFields);
+    // const locData = JSON.stringify(locationJSON);
+    // makeJASONfile(locData, "locations");
+    // console.log("location file made");
 
-    console.log("making method file")
-    const methodJSON = await fetchJSON(methodFields);
-    const methodData = JSON.stringify(methodJSON);
-    makeJASONfile(methodData, "methods");
+    // console.log("making method file")
+    // const methodJSON = await fetchJSON(methodFields);
+    // const methodData = JSON.stringify(methodJSON);
+    // makeJASONfile(methodData, "methods");
 
-    console.log("making participants file")
-    const participantJSON = await fetchJSON(participantFields);
-    const parData = JSON.stringify(participantJSON);
-    makeJASONfile(parData, "participants");
+    // console.log("making participants file")
+    // const participantJSON = await fetchJSON(participantFields);
+    // const parData = JSON.stringify(participantJSON);
+    // makeJASONfile(parData, "participants");
 
-    console.log("making dates file")
-    const datesJSON = await fetchJSON(dateFields);
-    const dateData = JSON.stringify(datesJSON);
-    makeJASONfile(dateData, "dates");
+    // console.log("making dates file")
+    // const datesJSON = await fetchJSON(dateFields);
+    // const dateData = JSON.stringify(datesJSON);
+    // makeJASONfile(dateData, "dates");
 
-    console.log("making state files")
-    const statJSON = await fetchJSON(stateFields);
-    const statData = JSON.stringify(statJSON);
-    makeJASONfile(statData, "states");
+    // console.log("making state files")
+    // const statJSON = await fetchJSON(stateFields);
+    // const statData = JSON.stringify(statJSON);
+    // makeJASONfile(statData, "states");
 
     console.log("making results files")
     const resultsJSON = await fetchJSON(resultFields);
@@ -157,18 +157,7 @@ async function makeStudies() {
 
             const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
 
-            let facility = "";
-            if (jsonStudies[i].LocationFacility != null) {
-                facility = jsonStudies[i].LocationFacility[0];
-            }
-            let country = "";
-            if (jsonStudies[i].LocationCountry != null) {
-                country = jsonStudies[i].LocationCountry[0];
-            }
-            let city = "";
-            if (jsonStudies[i].LocationCity != null) {
-                city = jsonStudies[i].LocationCity[0];
-            }
+
 
             const study = new Study({
                 rank: jsonStudies[i].Rank,
@@ -179,10 +168,7 @@ async function makeStudies() {
                 enrollment: jsonStudies[i].EnrollmentCount[0],
                 isFDAreg: isFDA,
                 creators: jsonStudies[i].CollaboratorName[0],
-                url: studyURL,
-                country: country,
-                city: city,
-                studyFacility: facility
+                url: studyURL
             })
             console.log("study made id", study.NCTID)
             await study.save();
@@ -197,286 +183,356 @@ async function makeStudies() {
 
 async function addLocations() {
     console.log('addLocations')
-    await Location.deleteMany().exec();
-    const json = await fetchJSON(locationFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+    try {
 
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log("location id", dbStudy.NCTID)
 
-            let loc = null;
-            if(jsonStudy.LocationFacility!=null){
-                loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
-                if (!loc) {
-                    loc = new Location({
-                        country: jsonStudy.LocationCountry[0],
-                        city: jsonStudy.LocationCity[0],
-                        facility: jsonStudy.LocationFacility[0]
-                    })
-                    //console.log(loc);
-                    await loc.save();
+        await Location.deleteMany().exec();
+        const json = await fetchJSON(locationFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log("location id", dbStudy.NCTID)
+
+                let loc = null;
+                if (jsonStudy.LocationFacility != null) {
+                    loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
+                    if (!loc) {
+                        loc = new Location({
+                            country: jsonStudy.LocationCountry[0],
+                            city: jsonStudy.LocationCity[0],
+                            facility: jsonStudy.LocationFacility[0]
+                        })
+                        //console.log(loc);
+                        await loc.save();
+                    }
                 }
+
+
+                //code added for convience
+                dbStudy.country = loc.country;
+                dbStudy.city = loc.city;
+                dbStudy.studyFacility = loc.facility;
+
+                dbStudy.location = loc._id;
+                await dbStudy.save();
             }
-            
-
-            //code added for convience
-            // dbStudy.country = loc.country;
-            // dbStudy.city = loc.city;
-            //dbStudy.facility = loc.facility;
-
-            dbStudy.location = loc._id;
-            await dbStudy.save();
         }
+    }
+    catch (err) {
+        console.log(err)
     }
 
 }
 
 async function addMethods() {
-    await Method.deleteMany().exec();
+    try {
 
-    const json = await fetchJSON(methodFields);
 
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+        await Method.deleteMany().exec();
 
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log("method id", dbStudy.NCTID)
+        const json = await fetchJSON(methodFields);
 
-            let alloc = "";
-            if (jsonStudy.DesignAllocation = !null) {
-                alloc = jsonStudy.DesignAllocation[0];
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log("method id", dbStudy.NCTID)
+
+                let alloc = "";
+                if (jsonStudy.DesignAllocation = !null) {
+                    alloc = jsonStudy.DesignAllocation[0];
+                }
+                let interModel = "";
+                if (jsonStudy.DesignInterventionModel != null) {
+                    interModel = jsonStudy.DesignInterventionModel[0];
+                }
+                let pOutcomeMeasure = "";
+                if (jsonStudy.PrimaryOutcomeMeasure != null) {
+                    pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
+                }
+                let sOutcomeMeasure = "";
+                if(jsonStudy.SecondaryOutcomeMeasure != null){
+                    sOutcomeMeasure = jsonStudy.SecondaryOutcomeMeasur[0];
+                }
+                let OMDescription = "";
+                if (jsonStudy.OutcomeMeasureDescription != null) {
+                    OMDescription = jsonStudy.OutcomeMeasureDescription[0];
+                }
+
+                const method = new Method({
+                    allocation: alloc,
+                    interventionModel: interModel,
+                    primaryOutcomeMeasure: pOutcomeMeasure,
+                    secondaryOutcomeMeasure:sOutcomeMeasure,
+                    outcomeMeasureDescription: OMDescription
+                })
+                await method.save();
+                dbStudy.method = method._id;
+
+                //code added for convenience
+                dbStudy.allocation = method.allocation;
+                dbStudy.interventionModel = method.interventionModel;
+                dbStudy.primaryOutcomeDescription = method.primaryOutcomeDescription;
+                dbStudy.secondaryOutcomeMeasure = method.secondaryOutcomeMeasure;
+                dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription
+
+                await dbStudy.save();
+
             }
-            let interModel = "";
-            if (jsonStudy.DesignInterventionModel != null) {
-                interModel = jsonStudy.DesignInterventionModel[0];
-            }
-            let pOutcomeMeasure = "";
-            if (jsonStudy.PrimaryOutcomeMeasure != null) {
-                pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
-            }
-            let OMDescription = "";
-            if (jsonStudy.OutcomeMeasureDescription != null) {
-                OMDescription = jsonStudy.OutcomeMeasureDescription[0];
-            }
-
-            const method = new Method({
-                allocation: alloc,
-                interventionModel: interModel,
-                primaryOutcomeMeasure: pOutcomeMeasure,
-                outcomeMeasureDescription: OMDescription
-            })
-            await method.save();
-            dbStudy.method = method._id;
-
-            //code added for convenience
-            dbStudy.allocation = method.allocation;
-            dbStudy.interventionModel = method.interventionModel;
-            dbStudy.primaryOutcomeDescription = method.primaryOutcomeDescription;
-            dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription
-
-            await dbStudy.save();
-
         }
+    }
+    catch (err) {
+        console.log(err)
     }
 }
 
 async function addParticipatns() {
-    await Participants.deleteMany().exec();
+    try {
 
-    const json = await fetchJSON(participantFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log("participants study id", dbStudy.NCTID);
+        await Participants.deleteMany().exec();
 
-            const pars = new Participants({
-                gender: jsonStudy.Gender[0],
-            })
-            //code added for convenience
-            dbStudy.gender = jsonStudy.Gender[0];
+        const json = await fetchJSON(participantFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-            if (jsonStudy.MinimumAge[0] != null) {
-                const strMinAge = JSON.stringify(jsonStudy.MinimumAge[0]);
-                const splitMinAge = strMinAge.split(" ");
-                const minStrNum = splitMinAge[0].substring(1);
-                const numMinAge = Number(minStrNum);
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log("participants study id", dbStudy.NCTID);
 
-                console.log(numMinAge);
-                pars.minAge = numMinAge
-
+                const pars = new Participants({
+                    gender: jsonStudy.Gender[0],
+                })
                 //code added for convenience
-                dbStudy.minAge = numMinAge;
+                dbStudy.gender = jsonStudy.Gender[0];
+
+                if (jsonStudy.MinimumAge[0] != null) {
+                    const strMinAge = JSON.stringify(jsonStudy.MinimumAge[0]);
+                    const splitMinAge = strMinAge.split(" ");
+                    const minStrNum = splitMinAge[0].substring(1);
+                    const numMinAge = Number(minStrNum);
+
+                    console.log(numMinAge);
+                    pars.minAge = numMinAge
+
+                    //code added for convenience
+                    dbStudy.minAge = numMinAge;
+                }
+                if (jsonStudy.MaximumAge[0] != null) {
+                    const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
+                    const splitMaxAge = strMaxAge.split(" ");
+                    const maxStrNum = splitMaxAge[0].substring(1);
+                    const numMaxAge = Number(maxStrNum);
+
+                    console.log(numMaxAge);
+                    pars.maxAge = numMaxAge;
+
+                    //code added for convenience
+                    dbStudy.maxAge = numMaxAge;
+
+
+                }
+                await pars.save();
+                dbStudy.participants = pars._id;
+                await dbStudy.save();
             }
-            if (jsonStudy.MaximumAge[0] != null) {
-                const strMaxAge = JSON.stringify(jsonStudy.MaximumAge[0])
-                const splitMaxAge = strMaxAge.split(" ");
-                const maxStrNum = splitMaxAge[0].substring(1);
-                const numMaxAge = Number(maxStrNum);
-
-                console.log(numMaxAge);
-                pars.maxAge = numMaxAge;
-
-                //code added for convenience
-                dbStudy.maxAge = numMaxAge;
-
-
-            }
-            await pars.save();
-            dbStudy.participants = pars._id;
-            await dbStudy.save();
         }
     }
-
-}
-
-async function addResults() {
-    await Results.deleteMany().exec();
-    const json = await fetchJSON(resultFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
-
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log("results id", dbStudy.NCTID)
-            const result = new Results({
-                primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
-                otherOutcomesDescription: jsonStudy.OtherOutcomeDescription[0],
-                whyStopped: jsonStudy.WhyStopped[0]
-            })
-            await result.save();
-            dbStudy.results = result._id
-            //code added for convenience
-            dbStudy.primaryOutcomeDescription = result.primaryOutcomeDescription;
-            dbStudy.otherOutcomesDescription = result.otherOutcomesDescription;
-            dbStudy.whyStopped = result.whyStopped;
-            await dbStudy.save();
-        }
+    catch (err) {
+        console.log(err)
     }
+
 }
 
 async function addDates() {
+    try {
+        const json = await fetchJSON(dateFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    const json = await fetchJSON(dateFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log("date id", dbStudy.NCTID);
 
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log("date id", dbStudy.NCTID);
+                if (jsonStudy.StartDate[0] != null) {
+                    const jsonSDate = jsonStudy.StartDate[0];
+                    console.log(jsonSDate);
+                    let stringSDate = JSON.stringify(jsonSDate);
+                    stringSDate = stringSDate.substring(1);
+                    const splitSDate = stringSDate.split(" ");
 
-            if (jsonStudy.StartDate[0] != null) {
-                const jsonSDate = jsonStudy.StartDate[0];
-                console.log(jsonSDate);
-                let stringSDate = JSON.stringify(jsonSDate);
-                stringSDate = stringSDate.substring(1);
-                const splitSDate = stringSDate.split(" ");
+                    let sYear = "";
+                    let sDay = "";
+                    if (splitSDate.length == 2) {
+                        sYear = splitSDate[1];
+                    }
+                    else if (splitSDate.length == 3) {
+                        sDay = splitSDate[1];
+                        sYear = splitSDate[2];
+                    }
+                    const sMonthStr = splitSDate[0];
+                    const sMonthIndex = monthToIndex(sMonthStr);
+                    sDay = sDay.substring(0, sDay.length - 1)
+                    sYear = sYear.substring(0, sYear.length - 1);
 
-                let sYear = "";
-                let sDay = "";
-                if (splitSDate.length == 2) {
-                    sYear = splitSDate[1];
+                    const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
+                    dbStudy.startDate = startD;
+
+                    //convertions to numbers
+                    const numSYear = parseInt(sYear);
+
+                    let numSDay = 0;
+                    if (sDay != "") {
+                        numSDay = parseInt(sDay);
+                    }
+
+
+                    //code added for convenience
+                    dbStudy.startYear = numSYear;
+                    dbStudy.startMonth = sMonthStr;
+                    dbStudy.startDay = numSDay;
+
                 }
-                else if (splitSDate.length == 3) {
-                    sDay = splitSDate[1];
-                    sYear = splitSDate[2];
+                if (jsonStudy.CompletionDate[0] != null) {
+                    const jsonCDate = jsonStudy.CompletionDate[0];
+                    let stringCDate = JSON.stringify(jsonCDate);
+                    stringSDate = stringCDate.substring(1);
+                    const splitCDate = stringCDate.split(" ");
+
+                    let cYear = "";
+                    let cDay = "";
+                    if (splitCDate.length == 2) {
+                        cYear = splitCDate[1];
+                    }
+                    else if (splitCDate.length == 3) {
+                        cDay = splitCDate[1];
+                        cYear = splitCDate[2];
+                    }
+                    const cMonthStr = splitCDate[0].substring(1);
+                    const cMonthIndex = monthToIndex(cMonthStr);
+                    cDay = cDay.substring(0, cDay.length - 1)
+                    cYear = cYear.substring(0, cYear.length - 1);
+
+                    console.log(cDay, cMonthIndex, cYear);
+
+                    const compD = new Date(cYear, cMonthIndex, cDay);
+
+                    //making dates into number
+                    const numCyear = parseInt(cYear);
+
+                    let numCDay = 0;
+                    if (cDay != "") {
+                        numCDay = parseInt(cDay);
+                    }
+
+                    dbStudy.compDate = compD;
+                    //code added for convenience
+                    dbStudy.compYear = numCyear;
+                    dbStudy.compMonth = cMonthStr;
+                    dbStudy.compDay = numCDay;
                 }
-                const sMonthStr = splitSDate[0];
-                const sMonthIndex = monthToIndex(sMonthStr);
-                sDay = sDay.substring(0, sDay.length - 1)
-                sYear = sYear.substring(0, sYear.length - 1);
-
-                const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
-                dbStudy.startDate = startD;
-
-                //code added for convenience
-                dbStudy.startYear = sYear;
-                dbStudy.startMonth = sMonthStr;
-                dbStudy.startDay = sDay;
-
+                await dbStudy.save();
             }
-            if (jsonStudy.CompletionDate[0] != null) {
-                const jsonCDate = jsonStudy.CompletionDate[0];
-                let stringCDate = JSON.stringify(jsonCDate);
-                stringSDate = stringCDate.substring(1);
-                const splitCDate = stringCDate.split(" ");
 
-                let cYear = "";
-                let cDay = "";
-                if (splitCDate.length == 2) {
-                    cYear = splitCDate[1];
-                }
-                else if (splitCDate.length == 3) {
-                    cDay = splitCDate[1];
-                    cYear = splitCDate[2];
-                }
-                const cMonthStr = splitCDate[0];
-                const cMonthIndex = monthToIndex(cMonthStr);
-                cDay = cDay.substring(0, cDay.length - 1)
-                cYear = cYear.substring(0, cYear.length - 1);
-
-                console.log(cDay, cMonthIndex, cYear);
-
-                const compD = new Date(cYear, cMonthIndex, cDay);
-
-                dbStudy.compDate = compD;
-                //code added for convenience
-                dbStudy.compYear = cYear;
-                dbStudy.compMonth = cMonthStr;
-                dbStudy.compDay = cDay;
-            }
-            await dbStudy.save();
         }
 
+    }
+    catch (err) {
+        console.log(err)
     }
 }
 
 async function addStates() {
+    try {
 
-    const json = await fetchJSON(stateFields);
-    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+        const json = await fetchJSON(stateFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    for (jsonStudy of jsonStudies) {
-        const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
-        if (dbStudy != null) {
-            console.log('state id', dbStudy.NCTID);
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log('state id', dbStudy.NCTID);
 
-            let studyPhase = "";
-            if (jsonStudy.Phase[0] != null) {
+                let studyPhase = "";
+                if (jsonStudy.Phase[0] != null) {
 
-                for(let i=0; i<jsonStudy.Phase.length; i++){
-                    studyPhase = jsonStudy.Phase[i];
-                    if (studyPhase != 'Not Applicable') {
-                        console.log(studyPhase)
-                        studyPhase = studyPhase.match(/(\d+)/)[0];
+                    for (let i = 0; i < jsonStudy.Phase.length; i++) {
+                        studyPhase = jsonStudy.Phase[i];
+                        if (studyPhase != 'Not Applicable') {
+                            console.log(studyPhase)
+                            studyPhase = studyPhase.match(/(\d+)/)[0];
+                        }
+                        else {
+                            studyPhase = 'Not Applicable'
+                        }
                     }
-                    else{
-                        studyPhase = 'Not Applicable'
-                    }
+                    // studyPhase = jsonStudy.Phase[0]; 
+                    // if (studyPhase != 'Not Applicable') {
+                    //     console.log(studyPhase)
+                    //     studyPhase = studyPhase.match(/(\d+)/)[0];
+                    // }
                 }
-                // studyPhase = jsonStudy.Phase[0]; 
-                // if (studyPhase != 'Not Applicable') {
-                //     console.log(studyPhase)
-                //     studyPhase = studyPhase.match(/(\d+)/)[0];
-                // }
+
+                dbStudy.phase = studyPhase;
+                dbStudy.status = jsonStudy.OverallStatus[0];
+                dbStudy.purpose = jsonStudy.DesignPrimaryPurpose[0];
+
+                await dbStudy.save();
             }
 
-            dbStudy.phase = studyPhase;
-            dbStudy.status = jsonStudy.OverallStatus[0];
-            dbStudy.purpose = jsonStudy.DesignPrimaryPurpose[0];
 
-            await dbStudy.save();
         }
-
-
-
+    }
+    catch (err) {
+        console.log(err)
     }
 
 }
+
+
+async function addResults() {
+    try {
+        await Results.deleteMany().exec();
+        const json = await fetchJSON(resultFields);
+        const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+        for (jsonStudy of jsonStudies) {
+            const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
+            if (dbStudy != null) {
+                console.log("results id", dbStudy.NCTID)
+                const result = new Results({
+                    primaryOutcomeDescription: jsonStudy.PrimaryOutcomeDescription[0],
+                    otherOutcomesDescription: jsonStudy.OtherOutcomeDescription[0],
+                    whyStopped: jsonStudy.WhyStopped[0]
+                })
+                if(jsonStudy.ResultsFirstPostDate[0].length>0){
+                    result.resultsFirstPostedDate = jsonStudy.ResultsFirstPostDate[0];
+                    result.hasResults = true;
+
+                    //code added for convenience
+                    dbStudy.dateRetultsPosted = jsonStudy.ResultsFirstPostDate[0];
+                    dbStudy.hasResults = true;
+                }
+        
+                await result.save();
+                dbStudy.results = result._id
+
+                //code added for convenience
+                dbStudy.primaryOutcomeDescription = result.primaryOutcomeDescription;
+                dbStudy.otherOutcomesDescription = result.otherOutcomesDescription;
+                dbStudy.whyStopped = result.whyStopped;
+                await dbStudy.save();
+            }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
@@ -495,10 +551,10 @@ exports.run = async (req, res, next) => {
     // //adding study dates
     // await addDates();
     // console.log('dates added');
-    //adding state of study
+    // //adding state of study
     // await addStates();
     // console.log('states added')
-     //adding results
+    //adding results
     await addResults();
     console.log("resutls added");
     res.redirect('/');

@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const resultsSchema = new Schema({
 
+    hasResults:{
+        type:Boolean
+    },
+    resultsFirstPostedDate:{
+        type:String
+    },
     primaryOutcomeDescription: {
         type: String
     },

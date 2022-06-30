@@ -62,6 +62,9 @@ const studySchema = new Schema({
      primaryOutcomeMeasure:{
          type:String
      },
+     secondaryOutcomeMeasure:{
+        type:String,
+     },
      outcomeMeasureDescription:{
          type:String
      },
@@ -97,28 +100,28 @@ const studySchema = new Schema({
         type: Date
     },
     startYear:{
-        type:String,
+        type: Number
     },
     startMonth:{
-        type:String,
+        type: String
     },
     startDay:{
-        type:String
+        type: Number
     },
     compDay:{
-        type:String,
+        type:Number
     },
     compDate:{
         type: Date
     },
     compYear:{
-        type:String,
+        type:Number,
     },
     compMonth:{
         type:String
     },
     compDay:{
-        type:String
+        type:Number
     },
     //resutls and resutls data
     results:{
@@ -132,6 +135,12 @@ const studySchema = new Schema({
         type:String,
     },
     otherOutcomesDescription:{
+        type:String
+    },
+    hasResults:{
+        type:Boolean
+    },
+    dateRetultsPosted:{
         type:String
     },
     whyStopped: {
