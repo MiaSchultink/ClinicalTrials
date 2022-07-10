@@ -21,6 +21,9 @@ const studySchema = new Schema({
     officialTitle: {
         type: String
     },
+    briefTitle:{
+        type:String
+    },
     briefSumarry: {
         type: String
     },
@@ -96,6 +99,10 @@ const studySchema = new Schema({
     purpose:{
         type:String
     },
+    //date information
+    strSDate:{
+        type:String,
+    },
     startDate:{
         type: Date
     },
@@ -110,6 +117,9 @@ const studySchema = new Schema({
     },
     compDay:{
         type:Number
+    },
+    strCDate:{
+        type:String
     },
     compDate:{
         type: Date

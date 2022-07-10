@@ -7,7 +7,7 @@ const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
 
-const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL"];
+const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL","BriefTitle"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
@@ -22,6 +22,7 @@ exports.wipeAll = async (req, res, next) => {
     await Location.deleteMany().exec();
     await Method.deleteMany().exec();
     await Participants.deleteMany().exec();
+    await Results.deleteMany().exec();
     res.redirect('/');
 }
 
@@ -103,36 +104,36 @@ async function fetchJSON(fields) {
 // dont run with nodemon
 exports.buildJSONFiles = async (req, res, next) => {
 
-    // console.log("making general file")
-    // const generalJSON = await fetchJSON(generalFields);
-    // const generalData = JSON.stringify(generalJSON);
-    // makeJASONfile(generalData, "studies");
+    console.log("making general file")
+    const generalJSON = await fetchJSON(generalFields);
+    const generalData = JSON.stringify(generalJSON);
+    makeJASONfile(generalData, "studies");
 
-    // console.log("making location file")
-    // const locationJSON = await fetchJSON(locationFields);
-    // const locData = JSON.stringify(locationJSON);
-    // makeJASONfile(locData, "locations");
-    // console.log("location file made");
+    console.log("making location file")
+    const locationJSON = await fetchJSON(locationFields);
+    const locData = JSON.stringify(locationJSON);
+    makeJASONfile(locData, "locations");
+    console.log("location file made");
 
-    // console.log("making method file")
-    // const methodJSON = await fetchJSON(methodFields);
-    // const methodData = JSON.stringify(methodJSON);
-    // makeJASONfile(methodData, "methods");
+    console.log("making method file")
+    const methodJSON = await fetchJSON(methodFields);
+    const methodData = JSON.stringify(methodJSON);
+    makeJASONfile(methodData, "methods");
 
-    // console.log("making participants file")
-    // const participantJSON = await fetchJSON(participantFields);
-    // const parData = JSON.stringify(participantJSON);
-    // makeJASONfile(parData, "participants");
+    console.log("making participants file")
+    const participantJSON = await fetchJSON(participantFields);
+    const parData = JSON.stringify(participantJSON);
+    makeJASONfile(parData, "participants");
 
-    // console.log("making dates file")
-    // const datesJSON = await fetchJSON(dateFields);
-    // const dateData = JSON.stringify(datesJSON);
-    // makeJASONfile(dateData, "dates");
+    console.log("making dates file")
+    const datesJSON = await fetchJSON(dateFields);
+    const dateData = JSON.stringify(datesJSON);
+    makeJASONfile(dateData, "dates");
 
-    // console.log("making state files")
-    // const statJSON = await fetchJSON(stateFields);
-    // const statData = JSON.stringify(statJSON);
-    // makeJASONfile(statData, "states");
+    console.log("making state files")
+    const statJSON = await fetchJSON(stateFields);
+    const statData = JSON.stringify(statJSON);
+    makeJASONfile(statData, "states");
 
     console.log("making results files")
     const resultsJSON = await fetchJSON(resultFields);
@@ -163,6 +164,7 @@ async function makeStudies() {
                 rank: jsonStudies[i].Rank,
                 NCTID: jsonStudies[i].NCTId[0],
                 officialTitle: jsonStudies[i].OfficialTitle[0],
+                briefTitle:jsonStudies[i].BriefTitle[0],
                 briefSumarry: jsonStudies[i].BriefSummary[0],
                 detailedDescription: jsonStudies[i].DetailedDescription[0],
                 enrollment: jsonStudies[i].EnrollmentCount[0],
@@ -242,23 +244,23 @@ async function addMethods() {
                 console.log("method id", dbStudy.NCTID)
 
                 let alloc = "";
-                if (jsonStudy.DesignAllocation = !null) {
+                if (jsonStudy.DesignAllocation.length>0) {
                     alloc = jsonStudy.DesignAllocation[0];
                 }
                 let interModel = "";
-                if (jsonStudy.DesignInterventionModel != null) {
+                if (jsonStudy.DesignInterventionModel.length>0) {
                     interModel = jsonStudy.DesignInterventionModel[0];
                 }
                 let pOutcomeMeasure = "";
-                if (jsonStudy.PrimaryOutcomeMeasure != null) {
+                if (jsonStudy.PrimaryOutcomeMeasure.length>0) {
                     pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
                 }
                 let sOutcomeMeasure = "";
-                if(jsonStudy.SecondaryOutcomeMeasure != null){
-                    sOutcomeMeasure = jsonStudy.SecondaryOutcomeMeasur[0];
+                if(jsonStudy.SecondaryOutcomeMeasure.length>0){
+                    sOutcomeMeasure = jsonStudy.SecondaryOutcomeMeasure[0];
                 }
                 let OMDescription = "";
-                if (jsonStudy.OutcomeMeasureDescription != null) {
+                if (jsonStudy.OutcomeMeasureDescription.length>0) {
                     OMDescription = jsonStudy.OutcomeMeasureDescription[0];
                 }
 
@@ -279,8 +281,10 @@ async function addMethods() {
                 dbStudy.secondaryOutcomeMeasure = method.secondaryOutcomeMeasure;
                 dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription
 
+
                 await dbStudy.save();
 
+                console.log(dbStudy.outcomeMeasureDescription);
             }
         }
     }
@@ -376,11 +380,11 @@ async function addDates() {
                     const sMonthStr = splitSDate[0];
                     const sMonthIndex = monthToIndex(sMonthStr);
                     sDay = sDay.substring(0, sDay.length - 1)
-                    sYear = sYear.substring(0, sYear.length - 1);
+                    sYear = sYear.substring(0, sYear.length - 1); 
 
                     const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
                     dbStudy.startDate = startD;
-
+                   
                     //convertions to numbers
                     const numSYear = parseInt(sYear);
 
@@ -394,6 +398,7 @@ async function addDates() {
                     dbStudy.startYear = numSYear;
                     dbStudy.startMonth = sMonthStr;
                     dbStudy.startDay = numSDay;
+                    dbStudy.strSDate = stringSDate;
 
                 }
                 if (jsonStudy.CompletionDate[0] != null) {
@@ -430,9 +435,11 @@ async function addDates() {
 
                     dbStudy.compDate = compD;
                     //code added for convenience
+
                     dbStudy.compYear = numCyear;
                     dbStudy.compMonth = cMonthStr;
                     dbStudy.compDay = numCDay;
+                    dbStudy.strCDate = stringCDate;
                 }
                 await dbStudy.save();
             }
@@ -508,7 +515,8 @@ async function addResults() {
                     otherOutcomesDescription: jsonStudy.OtherOutcomeDescription[0],
                     whyStopped: jsonStudy.WhyStopped[0]
                 })
-                if(jsonStudy.ResultsFirstPostDate[0].length>0){
+                if(jsonStudy.ResultsFirstPostDate.length>0){
+                    console.log('has results')
                     result.resultsFirstPostedDate = jsonStudy.ResultsFirstPostDate[0];
                     result.hasResults = true;
 
@@ -516,10 +524,15 @@ async function addResults() {
                     dbStudy.dateRetultsPosted = jsonStudy.ResultsFirstPostDate[0];
                     dbStudy.hasResults = true;
                 }
+                else{
+                    result.hasResults = false;
+                    dbStudy.hasResults = false;
+                }
         
                 await result.save();
                 dbStudy.results = result._id
 
+                console.log(dbStudy.hasResults);
                 //code added for convenience
                 dbStudy.primaryOutcomeDescription = result.primaryOutcomeDescription;
                 dbStudy.otherOutcomesDescription = result.otherOutcomesDescription;
@@ -537,23 +550,23 @@ async function addResults() {
 ///doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
-    // await makeStudies();
-    // console.log("studies made");
-    // //adding locations
-    // await addLocations();
-    // console.log("locations added");
-    // //adding methods
-    // await addMethods();
-    // console.log("methods added")
-    // //adding participants
-    // await addParticipatns();
-    // console.log('participants added')
-    // //adding study dates
-    // await addDates();
-    // console.log('dates added');
+    await makeStudies();
+    console.log("studies made");
+    //adding locations
+    await addLocations();
+    console.log("locations added");
+    //adding methods
+    await addMethods();
+    console.log("methods added")
+    //adding participants
+    await addParticipatns();
+    console.log('participants added')
+    //adding study dates
+    await addDates();
+    console.log('dates added');
     // //adding state of study
-    // await addStates();
-    // console.log('states added')
+    await addStates();
+    console.log('states added')
     //adding results
     await addResults();
     console.log("resutls added");
