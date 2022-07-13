@@ -10,4 +10,6 @@ router.get('/make/files',trialsController.buildJSONFiles);
 
 router.get('/delete/all', trialsController.wipeAll)
 
+router.get('/search', trialsController.search);
+
 module.exports = router ; 

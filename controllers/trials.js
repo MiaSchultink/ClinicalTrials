@@ -1,21 +1,28 @@
 
 const fetch = require('node-fetch')
 const fs = require('fs');
+const mongoose = require('mongoose')
+const json2CSV = require('json-2-csv');
+
+
 const Study = require('../models/study');
 const Location = require('../models/location');
 const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
 
-const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL","BriefTitle"];
+const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure","SecondaryOutcomeMeasure", "OutcomeMeasureDescription"];
+const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
 const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate"];
-
 const dateFields = ["NCTId", "StartDate", "CompletionDate"]
+
+//const searchFields = ["NCTId","Phase","OverallStatus","DesignPrimaryPurpose","EnrollmentCount","IsFDARegulatedDevice","IsFDARegulatedDrug","Gender", "MinimumAge", "MaximumAge","LocationFacility", "LocationCity", "LocationCountry","StartDate", "CompletionDate","DesignInterventionModel"]
+
+
 
 exports.wipeAll = async (req, res, next) => {
     await Study.deleteMany().exec();
@@ -143,6 +150,8 @@ exports.buildJSONFiles = async (req, res, next) => {
     res.status(200).end()
 }
 
+
+
 async function makeStudies() {
     try {
         await Study.deleteMany().exec();
@@ -164,7 +173,7 @@ async function makeStudies() {
                 rank: jsonStudies[i].Rank,
                 NCTID: jsonStudies[i].NCTId[0],
                 officialTitle: jsonStudies[i].OfficialTitle[0],
-                briefTitle:jsonStudies[i].BriefTitle[0],
+                briefTitle: jsonStudies[i].BriefTitle[0],
                 briefSumarry: jsonStudies[i].BriefSummary[0],
                 detailedDescription: jsonStudies[i].DetailedDescription[0],
                 enrollment: jsonStudies[i].EnrollmentCount[0],
@@ -244,23 +253,23 @@ async function addMethods() {
                 console.log("method id", dbStudy.NCTID)
 
                 let alloc = "";
-                if (jsonStudy.DesignAllocation.length>0) {
+                if (jsonStudy.DesignAllocation.length > 0) {
                     alloc = jsonStudy.DesignAllocation[0];
                 }
                 let interModel = "";
-                if (jsonStudy.DesignInterventionModel.length>0) {
+                if (jsonStudy.DesignInterventionModel.length > 0) {
                     interModel = jsonStudy.DesignInterventionModel[0];
                 }
                 let pOutcomeMeasure = "";
-                if (jsonStudy.PrimaryOutcomeMeasure.length>0) {
+                if (jsonStudy.PrimaryOutcomeMeasure.length > 0) {
                     pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
                 }
                 let sOutcomeMeasure = "";
-                if(jsonStudy.SecondaryOutcomeMeasure.length>0){
+                if (jsonStudy.SecondaryOutcomeMeasure.length > 0) {
                     sOutcomeMeasure = jsonStudy.SecondaryOutcomeMeasure[0];
                 }
                 let OMDescription = "";
-                if (jsonStudy.OutcomeMeasureDescription.length>0) {
+                if (jsonStudy.OutcomeMeasureDescription.length > 0) {
                     OMDescription = jsonStudy.OutcomeMeasureDescription[0];
                 }
 
@@ -268,7 +277,7 @@ async function addMethods() {
                     allocation: alloc,
                     interventionModel: interModel,
                     primaryOutcomeMeasure: pOutcomeMeasure,
-                    secondaryOutcomeMeasure:sOutcomeMeasure,
+                    secondaryOutcomeMeasure: sOutcomeMeasure,
                     outcomeMeasureDescription: OMDescription
                 })
                 await method.save();
@@ -380,11 +389,11 @@ async function addDates() {
                     const sMonthStr = splitSDate[0];
                     const sMonthIndex = monthToIndex(sMonthStr);
                     sDay = sDay.substring(0, sDay.length - 1)
-                    sYear = sYear.substring(0, sYear.length - 1); 
+                    sYear = sYear.substring(0, sYear.length - 1);
 
                     const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
                     dbStudy.startDate = startD;
-                   
+
                     //convertions to numbers
                     const numSYear = parseInt(sYear);
 
@@ -515,7 +524,7 @@ async function addResults() {
                     otherOutcomesDescription: jsonStudy.OtherOutcomeDescription[0],
                     whyStopped: jsonStudy.WhyStopped[0]
                 })
-                if(jsonStudy.ResultsFirstPostDate.length>0){
+                if (jsonStudy.ResultsFirstPostDate.length > 0) {
                     console.log('has results')
                     result.resultsFirstPostedDate = jsonStudy.ResultsFirstPostDate[0];
                     result.hasResults = true;
@@ -524,11 +533,11 @@ async function addResults() {
                     dbStudy.dateRetultsPosted = jsonStudy.ResultsFirstPostDate[0];
                     dbStudy.hasResults = true;
                 }
-                else{
+                else {
                     result.hasResults = false;
                     dbStudy.hasResults = false;
                 }
-        
+
                 await result.save();
                 dbStudy.results = result._id
 
@@ -546,8 +555,70 @@ async function addResults() {
     }
 }
 
+async function findLocation(county, city, facility) {
+    try {
 
-///doesnt work yet becuase response redirects
+        const loc = await Location.findOne({ facility: facility }).exec();
+        if (!loc) {
+            console.log('no results found');
+        }
+        else {
+            console.log(loc._id);
+        }
+        return loc;
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+//studies conducted in the range of start and end dates provided
+//put 0 for start date / end date if there is nothing to put
+async function searchByStudyFields(local, sYear, endYear, phas, stat, intervenMode, hasRes, isFDAR, min, max, gen, pur) {
+
+    const filteredStudies = [];
+    const filteredJSONStudies = [];
+    const studies = await Study.find().exec();
+    for (std of studies) {
+        console.log('study', std.location._id);
+        console.log('location', local._id);
+        console.log(local);
+
+        let locMatch = false;
+        if (local != null) {
+            locMatch = (std.location._id.toString() == local._id.toString())
+        }
+        if (locMatch
+            // && std.startYear>= sYear && std.compYear <= endYear
+            // && std.phase == phas && std.status == stat && std.purpose == pur
+            // && std.interventionModel == intervenMode
+            // && std.hasRsults == hasRes && std.isFDAreg == isFDAR
+            // && std.minAge >= min && std.maxAge <= max && std.gender == gen
+        ) {
+            filteredStudies.push(std);
+            filteredJSONStudies.push(JSON.stringify(std));
+        }
+    }
+    console.log(filteredJSONStudies);
+
+    //const jsonArrayData = JSON.stringify(filteredStudies);
+    makeJASONfile(JSON.stringify(filteredStudies), 'filtered')
+    const csv = json2CSV.json2csv(filteredJSONStudies, csvCallBack);
+    console.log('csv data',csv);
+
+    function csvCallBack(err, csv) {
+        console.log(err);
+    }
+}
+
+
+exports.search = async (req, res, next) => {
+    const loc = await findLocation("", "", "Hacettepe University");
+    await searchByStudyFields(loc, 2018, 2040, 1, "Completed", "Parallel Assignment", false, false, 6, 70, "Male", "Treatment");
+
+}
+//doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
     await makeStudies();
