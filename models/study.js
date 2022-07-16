@@ -12,17 +12,20 @@ const studySchema = new Schema({
         required: true,
         unique: true
     },
-    phase:{
+    type:{
+        type:String
+    },
+    phase: {
         type: [String]
     },
-    status:{
-        type:String,
+    status: {
+        type: String,
     },
     officialTitle: {
         type: String
     },
-    briefTitle:{
-        type:String
+    briefTitle: {
+        type: String
     },
     briefSumarry: {
         type: String
@@ -35,43 +38,59 @@ const studySchema = new Schema({
     },
 
     //participants and participanet fields
-    participants:{
-        type:mongoose.Schema.Types.ObjectId,
+    participants: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Participants'
     },
-    minAge:{
-        type:Number
+    minAge: {
+        type: Number
     },
-    maxAge:{
-        type:Number
+    maxAge: {
+        type: Number
     },
-    gender:{
-        type:String
+    gender: {
+        type: String
     },
     //method and method fields
-    method:{
+    method: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Method'
     },
-    allocation:{
-        type:String
+    allocation: {
+        type: String
     },
-    interventionModel:{
+    interventionType: {
+        type: String
+    },
+    interventionName: {
+        type: String
+    },
+    interventionDescription: {
+        type: String,
+    },
+    interventionModel: {
+        type: String
+    },
+    interventionModelDescription: {
+        type: String
+    },
+
+    primaryOutcomeMeasure: {
+        type: String
+    },
+    secondaryOutcomeMeasure: {
+        type: String,
+    },
+    outcomeMeasureDescription: {
+        type: String
+    },
+    masking:{
         type:String
-     },
-     inverventionModelDescription:{
-         type:String
-     },
-     primaryOutcomeMeasure:{
-         type:String
-     },
-     secondaryOutcomeMeasure:{
-        type:String,
-     },
-     outcomeMeasureDescription:{
-         type:String
-     },
-     //location and location fields
+    }, 
+    acceptsHealthy:{
+        type:Boolean
+    },
+    //location and location fields
     location: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location'
@@ -90,74 +109,77 @@ const studySchema = new Schema({
         //unique:true
     },
 
-    isFDAreg:{
+    isFDAreg: {
         type: Boolean
     },
-    creators:{
-        type:String
-    },
-    purpose:{
-        type:String
-    },
-    //date information
-    strSDate:{
-        type:String,
-    },
-    startDate:{
-        type: Date
-    },
-    startYear:{
-        type: Number
-    },
-    startMonth:{
+    collaborators: {
         type: String
     },
-    startDay:{
-        type: Number
+    leadSponsor: {
+        type: String
     },
-    compDay:{
-        type:Number
+    purpose: {
+        type: String
     },
-    strCDate:{
-        type:String
+    //date information
+    strSDate: {
+        type: String,
     },
-    compDate:{
+    startDate: {
         type: Date
     },
-    compYear:{
-        type:Number,
+    startYear: {
+        type: Number
     },
-    compMonth:{
-        type:String
+    startMonth: {
+        type: String
     },
-    compDay:{
-        type:Number
+    startDay: {
+        type: Number
+    },
+    compDay: {
+        type: Number
+    },
+    strCDate: {
+        type: String
+    },
+    compDate: {
+        type: Date
+    },
+    compYear: {
+        type: Number,
+    },
+    compMonth: {
+        type: String
+    },
+    compDay: {
+        type: Number
     },
     //resutls and resutls data
-    results:{
+    results: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Resutls'
     },
     primaryOutcomeDescription: {
         type: String
     },
-    secondaryOutComesDescription:{
-        type:String,
+    secondaryOutComesDescription: {
+        type: String,
     },
-    otherOutcomesDescription:{
-        type:String
+    otherOutcomesDescription: {
+        type: String
     },
-    hasResults:{
-        type:Boolean
+    hasResults: {
+        type: Boolean
     },
-    dateRetultsPosted:{
-        type:String
+    dateRetultsPosted: {
+        type: String
     },
     whyStopped: {
         type: String
     },
-    url:{
-        type:String,
+    url: {
+        type: String,
     },
 })
 

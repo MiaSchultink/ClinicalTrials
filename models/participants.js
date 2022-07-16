@@ -11,8 +11,10 @@ const participantsSchema= new Schema({
     },
     gender:{
         type:String
+    },
+    acceptsHealthy:{
+        type:Boolean
     }
-   
 })
 
 module.exports = mongoose.model('Participants', participantsSchema);

@@ -12,4 +12,6 @@ router.get('/delete/all', trialsController.wipeAll)
 
 router.get('/search', trialsController.search);
 
+router.get('/test', trialsController.test);
+
 module.exports = router ; 

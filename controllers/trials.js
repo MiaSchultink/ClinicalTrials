@@ -1,7 +1,6 @@
 
 const fetch = require('node-fetch')
 const fs = require('fs');
-const mongoose = require('mongoose')
 const json2CSV = require('json-2-csv');
 
 
@@ -11,12 +10,12 @@ const Method = require('../models/method');
 const Participants = require('../models/participants');
 const Results = require('../models/results');
 
-const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle"];
+const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "LeadSponsorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle", "Condition", "StudyType"];
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription"];
-const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge"];
+const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking","FlowMilestoneComment","OutcomeMeasureType"];
+const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers"];
 const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate"];
 const dateFields = ["NCTId", "StartDate", "CompletionDate"]
 
@@ -167,22 +166,25 @@ async function makeStudies() {
 
             const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
 
+            if (jsonStudies[i].Condition[0].includes('Duchenne')) {
+                const study = new Study({
+                    rank: jsonStudies[i].Rank,
+                    NCTID: jsonStudies[i].NCTId[0],
+                    type: jsonStudies[i].StudyType[0],
+                    officialTitle: jsonStudies[i].OfficialTitle[0],
+                    briefTitle: jsonStudies[i].BriefTitle[0],
+                    briefSumarry: jsonStudies[i].BriefSummary[0],
+                    detailedDescription: jsonStudies[i].DetailedDescription[0],
+                    enrollment: jsonStudies[i].EnrollmentCount[0],
+                    isFDAreg: isFDA,
+                    collaborators: jsonStudies[i].CollaboratorName[0],
+                    leadSponsor: jsonStudies[i].LeadSponsorName[0],
+                    url: studyURL
+                })
+                console.log("study made id", study.NCTID)
+                await study.save();
+            }
 
-
-            const study = new Study({
-                rank: jsonStudies[i].Rank,
-                NCTID: jsonStudies[i].NCTId[0],
-                officialTitle: jsonStudies[i].OfficialTitle[0],
-                briefTitle: jsonStudies[i].BriefTitle[0],
-                briefSumarry: jsonStudies[i].BriefSummary[0],
-                detailedDescription: jsonStudies[i].DetailedDescription[0],
-                enrollment: jsonStudies[i].EnrollmentCount[0],
-                isFDAreg: isFDA,
-                creators: jsonStudies[i].CollaboratorName[0],
-                url: studyURL
-            })
-            console.log("study made id", study.NCTID)
-            await study.save();
         }
     }
     catch (err) {
@@ -256,10 +258,24 @@ async function addMethods() {
                 if (jsonStudy.DesignAllocation.length > 0) {
                     alloc = jsonStudy.DesignAllocation[0];
                 }
+
+                let intervenName = "";
+                if (jsonStudy.InterventionName.length > 0) {
+                    intervenName = jsonStudy.InterventionName[0];
+                }
+                let intervenType = "";
+                if (jsonStudy.InterventionType.length > 0) {
+                    intervenType = jsonStudy.InterventionType[0];
+                }
                 let interModel = "";
                 if (jsonStudy.DesignInterventionModel.length > 0) {
                     interModel = jsonStudy.DesignInterventionModel[0];
                 }
+                let intervenModelDes = "";
+                if (jsonStudy.DesignInterventionModelDescription.length > 0) {
+                    intervenModelDes = jsonStudy.DesignInterventionModelDescription[0];
+                }
+
                 let pOutcomeMeasure = "";
                 if (jsonStudy.PrimaryOutcomeMeasure.length > 0) {
                     pOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
@@ -272,28 +288,46 @@ async function addMethods() {
                 if (jsonStudy.OutcomeMeasureDescription.length > 0) {
                     OMDescription = jsonStudy.OutcomeMeasureDescription[0];
                 }
+                let mask = "";
+                if (jsonStudy.DesignMasking.length > 0) {
+                    mask = jsonStudy.DesignMasking[0];
+                }
+                // let primOutDes= "";
+                // if(jsonStudy.PrimaryOutcomeDescription.length>0){
+                //     primOutDes  = jsonStudy.PrimaryOutcomeDescription[0];
+                // }
+
+
 
                 const method = new Method({
                     allocation: alloc,
+                    interventionName: intervenName,
+                    interventionType: intervenType,
                     interventionModel: interModel,
+                    interventionModelDescription: intervenModelDes,
                     primaryOutcomeMeasure: pOutcomeMeasure,
                     secondaryOutcomeMeasure: sOutcomeMeasure,
-                    outcomeMeasureDescription: OMDescription
+                    outcomeMeasureDescription: OMDescription,
+                    masking: mask,
                 })
+
+
                 await method.save();
                 dbStudy.method = method._id;
 
                 //code added for convenience
                 dbStudy.allocation = method.allocation;
+                dbStudy.interventionName = method.interventionName;
+                dbStudy.interventionType = method.interventionType;
                 dbStudy.interventionModel = method.interventionModel;
-                dbStudy.primaryOutcomeDescription = method.primaryOutcomeDescription;
+                dbStudy.interventionModelDescription = method.interventionModelDescription;
+                dbStudy.primaryOutcomeMeasure = method.primaryOutcomeMeasure;
                 dbStudy.secondaryOutcomeMeasure = method.secondaryOutcomeMeasure;
-                dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription
-
+                dbStudy.outcomeMeasureDescription = method.outcomeMeasureDescription;
+                dbStudy.masking = method.masking;
 
                 await dbStudy.save();
 
-                console.log(dbStudy.outcomeMeasureDescription);
             }
         }
     }
@@ -348,6 +382,18 @@ async function addParticipatns() {
 
 
                 }
+
+                let healthyStr = "";
+                if (jsonStudy.HealthyVolunteers.length > 0) {
+                    let healthyBool = false;
+                    healthyStr = jsonStudy.HealthyVolunteers[0];
+                    if (healthyStr == 'Accepts Healthy Volunteers') {
+                        healthyBool = true;
+                    }
+                    pars.acceptsHealthy = healthyBool;
+                    dbStudy.acceptsHealthy = healthyBool
+                }
+
                 await pars.save();
                 dbStudy.participants = pars._id;
                 await dbStudy.save();
@@ -374,7 +420,7 @@ async function addDates() {
                     const jsonSDate = jsonStudy.StartDate[0];
                     console.log(jsonSDate);
                     let stringSDate = JSON.stringify(jsonSDate);
-                    stringSDate = stringSDate.substring(1);
+                    stringSDate = stringSDate.substring(1, stringSDate.length - 1);
                     const splitSDate = stringSDate.split(" ");
 
                     let sYear = "";
@@ -389,7 +435,7 @@ async function addDates() {
                     const sMonthStr = splitSDate[0];
                     const sMonthIndex = monthToIndex(sMonthStr);
                     sDay = sDay.substring(0, sDay.length - 1)
-                    sYear = sYear.substring(0, sYear.length - 1);
+                    sYear = sYear.substring(0);
 
                     const startD = new Date(sYear + '/' + sMonthIndex + '/' + sDay);
                     dbStudy.startDate = startD;
@@ -413,7 +459,7 @@ async function addDates() {
                 if (jsonStudy.CompletionDate[0] != null) {
                     const jsonCDate = jsonStudy.CompletionDate[0];
                     let stringCDate = JSON.stringify(jsonCDate);
-                    stringSDate = stringCDate.substring(1);
+                    stringCDate = stringCDate.substring(1, stringCDate.length - 1);
                     const splitCDate = stringCDate.split(" ");
 
                     let cYear = "";
@@ -428,7 +474,7 @@ async function addDates() {
                     const cMonthStr = splitCDate[0].substring(1);
                     const cMonthIndex = monthToIndex(cMonthStr);
                     cDay = cDay.substring(0, cDay.length - 1)
-                    cYear = cYear.substring(0, cYear.length - 1);
+                    cYear = cYear.substring(0);
 
                     console.log(cDay, cMonthIndex, cYear);
 
@@ -485,11 +531,6 @@ async function addStates() {
                             studyPhase = 'Not Applicable'
                         }
                     }
-                    // studyPhase = jsonStudy.Phase[0]; 
-                    // if (studyPhase != 'Not Applicable') {
-                    //     console.log(studyPhase)
-                    //     studyPhase = studyPhase.match(/(\d+)/)[0];
-                    // }
                 }
 
                 dbStudy.phase = studyPhase;
@@ -605,39 +646,49 @@ async function searchByStudyFields(local, sYear, endYear, phas, stat, intervenMo
     //const jsonArrayData = JSON.stringify(filteredStudies);
     makeJASONfile(JSON.stringify(filteredStudies), 'filtered')
     const csv = json2CSV.json2csv(filteredJSONStudies, csvCallBack);
-    console.log('csv data',csv);
+    console.log('csv data', csv);
 
     function csvCallBack(err, csv) {
         console.log(err);
     }
 }
 
+exports.test = async (req, res, next) => {
+    const json = await fetchJSON(generalFields);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+    
+   for(std of jsonStudies){
+    console.log(std.LeadSponsorName[0]);
+   }
+    res.redirect('/');
+}
 
 exports.search = async (req, res, next) => {
     const loc = await findLocation("", "", "Hacettepe University");
     await searchByStudyFields(loc, 2018, 2040, 1, "Completed", "Parallel Assignment", false, false, 6, 70, "Male", "Treatment");
 
 }
+
 //doesnt work yet becuase response redirects
 exports.run = async (req, res, next) => {
     //making studies
-    await makeStudies();
-    console.log("studies made");
-    //adding locations
-    await addLocations();
-    console.log("locations added");
-    //adding methods
+    //     await makeStudies();
+    //     console.log("studies made");
+    //     //adding locations
+    //     await addLocations();
+    //     console.log("locations added");
+    // adding methods
     await addMethods();
     console.log("methods added")
-    //adding participants
-    await addParticipatns();
-    console.log('participants added')
+    //     //adding participants
+    //     await addParticipatns();
+    //     console.log('participants added')
     //adding study dates
-    await addDates();
-    console.log('dates added');
+    // await addDates();
+    // console.log('dates added');
     // //adding state of study
-    await addStates();
-    console.log('states added')
+    // await addStates();
+    // console.log('states added')
     //adding results
     await addResults();
     console.log("resutls added");
