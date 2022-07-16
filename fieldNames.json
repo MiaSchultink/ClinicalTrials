@@ -1,0 +1,2322 @@
+{
+    "elements": [
+        {
+            "type": "element",
+            "name": "StudyFields",
+            "elements": [
+                {
+                    "type": "element",
+                    "name": "APIVrs",
+                    "elements": [
+                        {
+                            "type": "text",
+                            "text": "1.01.05"
+                        }
+                    ]
+                },
+                {
+                    "type": "element",
+                    "name": "FieldList",
+                    "elements": [
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "Acronym"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AgreementOtherDetails"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AgreementPISponsorEmployee"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AgreementRestrictionType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AgreementRestrictiveAgreement"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ArmGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ArmGroupInterventionName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ArmGroupLabel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ArmGroupType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AvailIPDComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AvailIPDId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AvailIPDType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "AvailIPDURL"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineCategoryTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineClassDenomCountGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineClassDenomCountValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineClassDenomUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineClassTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineDenomCountGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineDenomCountValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineDenomUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineGroupTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureCalculatePct"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDenomCountGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDenomCountValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDenomUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDenomUnitsSelected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureDispersionType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureParamType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurePopulationDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasureUnitOfMeasure"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementLowerLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementSpread"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementUpperLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineMeasurementValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselinePopulationDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BaselineTypeUnitsAnalyzed"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BioSpecDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BioSpecRetention"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BriefSummary"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "BriefTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CentralContactEMail"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CentralContactName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CentralContactPhone"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CentralContactPhoneExt"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CentralContactRole"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CollaboratorClass"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CollaboratorName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CompletionDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "CompletionDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "Condition"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionAncestorId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionAncestorTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseBranchAbbrev"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseBranchName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseLeafAsFound"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseLeafId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseLeafName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionBrowseLeafRelevance"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionMeshId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ConditionMeshTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DelayedPosting"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignAllocation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignInterventionModel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignInterventionModelDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignMasking"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignMaskingDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignObservationalModel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignPrimaryPurpose"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignTimePerspective"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DesignWhoMasked"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DetailedDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DispFirstPostDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DispFirstPostDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DispFirstSubmitDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "DispFirstSubmitQCDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EligibilityCriteria"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EnrollmentCount"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EnrollmentType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupDeathsNumAffected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupDeathsNumAtRisk"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupOtherNumAffected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupOtherNumAtRisk"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupSeriousNumAffected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupSeriousNumAtRisk"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventGroupTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventsDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventsFrequencyThreshold"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "EventsTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ExpAccTypeIndividual"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ExpAccTypeIntermediate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ExpAccTypeTreatment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ExpandedAccessNCTId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ExpandedAccessStatusForNCTId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FDAAA801Violation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowAchievementComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowAchievementGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowAchievementNumSubjects"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowAchievementNumUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowDropWithdrawComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowDropWithdrawType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowGroupTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowMilestoneComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowMilestoneType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowPeriodTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowPreAssignmentDetails"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowReasonComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowReasonGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowReasonNumSubjects"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowReasonNumUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowRecruitmentDetails"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "FlowTypeUnitsAnalyzed"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "Gender"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "GenderBased"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "GenderDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "HasExpandedAccess"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "HealthyVolunteers"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharing"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharingAccessCriteria"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharingDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharingInfoType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharingTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IPDSharingURL"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionAncestorId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionAncestorTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionArmGroupLabel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseBranchAbbrev"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseBranchName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseLeafAsFound"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseLeafId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseLeafName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionBrowseLeafRelevance"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionMeshId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionMeshTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionOtherName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "InterventionType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IsFDARegulatedDevice"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IsFDARegulatedDrug"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IsPPSD"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IsUSExport"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "IsUnapprovedDevice"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "Keyword"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocFilename"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocHasICF"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocHasProtocol"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocHasSAP"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocLabel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocTypeAbbrev"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LargeDocUploadDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LastKnownStatus"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LastUpdatePostDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LastUpdatePostDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LastUpdateSubmitDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LeadSponsorClass"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LeadSponsorName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LimitationsAndCaveatsDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationCity"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationContactEMail"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationContactName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationContactPhone"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationContactPhoneExt"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationContactRole"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationCountry"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationFacility"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationState"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationStatus"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "LocationZip"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "MaximumAge"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "MinimumAge"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "NCTId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "NCTIdAlias"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OfficialTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgClass"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgFullName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgStudyId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgStudyIdDomain"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgStudyIdLink"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OrgStudyIdType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventAssessmentType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventNotes"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventOrganSystem"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventSourceVocabulary"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventStatsGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventStatsNumAffected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventStatsNumAtRisk"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventStatsNumEvents"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherEventTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherOutcomeDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherOutcomeMeasure"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OtherOutcomeTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCILowerLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCILowerLimitComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCINumSides"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCIPctValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCIUpperLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisCIUpperLimitComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisDispersionType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisDispersionValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisEstimateComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisNonInferiorityComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisNonInferiorityType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisOtherAnalysisDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisPValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisPValueComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisParamType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisParamValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisStatisticalComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisStatisticalMethod"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeAnalysisTestedNonInferiority"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeCategoryTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeClassDenomCountGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeClassDenomCountValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeClassDenomUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeClassTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeDenomCountGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeDenomCountValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeDenomUnits"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeGroupDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeGroupTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureAnticipatedPostingDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureCalculatePct"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureDenomUnitsSelected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureDispersionType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureParamType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurePopulationDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureReportingStatus"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureTypeUnitsAnalyzed"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasureUnitOfMeasure"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementComment"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementLowerLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementSpread"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementUpperLimit"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OutcomeMeasurementValue"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OverallOfficialAffiliation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OverallOfficialName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OverallOfficialRole"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OverallStatus"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "OversightHasDMC"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PatientRegistry"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "Phase"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PointOfContactEMail"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PointOfContactOrganization"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PointOfContactPhone"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PointOfContactPhoneExt"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PointOfContactTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PrimaryCompletionDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PrimaryCompletionDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PrimaryOutcomeDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PrimaryOutcomeMeasure"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "PrimaryOutcomeTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ReferenceCitation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ReferencePMID"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ReferenceType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "RemovedCountry"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyInvestigatorAffiliation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyInvestigatorFullName"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyInvestigatorTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyOldNameTitle"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyOldOrganization"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResponsiblePartyType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstPostDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstPostDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstPostedQCCommentsDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstPostedQCCommentsDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstSubmitDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "ResultsFirstSubmitQCDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "RetractionPMID"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "RetractionSource"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SamplingMethod"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryIdDomain"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryIdLink"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryIdType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryOutcomeDescription"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryOutcomeMeasure"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SecondaryOutcomeTimeFrame"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeeAlsoLinkLabel"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeeAlsoLinkURL"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventAssessmentType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventNotes"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventOrganSystem"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventSourceVocabulary"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventStatsGroupId"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventStatsNumAffected"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventStatsNumAtRisk"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventStatsNumEvents"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SeriousEventTerm"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StartDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StartDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StatusVerifiedDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StdAge"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyFirstPostDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyFirstPostDateType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyFirstSubmitDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyFirstSubmitQCDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyPopulation"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "StudyType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SubmissionMCPReleaseN"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SubmissionReleaseDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SubmissionResetDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "SubmissionUnreleaseDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "TargetDuration"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "UnpostedEventDate"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "UnpostedEventType"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "UnpostedResponsibleParty"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "VersionHolder"
+                            }
+                        },
+                        {
+                            "type": "element",
+                            "name": "Field",
+                            "attributes": {
+                                "Name": "WhyStopped"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

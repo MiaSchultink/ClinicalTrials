@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 const methodSchema= new Schema({
 
     allocation:{
-        type:String
+        type:String,
     },
     interventionType:{
-        type:String
+        type:String,
     },
     interventionName:{
         type:String
@@ -16,7 +16,7 @@ const methodSchema= new Schema({
         type:String
     },
     interventionModel:{
-       type:String
+       type:String,
     },
     inverventionModelDescription:{
         type:String
@@ -31,7 +31,7 @@ const methodSchema= new Schema({
         type:String
     },
     masking:{
-        type:String
+        type:String,
     },
     
    

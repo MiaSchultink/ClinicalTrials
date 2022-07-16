@@ -15,6 +15,9 @@ const studySchema = new Schema({
     type:{
         type:String
     },
+    condition:{
+        type:String
+    },
     phase: {
         type: [String]
     },
