@@ -19,12 +19,16 @@ const additionalFields = ["NCTId"];
 
 const searchFields = ["NCTId","Phase","OverallStatus","DesignPrimaryPurpose","EnrollmentCount","IsFDARegulatedDevice","IsFDARegulatedDrug","Gender", "MinimumAge", "MaximumAge","LocationFacility", "LocationCity", "LocationCountry","StartDate", "CompletionDate","DesignInterventionModel"]
 
-//let CONDITION = 'Duchenne Muscular Dystrophy';
-//let KEYWORD = 'Duchenne'
+
+// let CONDITION = 'Duchenne Muscular Dystrophy';
+// let KEYWORD = 'Duchenne'
 let CONDITION = 'Sickle Cell Anemia'
 let KEYWORD = 'Sickle'
 
-
+function changeGlobalVars(condition, keyword){
+    CONDITION = condition
+    KEYWORD= keyword
+}
 
 
 exports.wipeAll = async (req, res, next) => {
@@ -77,9 +81,10 @@ function monthToIndex(month) {
 }
 
 
-function buildURL(fields, conditionName) {
+function buildURL(fields) {
+    console.log(CONDITION)
     const numStudiesToServe = 1000;
-    const splitCondition = conditionName.split(" ");
+    const splitCondition = CONDITION.split(" ");
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=";
     const urlEnd = "&min_rnk=1&max_rnk=" + numStudiesToServe + "&fmt=JSON";
 
@@ -113,8 +118,8 @@ function makeJASONfile(data, fileName) {
 }
 
 
-async function fetchJSON(fields, condition) {
-    const url = buildURL(fields, condition);
+async function fetchJSON(fields) {
+    const url = buildURL(fields);
     const response = await fetch(url);
     const json = await response.json();
     return json;
@@ -560,15 +565,14 @@ async function addAdditionalFields(){
     }
 }
 
-
-
 exports.test = async (req, res, next) => {
-    // const json = await fetchJSON(generalFields, CONDITION);
-    // const jsonStudies = json.StudyFieldsResponse.StudyFields;
-    
-  const url = buildURL(generalFields,CONDITION)
-  console.log (url)
-    res.redirect('/');
+    const json = await fetchJSON(generalFields, CONDITION);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    for(jsonStudy of jsonStudies){
+        console.log(jsonStudy.Keyword[0])
+    }
+res.redirect('/')
 }
 
 exports.search = async (req, res, next) => {
@@ -576,6 +580,9 @@ exports.search = async (req, res, next) => {
     await searchByStudyFields(loc, 2018, 2040, 1, "Completed", "Parallel Assignment", false, false, 6, 70, "Male", "Treatment");
 
 }
+
+
+
 
 exports.run = async (req, res, next) => {
     //making studies
@@ -599,5 +606,85 @@ exports.run = async (req, res, next) => {
     //adding results
     // await addResults();
     // console.log("resutls added");
+    res.redirect('/');
+}
+
+
+/// user interface
+const xml2js = require('xml2js');
+
+const studyFields = getJSONFields();
+
+function getJSONFields(){
+    let jsonFields = {};
+    const xml = fs.readFileSync('StudyFields.xml'); 
+let json = "";
+
+xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
+    if (err) {
+        throw err;
+    }
+
+    // `result` is a JavaScript object
+    // convert it to a JSON string
+    const jsonString = JSON.stringify(result, null, 4);
+    fs.writeFileSync('fields.json', jsonString)
+    json = JSON.parse(jsonString);
+
+}); 
+//array of field names
+jsonFields = json.StudyFields.FieldList[0].Field;
+
+return jsonFields
+}
+
+exports.getFindAll = (req,res, next) =>{
+    res.render('findStudies',{
+        fieldsArray: studyFields
+    });
+}
+
+exports.makeStudies =async(req, res, next) =>{
+
+    const keys= Object.keys(req.body)
+
+    const fields = ['Condition', 'NCTId'];
+    for(let i=0; i<keys.length; i++){
+        if(keys[i]!='keyword'&&keys[i]!='cond'&&keys[i]!="_csrf"&&keys[i]!='Condition'&&keys[i]!="NCTId"){
+            fields.push(keys[i])
+            console.log(keys[i])
+        }
+    }
+
+
+    const keyword = req.body.keyword;
+    const condition = req.body.cond;
+    CONDITION = condition;
+    KEYWORD = keyword;
+
+    const json = await fetchJSON(fields);
+    console.log(json);
+    const jsonStudies = json.StudyFieldsResponse.StudyFields;
+
+    console.log(jsonStudies[0].Condition[0])
+
+   for(jsonStudy of jsonStudies){
+    if(jsonStudy.Condition[0].includes(keyword)||jsonStudy.Condition[0]==condition){
+        const study = new Study();
+
+        for(let i=0; i<fields.length; i++){
+            const studyField = fields[i];
+            study[studyField]=jsonStudy[studyField][0];
+            
+            console.log(fields[i]);
+            console.log(jsonStudy.fields);
+           
+            study.field = jsonStudy.field;
+        }
+        await study.save();
+        console.log(study)
+
+    }
+   }
     res.redirect('/');
 }

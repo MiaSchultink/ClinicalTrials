@@ -1,0 +1,1653 @@
+{
+    "StudyFields": {
+        "APIVrs": [
+            "1.01.05"
+        ],
+        "FieldList": [
+            {
+                "Field": [
+                    {
+                        "Name": [
+                            "Acronym"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AgreementOtherDetails"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AgreementPISponsorEmployee"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AgreementRestrictionType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AgreementRestrictiveAgreement"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ArmGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ArmGroupInterventionName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ArmGroupLabel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ArmGroupType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AvailIPDComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AvailIPDId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AvailIPDType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "AvailIPDURL"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineCategoryTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineClassDenomCountGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineClassDenomCountValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineClassDenomUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineClassTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineDenomCountGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineDenomCountValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineDenomUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineGroupTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureCalculatePct"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDenomCountGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDenomCountValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDenomUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDenomUnitsSelected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureDispersionType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureParamType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurePopulationDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasureUnitOfMeasure"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementLowerLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementSpread"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementUpperLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineMeasurementValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselinePopulationDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BaselineTypeUnitsAnalyzed"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BioSpecDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BioSpecRetention"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BriefSummary"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "BriefTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CentralContactEMail"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CentralContactName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CentralContactPhone"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CentralContactPhoneExt"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CentralContactRole"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CollaboratorClass"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CollaboratorName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CompletionDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "CompletionDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "Condition"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionAncestorId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionAncestorTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseBranchAbbrev"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseBranchName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseLeafAsFound"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseLeafId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseLeafName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionBrowseLeafRelevance"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionMeshId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ConditionMeshTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DelayedPosting"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignAllocation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignInterventionModel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignInterventionModelDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignMasking"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignMaskingDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignObservationalModel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignPrimaryPurpose"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignTimePerspective"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DesignWhoMasked"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DetailedDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DispFirstPostDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DispFirstPostDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DispFirstSubmitDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "DispFirstSubmitQCDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EligibilityCriteria"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EnrollmentCount"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EnrollmentType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupDeathsNumAffected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupDeathsNumAtRisk"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupOtherNumAffected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupOtherNumAtRisk"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupSeriousNumAffected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupSeriousNumAtRisk"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventGroupTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventsDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventsFrequencyThreshold"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "EventsTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ExpAccTypeIndividual"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ExpAccTypeIntermediate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ExpAccTypeTreatment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ExpandedAccessNCTId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ExpandedAccessStatusForNCTId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FDAAA801Violation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowAchievementComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowAchievementGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowAchievementNumSubjects"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowAchievementNumUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowDropWithdrawComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowDropWithdrawType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowGroupTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowMilestoneComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowMilestoneType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowPeriodTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowPreAssignmentDetails"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowReasonComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowReasonGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowReasonNumSubjects"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowReasonNumUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowRecruitmentDetails"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "FlowTypeUnitsAnalyzed"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "Gender"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "GenderBased"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "GenderDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "HasExpandedAccess"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "HealthyVolunteers"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharing"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharingAccessCriteria"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharingDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharingInfoType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharingTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IPDSharingURL"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionAncestorId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionAncestorTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionArmGroupLabel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseBranchAbbrev"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseBranchName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseLeafAsFound"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseLeafId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseLeafName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionBrowseLeafRelevance"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionMeshId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionMeshTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionOtherName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "InterventionType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IsFDARegulatedDevice"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IsFDARegulatedDrug"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IsPPSD"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IsUSExport"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "IsUnapprovedDevice"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "Keyword"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocFilename"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocHasICF"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocHasProtocol"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocHasSAP"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocLabel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocTypeAbbrev"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LargeDocUploadDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LastKnownStatus"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LastUpdatePostDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LastUpdatePostDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LastUpdateSubmitDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LeadSponsorClass"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LeadSponsorName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LimitationsAndCaveatsDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationCity"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationContactEMail"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationContactName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationContactPhone"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationContactPhoneExt"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationContactRole"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationCountry"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationFacility"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationState"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationStatus"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "LocationZip"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "MaximumAge"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "MinimumAge"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "NCTId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "NCTIdAlias"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OfficialTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgClass"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgFullName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgStudyId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgStudyIdDomain"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgStudyIdLink"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OrgStudyIdType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventAssessmentType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventNotes"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventOrganSystem"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventSourceVocabulary"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventStatsGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventStatsNumAffected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventStatsNumAtRisk"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventStatsNumEvents"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherEventTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherOutcomeDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherOutcomeMeasure"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OtherOutcomeTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCILowerLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCILowerLimitComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCINumSides"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCIPctValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCIUpperLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisCIUpperLimitComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisDispersionType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisDispersionValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisEstimateComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisNonInferiorityComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisNonInferiorityType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisOtherAnalysisDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisPValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisPValueComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisParamType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisParamValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisStatisticalComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisStatisticalMethod"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeAnalysisTestedNonInferiority"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeCategoryTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeClassDenomCountGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeClassDenomCountValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeClassDenomUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeClassTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeDenomCountGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeDenomCountValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeDenomUnits"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeGroupDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeGroupTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureAnticipatedPostingDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureCalculatePct"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureDenomUnitsSelected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureDispersionType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureParamType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurePopulationDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureReportingStatus"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureTypeUnitsAnalyzed"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasureUnitOfMeasure"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementComment"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementLowerLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementSpread"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementUpperLimit"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OutcomeMeasurementValue"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OverallOfficialAffiliation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OverallOfficialName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OverallOfficialRole"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OverallStatus"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "OversightHasDMC"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PatientRegistry"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "Phase"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PointOfContactEMail"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PointOfContactOrganization"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PointOfContactPhone"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PointOfContactPhoneExt"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PointOfContactTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PrimaryCompletionDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PrimaryCompletionDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PrimaryOutcomeDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PrimaryOutcomeMeasure"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "PrimaryOutcomeTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ReferenceCitation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ReferencePMID"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ReferenceType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "RemovedCountry"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyInvestigatorAffiliation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyInvestigatorFullName"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyInvestigatorTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyOldNameTitle"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyOldOrganization"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResponsiblePartyType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstPostDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstPostDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstPostedQCCommentsDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstPostedQCCommentsDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstSubmitDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "ResultsFirstSubmitQCDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "RetractionPMID"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "RetractionSource"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SamplingMethod"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryIdDomain"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryIdLink"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryIdType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryOutcomeDescription"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryOutcomeMeasure"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SecondaryOutcomeTimeFrame"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeeAlsoLinkLabel"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeeAlsoLinkURL"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventAssessmentType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventNotes"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventOrganSystem"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventSourceVocabulary"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventStatsGroupId"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventStatsNumAffected"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventStatsNumAtRisk"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventStatsNumEvents"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SeriousEventTerm"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StartDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StartDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StatusVerifiedDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StdAge"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyFirstPostDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyFirstPostDateType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyFirstSubmitDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyFirstSubmitQCDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyPopulation"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "StudyType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SubmissionMCPReleaseN"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SubmissionReleaseDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SubmissionResetDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "SubmissionUnreleaseDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "TargetDuration"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "UnpostedEventDate"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "UnpostedEventType"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "UnpostedResponsibleParty"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "VersionHolder"
+                        ]
+                    },
+                    {
+                        "Name": [
+                            "WhyStopped"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

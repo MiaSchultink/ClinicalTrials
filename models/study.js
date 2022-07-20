@@ -1,189 +1,78 @@
 const mongoose = require('mongoose');
+const fs = require('fs')
+const nodeFetch = require('node-fetch');
+const xml2js = require('xml2js');
 
 const Schema = mongoose.Schema;
 const studySchema = new Schema({
 
-    rank: {
-        type: Number,
-        required: true
-    },
-    NCTID: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    type:{
-        type:String
-    },
-    condition:{
-        type:String
-    },
-    phase: {
-        type: [String]
-    },
-    status: {
-        type: String,
-    },
-    officialTitle: {
-        type: String
-    },
-    briefTitle: {
-        type: String
-    },
-    briefSumarry: {
-        type: String
-    },
-    detailedDescription: {
-        type: String
-    },
-    enrollment: {
-        type: Number,
-    },
+    // rank: {
+    //     type: Number,
+    //     required: true
+    // },
+    // NCTID: {
+    //     type: String,
+    //     required: true,
+    //     unique: true
+    // },
 
-    //participants and participanet fields
-    participants: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Participants'
-    },
-    minAge: {
-        type: Number
-    },
-    maxAge: {
-        type: Number
-    },
-    gender: {
-        type: String
-    },
-    //method and method fields
-    method: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Method'
-    },
-    allocation: {
-        type: String
-    },
-    interventionType: {
-        type: String
-    },
-    interventionName: {
-        type: String
-    },
-    interventionDescription: {
-        type: String,
-    },
-    interventionModel: {
-        type: String
-    },
-    interventionModelDescription: {
-        type: String
-    },
+    // isFDAreg: {
+    //     type: Boolean
+    // },
+    // startYear: {
+    //     type: Number
+    // },
+    // compYear: {
+    //     type: Number,
+    // },
 
-    primaryOutcomeMeasure: {
-        type: String
-    },
-    secondaryOutcomeMeasure: {
-        type: String,
-    },
-    outcomeMeasureDescription: {
-        type: String
-    },
-    masking:{
-        type:String
-    }, 
-    acceptsHealthy:{
-        type:Boolean
-    },
-    //location and location fields
-    location: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Location'
-    },
-    country: {
-        type: String
-    },
-    city: {
-        type: String
-    },
-    state: {
-        type: String
-    },
-    studyFacility: {
-        type: String,
-        //unique:true
-    },
-
-    isFDAreg: {
-        type: Boolean
-    },
-    collaborators: {
-        type: String
-    },
-    leadSponsor: {
-        type: String
-    },
-    purpose: {
-        type: String
-    },
-    //date information
-    strSDate: {
-        type: String,
-    },
-    startDate: {
-        type: Date
-    },
-    startYear: {
-        type: Number
-    },
-    startMonth: {
-        type: String
-    },
-    startDay: {
-        type: Number
-    },
-    compDay: {
-        type: Number
-    },
-    strCDate: {
-        type: String
-    },
-    compDate: {
-        type: Date
-    },
-    compYear: {
-        type: Number,
-    },
-    compMonth: {
-        type: String
-    },
-    compDay: {
-        type: Number
-    },
-    //resutls and resutls data
-    results: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Resutls'
-    },
-    primaryOutcomeDescription: {
-        type: String
-    },
-    secondaryOutComesDescription: {
-        type: String,
-    },
-    otherOutcomesDescription: {
-        type: String
-    },
-    hasResults: {
-        type: Boolean
-    },
-    dateRetultsPosted: {
-        type: String
-    },
-    whyStopped: {
-        type: String
-    },
-    url: {
-        type: String,
-    },
+    // hasResults: {
+    //     type: Boolean
+    // },
+    // url: {
+    //     type: String,
+    // },
 })
+
+
+// read XML from a file
+const xml = fs.readFileSync('StudyFields.xml');
+
+// convert XML to JSON
+
+let jsonFields = {};
+let json = "";
+xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
+    if (err) {
+        throw err;
+    }
+
+    // `result` is a JavaScript object
+    // convert it to a JSON string
+    const jsonString = JSON.stringify(result, null, 4);
+    fs.writeFileSync('fields.json', jsonString)
+    json = JSON.parse(jsonString);
+
+}); 
+//array of field names
+jsonFields = json.StudyFields.FieldList[0].Field;
+const extras = {};
+
+const notInclude = ['NCTId','NCTIdAlias'];// add not include vlaues later
+
+const propertyValue = String
+for(let i=0; i<jsonFields.length; i++){
+
+    let include = true;
+    for(let i=0; i<notInclude.length;i++){
+        if(jsonFields[i]==notInclude[i]){
+            include = false;
+        }
+    }
+    const propKey = jsonFields[i].Name[0]
+    extras[propKey] = propertyValue
+}
+studySchema.add(extras)
+//console.log(studySchema)
 
 module.exports = mongoose.model('Study', studySchema)

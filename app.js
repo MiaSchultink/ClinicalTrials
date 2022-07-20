@@ -35,7 +35,8 @@ app.set('views', 'views')
 const trialsController = require('./controllers/trials');
 
 const trialsRoutes = require('./routes/trials');
-
+// const studyRoutes = require('./routes/study')
+//
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 //   app.use('/admin', adminRoutes);
 
 app.use('/trials', trialsRoutes);
+//app.use('/study', studyRoutes);
 
 app.get('/', async (req, res, next) => {
 

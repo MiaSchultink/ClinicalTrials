@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const trialsController = require('../controllers/trials');
+const studyConroller = require('../controllers/study')
 
 router.get('/run', trialsController.run);// full run of everything
 
@@ -10,8 +11,12 @@ router.get('/make/files',trialsController.buildJSONFiles);
 
 router.get('/delete/all', trialsController.wipeAll)
 
-router.get('/search', trialsController.search);
-
 router.get('/test', trialsController.test);
+
+router.get('/get/fields',trialsController.getFindAll);
+
+router.post('/studies/make', trialsController.makeStudies);
+
+
 
 module.exports = router ; 

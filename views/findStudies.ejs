@@ -1,0 +1,23 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/navigation.ejs') %> 
+    <div class="top">
+        <div class="main">
+            <form action="/trials/studies/make" method="post">
+
+                <!-- general data -->
+                <input class="input" name="keyword"  id = "keyword" required>
+                <label for="keyword">Keyword</label>
+                <input class="input" name="cond" id="cond" required>
+                <label for = "cond" id ="cond" name="cond">Study Condition</label>
+                <%for(let i=0; i<fieldsArray.length; i++){%>
+                <input type="checkbox" id="<%=fieldsArray[i].Name[0]%>" name="<%=fieldsArray[i].Name[0]%>" value="<%=fieldsArray[i].Name[0]%>">
+                <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label><br>
+                <%}%>
+        
+                <button class = "form-btn" type="submit">Get studies</button>
+                <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+              </form>
+        </div>
+    </div>
+</body>
