@@ -31,12 +31,12 @@ app.set('views', 'views')
 
 // const favicon = require('serve-favicon');
 
-// const adminController = require('./controllers/admin')
+const adminController = require('./controllers/admin')
 const trialsController = require('./controllers/trials');
 
 const trialsRoutes = require('./routes/trials');
-// const studyRoutes = require('./routes/study')
-//
+const adminRoutes =require('./routes/admin')
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
@@ -57,10 +57,8 @@ app.use((req, res, next) => {
 });
 
 
-//   app.use('/admin', adminRoutes);
-
+app.use('/admin', adminRoutes);
 app.use('/trials', trialsRoutes);
-//app.use('/study', studyRoutes);
 
 app.get('/', async (req, res, next) => {
 

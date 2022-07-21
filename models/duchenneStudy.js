@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const studySchema = new Schema({
+const duchenneStudySchema = new Schema({
 
     rank: {
         type: Number,
@@ -186,11 +186,5 @@ const studySchema = new Schema({
     },
 })
 
-const extras = {}
-const propertyKey = 'centralContactName'
-const propertyValue = String
-extras[propertyKey] = propertyValue
-studySchema.add(extras)
-//console.log(studySchema)
 
-module.exports = mongoose.model('Study', studySchema)
+module.exports = mongoose.model('DuchenneStudy', duchenneStudySchema)
