@@ -6,32 +6,32 @@ const xml2js = require('xml2js');
 const Schema = mongoose.Schema;
 const studySchema = new Schema({
 
-    // rank: {
-    //     type: Number,
-    //     required: true
-    // },
-    // NCTID: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
+    rank: {
+        type: Number,
+        required: true
+    },
+    NCTID: {
+        type: String,
+        required: true,
+        unique: true
+    },
 
-    // isFDAreg: {
-    //     type: Boolean
-    // },
-    // startYear: {
-    //     type: Number
-    // },
-    // compYear: {
-    //     type: Number,
-    // },
+    isFDAReg: {
+        type: Boolean
+    },
+    startYear: {
+        type: Number
+    },
+    compYear: {
+        type: Number,
+    },
 
-    // hasResults: {
-    //     type: Boolean
-    // },
-    // url: {
-    //     type: String,
-    // },
+    hasResults: {
+        type: Boolean
+    },
+    url: {
+        type: String,
+    },
 })
 
 
@@ -53,26 +53,26 @@ xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
     fs.writeFileSync('fields.json', jsonString)
     json = JSON.parse(jsonString);
 
-}); 
+});
 //array of field names
 jsonFields = json.StudyFields.FieldList[0].Field;
 const extras = {};
 
-const notInclude = ['NCTId','NCTIdAlias'];// add not include vlaues later
+//const notInclude = ['NCTId','NCTIdAlias'];// add not include vlaues later
 
-const propertyValue = String
-for(let i=0; i<jsonFields.length; i++){
 
-    let include = true;
-    for(let i=0; i<notInclude.length;i++){
-        if(jsonFields[i]==notInclude[i]){
-            include = false;
-        }
-    }
+for (let i = 0; i < jsonFields.length; i++) {
     const propKey = jsonFields[i].Name[0]
-    extras[propKey] = propertyValue
+    let unique = false
+    // if(propKey =='NCTId'){
+    //     unique = true
+    // }
+    extras[propKey] = {
+        type: String,
+        unique: unique
+    }
 }
 studySchema.add(extras)
-//console.log(studySchema)
+console.log(studySchema)
 
 module.exports = mongoose.model('Study', studySchema)

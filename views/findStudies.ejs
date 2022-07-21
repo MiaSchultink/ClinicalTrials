@@ -7,9 +7,21 @@
 
                 <!-- general data -->
                 <input class="input" name="keyword"  id = "keyword" required>
-                <label for="keyword">Keyword</label>
+                <label for="keyword">Keyword</label><br>
                 <input class="input" name="cond" id="cond" required>
-                <label for = "cond" id ="cond" name="cond">Study Condition</label>
+                <label for = "cond" id ="cond" name="cond">Study Condition</label><br>
+                <br>
+                <input type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
+                <label for = "isFDA">Is FDA Regulated</label><br>
+                <input type="checkbox" id="hasRes" name="hasRes" value='hasRes'>
+                <label for = "hasRes">Has Results</label><br>
+                <input type="checkbox" id="startYear" name="startYear" value='startYear'>
+                <label for = "startYear">Start Year</label><br>
+                <input type="checkbox" id="compYear" name="compYear" value='compYear'>
+                <label for = "compYear">Completion Year</label><br>
+                <input type="checkbox" id="url" name="url" value='url'>
+                <label for = "url">clinicalTials.gov url</label><br>
+                
                 <%for(let i=0; i<fieldsArray.length; i++){%>
                 <input type="checkbox" id="<%=fieldsArray[i].Name[0]%>" name="<%=fieldsArray[i].Name[0]%>" value="<%=fieldsArray[i].Name[0]%>">
                 <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label><br>

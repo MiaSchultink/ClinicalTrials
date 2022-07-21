@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const trialsController = require('../controllers/trials');
-const studyConroller = require('../controllers/study')
 
 router.get('/run', trialsController.run);// full run of everything
 
@@ -15,7 +14,7 @@ router.get('/test', trialsController.test);
 
 router.get('/get/fields',trialsController.getFindAll);
 
-router.post('/studies/make', trialsController.makeStudies);
+router.post('/studies/make', trialsController.generateStudies);
 
 
 

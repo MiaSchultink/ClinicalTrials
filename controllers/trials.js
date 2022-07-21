@@ -2,6 +2,7 @@
 const fetch = require('node-fetch')
 const fs = require('fs');
 const json2CSV = require('json-2-csv');
+const xml2js = require('xml2js');
 
 const Study = require('../models/study');
 const Location = require('../models/location');
@@ -10,26 +11,19 @@ const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorNa
 const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
 
 const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking","FlowMilestoneComment","OutcomeMeasureType"];
+const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking", "FlowMilestoneComment", "OutcomeMeasureType"];
 const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers"];
 const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate"];
 const dateFields = ["NCTId", "StartDate", "CompletionDate"];
 
 const additionalFields = ["NCTId"];
 
-const searchFields = ["NCTId","Phase","OverallStatus","DesignPrimaryPurpose","EnrollmentCount","IsFDARegulatedDevice","IsFDARegulatedDrug","Gender", "MinimumAge", "MaximumAge","LocationFacility", "LocationCity", "LocationCountry","StartDate", "CompletionDate","DesignInterventionModel"]
+const searchFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "Gender", "MinimumAge", "MaximumAge", "LocationFacility", "LocationCity", "LocationCountry", "StartDate", "CompletionDate", "DesignInterventionModel"]
 
-
-// let CONDITION = 'Duchenne Muscular Dystrophy';
-// let KEYWORD = 'Duchenne'
+//constnats and importnat variables
 let CONDITION = 'Sickle Cell Anemia'
-let KEYWORD = 'Sickle'
-
-function changeGlobalVars(condition, keyword){
-    CONDITION = condition
-    KEYWORD= keyword
-}
-
+let KEYWORD = 'Sickle';
+const NUM_STUDIES_GENERATED = 100;
 
 exports.wipeAll = async (req, res, next) => {
     await Study.deleteMany().exec();
@@ -83,23 +77,23 @@ function monthToIndex(month) {
 
 function buildURL(fields) {
     console.log(CONDITION)
-    const numStudiesToServe = 1000;
+    //const numStudiesToServe = 1000;
     const splitCondition = CONDITION.split(" ");
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=";
-    const urlEnd = "&min_rnk=1&max_rnk=" + numStudiesToServe + "&fmt=JSON";
+    const urlEnd = "&min_rnk=1&max_rnk=" + NUM_STUDIES_GENERATED + "&fmt=JSON";
 
-    let urlMiddle= "";
-    if(splitCondition.length>1){
-        for(let i=0; i<splitCondition.length-1; i++){
-            urlMiddle +=splitCondition[i]+"+";
+    let urlMiddle = "";
+    if (splitCondition.length > 1) {
+        for (let i = 0; i < splitCondition.length - 1; i++) {
+            urlMiddle += splitCondition[i] + "+";
         }
-        urlMiddle+=splitCondition[splitCondition.length-1];
+        urlMiddle += splitCondition[splitCondition.length - 1];
     }
-    else{
-        urlMiddle+=conditionName
+    else {
+        urlMiddle += conditionName
     }
-    urlMiddle+="&fields=";
-    
+    urlMiddle += "&fields=";
+
 
     for (let i = 0; i < fields.length - 1; i++) {
         urlMiddle += fields[i] + "%2C";
@@ -130,38 +124,38 @@ async function fetchJSON(fields) {
 exports.buildJSONFiles = async (req, res, next) => {
 
     console.log("making general file")
-    const generalJSON = await fetchJSON(generalFields,CONDITION);
+    const generalJSON = await fetchJSON(generalFields, CONDITION);
     const generalData = JSON.stringify(generalJSON);
     makeJASONfile(generalData, "studies");
 
     console.log("making location file")
-    const locationJSON = await fetchJSON(locationFields,CONDITION);
+    const locationJSON = await fetchJSON(locationFields, CONDITION);
     const locData = JSON.stringify(locationJSON);
     makeJASONfile(locData, "locations");
     console.log("location file made");
 
     console.log("making method file")
-    const methodJSON = await fetchJSON(methodFields,CONDITION);
+    const methodJSON = await fetchJSON(methodFields, CONDITION);
     const methodData = JSON.stringify(methodJSON);
     makeJASONfile(methodData, "methods");
 
     console.log("making participants file")
-    const participantJSON = await fetchJSON(participantFields,CONDITION);
+    const participantJSON = await fetchJSON(participantFields, CONDITION);
     const parData = JSON.stringify(participantJSON);
     makeJASONfile(parData, "participants");
 
     console.log("making dates file")
-    const datesJSON = await fetchJSON(dateFields,CONDITION);
+    const datesJSON = await fetchJSON(dateFields, CONDITION);
     const dateData = JSON.stringify(datesJSON);
     makeJASONfile(dateData, "dates");
 
     console.log("making state files")
-    const statJSON = await fetchJSON(stateFields,CONDITION);
+    const statJSON = await fetchJSON(stateFields, CONDITION);
     const statData = JSON.stringify(statJSON);
     makeJASONfile(statData, "states");
 
     console.log("making results files")
-    const resultsJSON = await fetchJSON(resultFields,CONDITION);
+    const resultsJSON = await fetchJSON(resultFields, CONDITION);
     const resData = JSON.stringify(resultsJSON);
     makeJASONfile(resData, "resutls");
 
@@ -174,7 +168,7 @@ async function makeStudies(condition, keyword) {
     try {
         await Study.deleteMany().exec();
 
-        const json = await fetchJSON(generalFields,CONDITION);
+        const json = await fetchJSON(generalFields, CONDITION);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         const numStudies = jsonStudies.length;
@@ -185,7 +179,7 @@ async function makeStudies(condition, keyword) {
 
             const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
 
-            if (jsonStudies[i].Condition==condition || jsonStudies[i].Condition[0].includes(keyword)) {
+            if (jsonStudies[i].Condition == condition || jsonStudies[i].Condition[0].includes(keyword)) {
                 const study = new Study({
                     rank: jsonStudies[i].Rank,
                     NCTID: jsonStudies[i].NCTId[0],
@@ -226,7 +220,7 @@ async function addLocations() {
             if (dbStudy != null) {
                 console.log("location id", dbStudy.NCTID)
 
-               
+
                 let loc = null;
                 if (jsonStudy.LocationFacility != null) {
                     loc = await Location.findOne({ facility: jsonStudy.LocationFacility[0] }).exec();
@@ -269,16 +263,16 @@ async function addMethods() {
             const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
             if (dbStudy != null) {
                 console.log("method id", dbStudy.NCTID)
-              
+
                 //adding method perameters to study
                 dbStudy.allocation = jsonStudy.DesignAllocation[0];
                 dbStudy.interventionName = jsonStudy.InterventionName[0];
-                dbStudy.interventionType =  jsonStudy.InterventionType[0];
+                dbStudy.interventionType = jsonStudy.InterventionType[0];
                 dbStudy.interventionModel = jsonStudy.DesignInterventionModel[0];
                 dbStudy.interventionModelDescription = jsonStudy.DesignInterventionModelDescription[0]
                 dbStudy.primaryOutcomeMeasure = jsonStudy.PrimaryOutcomeMeasure[0];
                 dbStudy.secondaryOutcomeMeasure = jsonStudy.SecondaryOutcomeMeasure[0];
-                dbStudy.outcomeMeasureDescription =jsonStudy.OutcomeMeasureDescription[0];
+                dbStudy.outcomeMeasureDescription = jsonStudy.OutcomeMeasureDescription[0];
                 dbStudy.masking = jsonStudy.DesignMasking[0];
 
                 await dbStudy.save();
@@ -332,7 +326,7 @@ async function addParticipatns() {
                     if (healthyStr == 'Accepts Healthy Volunteers') {
                         healthyBool = true;
                     }
-                   
+
                     dbStudy.acceptsHealthy = healthyBool
                 }
 
@@ -348,7 +342,7 @@ async function addParticipatns() {
 
 async function addDates() {
     try {
-        const json = await fetchJSON(dateFields,CONDITION);
+        const json = await fetchJSON(dateFields, CONDITION);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         for (jsonStudy of jsonStudies) {
@@ -450,7 +444,7 @@ async function addDates() {
 async function addStates() {
     try {
 
-        const json = await fetchJSON(stateFields,CONDITION);
+        const json = await fetchJSON(stateFields, CONDITION);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         for (jsonStudy of jsonStudies) {
@@ -492,18 +486,18 @@ async function addStates() {
 
 async function addResults() {
     try {
-       
-        const json = await fetchJSON(resultFields,CONDITION);
+
+        const json = await fetchJSON(resultFields, CONDITION);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         for (jsonStudy of jsonStudies) {
             const dbStudy = await Study.findOne({ NCTID: jsonStudy.NCTId[0] }).exec();
             if (dbStudy != null) {
                 console.log("results id", dbStudy.NCTID)
-            
+
                 if (jsonStudy.ResultsFirstPostDate.length > 0) {
                     console.log('has results')
-                
+
                     dbStudy.dateRetultsPosted = jsonStudy.ResultsFirstPostDate[0];
                     dbStudy.hasResults = true;
                 }
@@ -512,7 +506,7 @@ async function addResults() {
                 }
 
                 console.log(dbStudy.hasResults);
-             
+
                 dbStudy.primaryOutcomeDescription = jsonStudy.PrimaryOutcomeDescription[0];
                 dbStudy.otherOutcomesDescription = jsonStudy.OtherOutcomeDescription[0];
                 dbStudy.whyStopped = jsonStudy.WhyStopped[0];
@@ -526,34 +520,34 @@ async function addResults() {
 }
 
 
-async function addAdditionalFields(){
-    try{
-        const json = await fetchJSON(resultFields,CONDITION);
+async function addAdditionalFields() {
+    try {
+        const json = await fetchJSON(resultFields, CONDITION);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         //read data into additional feilds
 
-        for(jsonStudy of jsonStudies){
+        for (jsonStudy of jsonStudies) {
 
-            const dbStudy = await Study.findOne({NCTID: NCTId[0]}).exec();
-            if(dbStudy!=null){
-                for(let i=1; i<additionalFields.length; i++){
+            const dbStudy = await Study.findOne({ NCTID: NCTId[0] }).exec();
+            if (dbStudy != null) {
+                for (let i = 1; i < additionalFields.length; i++) {
                     const val = additionalFields[i];
                     const type = "";
-                    switch(typeof val){
+                    switch (typeof val) {
                         case 'string':
                             type = "String"
                             break;
                         case 'boolean':
-                            type= "Boolean"
+                            type = "Boolean"
                             break;
                         case 'number':
                             type = "Number"
                             break;
                     }
-                    
+
                     const fieldName = additionalFields[i].toLowerCase();
-                    Study.add({fieldName:type})
+                    Study.add({ fieldName: type })
                     dbStudy.fieldName = val;
                 }
                 await dbStudy.save();
@@ -569,10 +563,10 @@ exports.test = async (req, res, next) => {
     const json = await fetchJSON(generalFields, CONDITION);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-    for(jsonStudy of jsonStudies){
+    for (jsonStudy of jsonStudies) {
         console.log(jsonStudy.Keyword[0])
     }
-res.redirect('/')
+    res.redirect('/')
 }
 
 exports.search = async (req, res, next) => {
@@ -586,17 +580,17 @@ exports.search = async (req, res, next) => {
 
 exports.run = async (req, res, next) => {
     //making studies
-        await makeStudies(CONDITION, KEYWORD);
-        console.log("studies made");
-        // //adding locations
-        // await addLocations();
-        // console.log("locations added");
+    await makeStudies(CONDITION, KEYWORD);
+    console.log("studies made");
+    // //adding locations
+    // await addLocations();
+    // console.log("locations added");
     // adding methods
     // await addMethods();
     // console.log("methods added")
-        //adding participants
-        // await addParticipatns();
-        // console.log('participants added')
+    //adding participants
+    // await addParticipatns();
+    // console.log('participants added')
     //adding study dates
     // await addDates();
     // console.log('dates added');
@@ -611,46 +605,46 @@ exports.run = async (req, res, next) => {
 
 
 /// user interface
-const xml2js = require('xml2js');
 
 const studyFields = getJSONFields();
 
-function getJSONFields(){
+function getJSONFields() {
     let jsonFields = {};
-    const xml = fs.readFileSync('StudyFields.xml'); 
-let json = "";
+    const xml = fs.readFileSync('StudyFields.xml');
+    let json = "";
 
-xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
-    if (err) {
-        throw err;
-    }
+    xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
+        if (err) {
+            throw err;
+        }
+        // `result` is a JavaScript object
+        // convert it to a JSON string
+        const jsonString = JSON.stringify(result, null, 4);
+        fs.writeFileSync('fields.json', jsonString)
+        json = JSON.parse(jsonString);
 
-    // `result` is a JavaScript object
-    // convert it to a JSON string
-    const jsonString = JSON.stringify(result, null, 4);
-    fs.writeFileSync('fields.json', jsonString)
-    json = JSON.parse(jsonString);
+    });
+    //array of field names
+    jsonFields = json.StudyFields.FieldList[0].Field;
 
-}); 
-//array of field names
-jsonFields = json.StudyFields.FieldList[0].Field;
-
-return jsonFields
+    return jsonFields
 }
 
-exports.getFindAll = (req,res, next) =>{
-    res.render('findStudies',{
+exports.getFindAll = (req, res, next) => {
+    res.render('findStudies', {
         fieldsArray: studyFields
     });
 }
 
-exports.makeStudies =async(req, res, next) =>{
 
-    const keys= Object.keys(req.body)
+exports.generateStudies = async (req, res, next) => {
+    await Study.deleteMany().exec();
+    const keys = Object.keys(req.body)
 
     const fields = ['Condition', 'NCTId'];
-    for(let i=0; i<keys.length; i++){
-        if(keys[i]!='keyword'&&keys[i]!='cond'&&keys[i]!="_csrf"&&keys[i]!='Condition'&&keys[i]!="NCTId"){
+    for (let i = 0; i < keys.length; i++) {
+        if (keys[i] != 'keyword' && keys[i] != 'cond' && keys[i] != "_csrf" && keys[i] != 'Condition' && keys[i] != "NCTId"&&keys[i]!="startYear"
+        &&keys[i]!="compYear"&&keys[i]!="url"&&keys[i]!="hasRes"&&keys[i]!="isFDA") {
             fields.push(keys[i])
             console.log(keys[i])
         }
@@ -667,24 +661,91 @@ exports.makeStudies =async(req, res, next) =>{
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
     console.log(jsonStudies[0].Condition[0])
+    console.log(jsonStudies[0].NCTId[0])
 
-   for(jsonStudy of jsonStudies){
-    if(jsonStudy.Condition[0].includes(keyword)||jsonStudy.Condition[0]==condition){
-        const study = new Study();
+    for (jsonStudy of jsonStudies) {
+        if (jsonStudy.Condition[0].includes(keyword) || jsonStudy.Condition[0] == condition) {
+            const study = new Study();
 
-        for(let i=0; i<fields.length; i++){
-            const studyField = fields[i];
-            study[studyField]=jsonStudy[studyField][0];
-            
-            console.log(fields[i]);
-            console.log(jsonStudy.fields);
-           
-            study.field = jsonStudy.field;
+            for (let i = 0; i < fields.length; i++) {
+                const studyField = fields[i];
+                console.log('Field', studyField)
+                console.log('Value', jsonStudy[studyField][0])
+                if (studyField == 'isDFAReg') {
+                    const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
+                    study.isFDAReg = isFDA;
+                }
+                else if (studyField == 'startYear') {
+                    if (jsonStudy.StartDate[0] != null) {
+                        const jsonSDate = jsonStudy.StartDate[0];
+                        console.log(jsonSDate);
+                        let stringSDate = JSON.stringify(jsonSDate);
+                        stringSDate = stringSDate.substring(1, stringSDate.length - 1);
+                        const splitSDate = stringSDate.split(" ");
+    
+                        let sYear = "";
+                        if (splitSDate.length == 2) {
+                            sYear = splitSDate[1];
+                        }
+                        else if (splitSDate.length == 3) {
+                            sYear = splitSDate[2];
+                        }
+                        sYear = sYear.substring(0);
+
+                        const numSYear = parseInt(sYear);
+                        study.startYear = numSYear
+                    }
+                }
+                else if (studyField == 'compYear') {
+                    if (jsonStudy.CompletionDate[0] != null) {
+                        const jsonCDate = jsonStudy.CompletionDate[0];
+                        let stringCDate = JSON.stringify(jsonCDate);
+                        stringCDate = stringCDate.substring(1, stringCDate.length - 1);
+                        const splitCDate = stringCDate.split(" ");
+    
+                        let cYear = "";
+                        if (splitCDate.length == 2) {
+                            cYear = splitCDate[1];
+                        }
+                        else if (splitCDate.length == 3) {
+                            cYear = splitCDate[2];
+                        }
+                        cYear = cYear.substring(0);
+                        console.log(cDay, cMonthIndex, cYear);
+
+                        const numCyear = parseInt(cYear);
+                        study.compYear = numCyear;
+                    }
+                }
+                else if (studyField == 'hasResults') {
+                    if (jsonStudy.ResultsFirstPostDate!=null) {
+                        console.log('has results')
+
+                        study.hasResults = true;
+                    }
+                    else {
+                        study.hasResults = false;
+                    }
+    
+                    console.log(study.hasResults);
+                }
+                else if (studyField == 'url') {
+                    const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
+                    study.url = studyURL;
+                }
+                else {
+                    if (jsonStudy[studyField] != null) {
+                        study[studyField] = jsonStudy[studyField][0];
+                    }
+                }
+
+
+                //study.field = jsonStudy.field;
+            }
+            await study.save();
+            console.log(study)
+
         }
-        await study.save();
-        console.log(study)
-
     }
-   }
     res.redirect('/');
 }
