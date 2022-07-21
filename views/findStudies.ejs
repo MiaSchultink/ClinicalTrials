@@ -6,6 +6,14 @@
             <form action="/trials/studies/make" method="post">
 
                 <!-- general data -->
+                <h1>Select Study Fields</h1>
+                <label for="fileType">Data Returned As:</label>
+                <select name="fileType" id="fileType">
+                    <option name="csv" value="csv">CSV</option>
+                    <option name="pdf" value="pdf">PDF</option> 
+                    <option name="json" value="json">JSON</option>
+                </select>
+                <br>
                 <input class="input" name="keyword"  id = "keyword" required>
                 <label for="keyword">Keyword</label><br>
                 <input class="input" name="cond" id="cond" required>
@@ -21,10 +29,19 @@
                 <label for = "compYear">Completion Year</label><br>
                 <input type="checkbox" id="url" name="url" value='url'>
                 <label for = "url">clinicalTials.gov url</label><br>
+
+                <% for(let i=0; i<importantFields.length; i++){ %> 
+                    <input type="checkbox" id="<%=importantFields[i]%>" name="<%=importantFields[i]%>" value="<%=importantFields%>">
+                    <label for = "<%=importantFields[i]%>"><%=importantFields[i]%></label><br>
+                    <%}%>
+
+                    <br>
                 
                 <%for(let i=0; i<fieldsArray.length; i++){%>
+                <%if(!importantFields.includes(fieldsArray[i].Name[0])){%>
                 <input type="checkbox" id="<%=fieldsArray[i].Name[0]%>" name="<%=fieldsArray[i].Name[0]%>" value="<%=fieldsArray[i].Name[0]%>">
                 <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label><br>
+                <%}%>
                 <%}%>
         
                 <button class = "form-btn" type="submit">Get studies</button>

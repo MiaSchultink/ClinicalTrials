@@ -6,16 +6,6 @@ const xml2js = require('xml2js');
 const Schema = mongoose.Schema;
 const studySchema = new Schema({
 
-    rank: {
-        type: Number,
-        required: true
-    },
-    NCTID: {
-        type: String,
-        required: true,
-        unique: true
-    },
-
     isFDAReg: {
         type: Boolean
     },

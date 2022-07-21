@@ -21,9 +21,9 @@ const additionalFields = ["NCTId"];
 const searchFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "Gender", "MinimumAge", "MaximumAge", "LocationFacility", "LocationCity", "LocationCountry", "StartDate", "CompletionDate", "DesignInterventionModel"]
 
 //constnats and importnat variables
-let CONDITION = 'Sickle Cell Anemia'
-let KEYWORD = 'Sickle';
-const NUM_STUDIES_GENERATED = 100;
+let CONDITION = "Huntington's Disease"
+let KEYWORD = 'Huntington';
+const NUM_STUDIES_GENERATED = 1000;
 
 exports.wipeAll = async (req, res, next) => {
     await Study.deleteMany().exec();
@@ -76,8 +76,8 @@ function monthToIndex(month) {
 
 
 function buildURL(fields) {
-    console.log(CONDITION)
-    //const numStudiesToServe = 1000;
+    console.log(CONDITION);
+
     const splitCondition = CONDITION.split(" ");
     const urlStart = "https://clinicaltrials.gov/api/query/study_fields?expr=";
     const urlEnd = "&min_rnk=1&max_rnk=" + NUM_STUDIES_GENERATED + "&fmt=JSON";
@@ -90,7 +90,7 @@ function buildURL(fields) {
         urlMiddle += splitCondition[splitCondition.length - 1];
     }
     else {
-        urlMiddle += conditionName
+        urlMiddle += CONDITION
     }
     urlMiddle += "&fields=";
 
@@ -605,8 +605,12 @@ exports.run = async (req, res, next) => {
 
 
 /// user interface
-
 const studyFields = getJSONFields();
+const importantFields = ["OfficialTitle", "BriefSummary", "CollaboratorName", "LeadSponsorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle", "Condition", "StudyType",
+    "Phase", "OverallStatus", "DesignPrimaryPurpose", "LocationFacility", "LocationCity", "LocationCountry", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking", "FlowMilestoneComment", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate",
+    "StartDate", "CompletionDate"];
+
+const notIncludes = [];
 
 function getJSONFields() {
     let jsonFields = {};
@@ -632,36 +636,96 @@ function getJSONFields() {
 
 exports.getFindAll = (req, res, next) => {
     res.render('findStudies', {
-        fieldsArray: studyFields
+        fieldsArray: studyFields,
+        importantFields: importantFields
     });
 }
 
+function getStartDate(jsonSDate) {
+
+    let stringSDate = JSON.stringify(jsonSDate);
+    stringSDate = stringSDate.substring(1, stringSDate.length - 1);
+    const splitSDate = stringSDate.split(" ");
+
+    let sYear = "";
+    if (splitSDate.length == 2) {
+        sYear = splitSDate[1];
+    }
+    else if (splitSDate.length == 3) {
+        sYear = splitSDate[2];
+    }
+    sYear = sYear.substring(0);
+
+    const numSYear = parseInt(sYear);
+
+    return numSYear;
+}
+
+function getCompDate(jsonCDate) {
+    let stringCDate = JSON.stringify(jsonCDate);
+    stringCDate = stringCDate.substring(1, stringCDate.length - 1);
+    const splitCDate = stringCDate.split(" ");
+
+    let cYear = "";
+    if (splitCDate.length == 2) {
+        cYear = splitCDate[1];
+    }
+    else if (splitCDate.length == 3) {
+        cYear = splitCDate[2];
+    }
+    cYear = cYear.substring(0);
+
+    const numCyear = parseInt(cYear);
+
+    return numCyear;
+}
 
 exports.generateStudies = async (req, res, next) => {
     await Study.deleteMany().exec();
     const keys = Object.keys(req.body)
 
+    //decides which fields to show
     const fields = ['Condition', 'NCTId'];
-    for (let i = 0; i < keys.length; i++) {
-        if (keys[i] != 'keyword' && keys[i] != 'cond' && keys[i] != "_csrf" && keys[i] != 'Condition' && keys[i] != "NCTId"&&keys[i]!="startYear"
-        &&keys[i]!="compYear"&&keys[i]!="url"&&keys[i]!="hasRes"&&keys[i]!="isFDA") {
-            fields.push(keys[i])
-            console.log(keys[i])
+    for (let j = 0; j < keys.length; j++) {
+        if (keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] != 'Condition' && keys[j] != "NCTId") {
+            fields.push(keys[j])
         }
     }
 
+    //makes json studies
+    const urlFields = ['Condition', 'NCTId'];
+
+    for (let i = 0; i < fields.length; i++) {
+        if (fields[i] != 'Condition' && fields[i] != "NCTId" && fields[i] != "startYear"
+            && fields[i] != "compYear" && fields[i] != "url" && fields[i] != "hasRes" && fields[i] != "isFDA") {
+            urlFields.push(fields[i])
+            console.log(fields[i]);
+        }
+    }
+    if (!fields.includes('IsFDARegulatedDrug')) {
+        urlFields.push('IsFDARegulatedDrug')
+    }
+    if (!fields.includes('IsFDARegulatedDevice')) {
+        urlFields.push('IsFDARegulatedDevice')
+    }
+    if (!fields.includes('ResultsFirstPostDate')) {
+        urlFields.push('ResultsFirstPostDate');
+    }
+    if (!fields.includes('StartDate')) {
+        urlFields.push('StartDate');
+    }
+    if (!fields.includes('CompletionDate')) {
+        urlFields.push('CompletionDate')
+    }
 
     const keyword = req.body.keyword;
     const condition = req.body.cond;
     CONDITION = condition;
     KEYWORD = keyword;
 
-    const json = await fetchJSON(fields);
+    const json = await fetchJSON(urlFields);
     console.log(json);
     const jsonStudies = json.StudyFieldsResponse.StudyFields;
-
-    console.log(jsonStudies[0].Condition[0])
-    console.log(jsonStudies[0].NCTId[0])
 
     for (jsonStudy of jsonStudies) {
         if (jsonStudy.Condition[0].includes(keyword) || jsonStudy.Condition[0] == condition) {
@@ -670,77 +734,84 @@ exports.generateStudies = async (req, res, next) => {
             for (let i = 0; i < fields.length; i++) {
                 const studyField = fields[i];
                 console.log('Field', studyField)
-                console.log('Value', jsonStudy[studyField][0])
-                if (studyField == 'isDFAReg') {
-                    const isFDA = jsonStudies[i].IsFDARegulatedDevice[0] == "Yes" || jsonStudies[i].IsFDARegulatedDrug[0] == "Yes";
-                    study.isFDAReg = isFDA;
-                }
-                else if (studyField == 'startYear') {
-                    if (jsonStudy.StartDate[0] != null) {
-                        const jsonSDate = jsonStudy.StartDate[0];
-                        console.log(jsonSDate);
-                        let stringSDate = JSON.stringify(jsonSDate);
-                        stringSDate = stringSDate.substring(1, stringSDate.length - 1);
-                        const splitSDate = stringSDate.split(" ");
-    
-                        let sYear = "";
-                        if (splitSDate.length == 2) {
-                            sYear = splitSDate[1];
-                        }
-                        else if (splitSDate.length == 3) {
-                            sYear = splitSDate[2];
-                        }
-                        sYear = sYear.substring(0);
 
-                        const numSYear = parseInt(sYear);
-                        study.startYear = numSYear
-                    }
-                }
-                else if (studyField == 'compYear') {
-                    if (jsonStudy.CompletionDate[0] != null) {
-                        const jsonCDate = jsonStudy.CompletionDate[0];
-                        let stringCDate = JSON.stringify(jsonCDate);
-                        stringCDate = stringCDate.substring(1, stringCDate.length - 1);
-                        const splitCDate = stringCDate.split(" ");
-    
-                        let cYear = "";
-                        if (splitCDate.length == 2) {
-                            cYear = splitCDate[1];
-                        }
-                        else if (splitCDate.length == 3) {
-                            cYear = splitCDate[2];
-                        }
-                        cYear = cYear.substring(0);
-                        console.log(cDay, cMonthIndex, cYear);
+                if (studyField == 'isFDA' || studyField == 'startYear' || studyField == 'compYear' || studyField == 'hasRes' || studyField == 'url') {
 
-                        const numCyear = parseInt(cYear);
-                        study.compYear = numCyear;
+                    if (studyField == 'isFDA') {
+                        const isFDA = jsonStudy.IsFDARegulatedDevice[0] == "Yes" || jsonStudy.IsFDARegulatedDrug[0] == "Yes";
+                        study.isFDAReg = isFDA;
+                        console.log('isDFA', isFDA)
                     }
-                }
-                else if (studyField == 'hasResults') {
-                    if (jsonStudy.ResultsFirstPostDate!=null) {
-                        console.log('has results')
+                    if (studyField == 'startYear') {
+                        if (jsonStudy.StartDate.length > 0) {
+                            const jsonSDate = jsonStudy.StartDate[0];
+                            console.log(jsonSDate);
+                            // let stringSDate = JSON.stringify(jsonSDate);
+                            // stringSDate = stringSDate.substring(1, stringSDate.length - 1);
+                            // const splitSDate = stringSDate.split(" ");
 
-                        study.hasResults = true;
+                            // let sYear = "";
+                            // if (splitSDate.length == 2) {
+                            //     sYear = splitSDate[1];
+                            // }
+                            // else if (splitSDate.length == 3) {
+                            //     sYear = splitSDate[2];
+                            // }
+                            // sYear = sYear.substring(0);
+
+                            // const numSYear = parseInt(sYear);
+                           const sYear = getStartDate(jsonSDate);
+                            study.startYear = numSYear
+                            console.log('startYear', sYear)
+                        }
                     }
-                    else {
-                        study.hasResults = false;
+                    if (studyField == 'compYear') {
+                        if (jsonStudy.CompletionDate.length > 0) {
+                            const jsonCDate = jsonStudy.CompletionDate[0];
+                            // let stringCDate = JSON.stringify(jsonCDate);
+                            // stringCDate = stringCDate.substring(1, stringCDate.length - 1);
+                            // const splitCDate = stringCDate.split(" ");
+
+                            // let cYear = "";
+                            // if (splitCDate.length == 2) {
+                            //     cYear = splitCDate[1];
+                            // }
+                            // else if (splitCDate.length == 3) {
+                            //     cYear = splitCDate[2];
+                            // }
+                            // cYear = cYear.substring(0);
+
+                            // const numCyear = parseInt(cYear);
+                            const cYear = getCompDate(jsonCDate);
+                             study.compYear = cYear;
+
+                            console.log('comp', cYear);
+                        }
                     }
-    
-                    console.log(study.hasResults);
-                }
-                else if (studyField == 'url') {
-                    const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudies[i].NCTId[0];
-                    study.url = studyURL;
+                    if (studyField == 'hasRes') {
+                        if (jsonStudy.ResultsFirstPostDate.length > 0) {
+                            console.log('has results')
+
+                            study.hasResults = true;
+                        }
+                        else {
+                            study.hasResults = false;
+                        }
+
+                        console.log('has results', study.hasResults);
+                    }
+                    if (studyField == 'url') {
+                        const studyURL = 'https://clinicaltrials.gov/ct2/show/' + jsonStudy.NCTId[0];
+                        study.url = studyURL;
+                        console.log(study.url)
+                    }
                 }
                 else {
                     if (jsonStudy[studyField] != null) {
+                        console.log('Value', jsonStudy[studyField][0])
                         study[studyField] = jsonStudy[studyField][0];
                     }
                 }
-
-
-                //study.field = jsonStudy.field;
             }
             await study.save();
             console.log(study)
