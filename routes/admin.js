@@ -3,6 +3,8 @@ const router = express.Router();
 const trialsController = require('../controllers/trials');
 const adminController = require('../controllers/admin');
 
+router.get('/', adminController.getAdminControls);
+
 router.get('/run', adminController.run);// full run of everything
 
 router.get('/make/files',adminController.buildJSONFiles);

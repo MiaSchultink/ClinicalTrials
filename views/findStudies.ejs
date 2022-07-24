@@ -2,49 +2,62 @@
 <body>
     <%- include('includes/navigation.ejs') %> 
     <div class="top">
-        <div class="main">
+        <div class="fields-selection">
             <form action="/trials/studies/make" method="post">
 
                 <!-- general data -->
                 <h1>Select Study Fields</h1>
-                <label for="fileType">Data Returned As:</label>
+                <label for = "cond" id ="cond" name="cond">Study Condition</label>
+                <br>
+                <input class="fields-input" name="cond" id="cond" required>
+                
+                <br>
+                <label for="keyword">Keyword</label>
+                <br>
+                <input class="fields-input" name="keyword"  id = "keyword" required>
+                
+                <br>
+                <br>
+                <label class="file-select" for="fileType">Data Returned As:</label>
                 <select name="fileType" id="fileType">
                     <option name="csv" value="csv">CSV</option>
                     <option name="pdf" value="pdf">PDF</option> 
                     <option name="json" value="json">JSON</option>
                 </select>
                 <br>
-                <input class="input" name="keyword"  id = "keyword" required>
-                <label for="keyword">Keyword</label><br>
-                <input class="input" name="cond" id="cond" required>
-                <label for = "cond" id ="cond" name="cond">Study Condition</label><br>
                 <br>
-                <input type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
+                <input class= "field-check" type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
                 <label for = "isFDA">Is FDA Regulated</label><br>
-                <input type="checkbox" id="hasRes" name="hasRes" value='hasRes'>
+                <input class= "field-check" type="checkbox" id="hasRes" name="hasRes" value='hasRes'>
                 <label for = "hasRes">Has Results</label><br>
-                <input type="checkbox" id="startYear" name="startYear" value='startYear'>
+                <input class= "field-check" type="checkbox" id="startYear" name="startYear" value='startYear'>
                 <label for = "startYear">Start Year</label><br>
-                <input type="checkbox" id="compYear" name="compYear" value='compYear'>
+                <input class= "field-check" type="checkbox" id="compYear" name="compYear" value='compYear'>
                 <label for = "compYear">Completion Year</label><br>
-                <input type="checkbox" id="url" name="url" value='url'>
+                <input class= "field-check" type="checkbox" id="url" name="url" value='url'>
                 <label for = "url">clinicalTials.gov url</label><br>
 
                 <% for(let i=0; i<importantFields.length; i++){ %> 
-                    <input type="checkbox" id="<%=importantFields[i]%>" name="<%=importantFields[i]%>" value="<%=importantFields%>">
+                    <input class= "field-check" type="checkbox" id="<%=importantFields[i]%>" name="<%=importantFields[i]%>" value="<%=importantFields%>">
                     <label for = "<%=importantFields[i]%>"><%=importantFields[i]%></label><br>
                     <%}%>
+                <br>
+                <script>
+                    function showMorefields(){
 
-                    <br>
-                
+                    }
+                </script>
+            <button class="menu-button" onclick = ></button>
+            <div class="other-fields" id ="other-fileds">
                 <%for(let i=0; i<fieldsArray.length; i++){%>
                 <%if(!importantFields.includes(fieldsArray[i].Name[0])){%>
                 <input type="checkbox" id="<%=fieldsArray[i].Name[0]%>" name="<%=fieldsArray[i].Name[0]%>" value="<%=fieldsArray[i].Name[0]%>">
-                <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label><br>
+                <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label>
+            <br>
                 <%}%>
                 <%}%>
-        
-                <button class = "form-btn" type="submit">Get studies</button>
+            </div>
+                <button class = "menu-btn" type="submit">Get studies</button>
                 <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
               </form>
         </div>

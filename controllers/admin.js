@@ -17,6 +17,10 @@ const CONDITION = 'Duchenne Muscular Dystrophy';
 const KEYWORD = 'Duchenne';
 const NUM_STUDIES_GENERATED = 1000;
 
+exports.getAdminControls = (req, res, next) =>{
+    res.render('adminControls');
+}
+
 exports.wipeAll = async (req, res, next) => {
     await DuchenneStudy.deleteMany().exec();
     await Location.deleteMany().exec();

@@ -1,19 +1,15 @@
-<!-- <%- include('includes/top.ejs') %>  -->
+<%- include('includes/top.ejs') %> 
 <body>
     <!-- <%- include('includes/navigation.ejs') %>  -->
     <div class="top">
-        <div class="main">
-        <h1>DMD clinical trials control pannel</h1>
-        <button class="trials-btn" onclick="location.assign('/admin/run')">RUN</button>
-
-        <button class="trials-btn" onclick="location.assign('/admin/make/files')">Make files</button>
-        <button class="trials-btn" onclick="location.assign('/admin/delete/all')">Wipe</button>
-        <button class="trials-btn" onclick="location.assign('/admin/search')">Search</button>
-        <button class="trials-btn" onclick="location.assign('/admin/test')">Test functions</button>
-        <button class="trials-btn" onclick="location.assign('/trials/get/fields')">Get Fields List</button>
-        <!-- <button class="trials-btn" onclick="location.assign('/trials/make')"></button>
-        <button class="trials-btn" onclick="location.assign('/trials/add/location')">Add locations</button> -->
-       
+        <div class="home">
+    <div class ="home-info-container">
+        <div class="home-title">Clinical Trials Search Engine</div>
+        <div class="home-btns">
+            <button class="menu-btn" onclick="location.assign('/trials/get/fields')">Find Studies</button>
+            <button class="menu-btn" onclick="location.assign('/admin')">Admin Control Pannel</button>
         </div>
+    </div> 
+    </div>
     </div>
 </body>
