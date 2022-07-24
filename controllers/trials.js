@@ -261,7 +261,6 @@ async function getFileFormat(format, studies) {
     else if (format == 'csv') {
         const csv = jsonToCSV(jsonStudies);
         console.log('csv var', csv)
-        console.log('type', typeof jsonToCSV(jsonStudies));
 
         fs.writeFileSync('public/docs/userStudies.csv', csv);
         path = 'public/docs/userStudies.csv';
@@ -273,6 +272,25 @@ async function getFileFormat(format, studies) {
 
 
 exports.generateStudies = async (req, res, next) => {
+
+
+    async function mStudy(k, jsonStudy, fields, study) {
+        //let study = null;
+        if (k == 0) {
+            study = new Study();
+        }
+        else {
+            study = await Study.findOne({ NCTId: jsonStudy.NCTId[0] }).exec()
+        }
+        if (study != null) {
+            await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
+        }
+    }
+
+    async function m2Study(jsonStudy, fields,study){
+        await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
+    }
+
     await Study.deleteMany().exec();
     const keys = Object.keys(req.body)
 
@@ -314,21 +332,11 @@ exports.generateStudies = async (req, res, next) => {
             //console.log(json)
             const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
-
-
+            const p = []
             for (jsonStudy of jsonStudies) {
-                let study = null;
-                if (k == 0) {
-                    study = new Study();
-                }
-                else {
-                    study = await Study.findOne({ NCTId: jsonStudy.NCTId[0] }).exec()
-                }
-                if (study != null) {
-                    await generateStudy(currentStudyFields, jsonStudy, KEYWORD, CONDITION, study);
-                }
-
+                p.push(mStudy(k, jsonStudy, currentStudyFields))
             }
+            await Promise.all(p)
         }
     }
     else {
@@ -337,11 +345,14 @@ exports.generateStudies = async (req, res, next) => {
         const json = await fetchJSON(urlFields);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
+        const p2 = [];
         for (jsonStudy of jsonStudies) {
             //making intial studies
             const study = new Study();
-            await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
+            //await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
+            p2.push(m2Study(jsonStudy,fields,study));
         }
+        await Promise.all(p2);
     }
 
     const studies = await Study.find().exec();
