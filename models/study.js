@@ -63,6 +63,6 @@ for (let i = 0; i < jsonFields.length; i++) {
     }
 }
 studySchema.add(extras)
-console.log(studySchema)
+//console.log(studySchema)
 
 module.exports = mongoose.model('Study', studySchema)

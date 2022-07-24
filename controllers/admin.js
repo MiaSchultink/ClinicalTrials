@@ -15,7 +15,7 @@ const dateFields = ["NCTId", "StartDate", "CompletionDate"];
 
 const CONDITION = 'Duchenne Muscular Dystrophy';
 const KEYWORD = 'Duchenne';
-const NUM_STUDIES_GENERATED = 10;
+const NUM_STUDIES_GENERATED = 1000;
 
 exports.wipeAll = async (req, res, next) => {
     await DuchenneStudy.deleteMany().exec();
