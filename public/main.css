@@ -65,3 +65,34 @@ width: 100vw;
     background-color: var(--main-background);
     color: white;
 }
+.field-container{
+    height: 40px;
+    width: 200px;
+    border: 1px solid white;
+    border-radius: 15px;
+    background-color: var(--main-background);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.field-select-btn{
+    background-color: #1363DF;
+	color: white;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+}
+.icon{
+    font-size:15px;
+    color:white;
+    height: 20px;
+    width: 20px;
+}

@@ -2,7 +2,10 @@
 <body>
     <%- include('includes/navigation.ejs') %> 
     <div class="top">
-        <div class="fields-selection">
+        <script>
+            const fieldsStatus = {};
+        </script>
+        <div class="fields-selection" id ="main-field-selection-container">
             <form action="/trials/studies/make" method="post">
 
                 <!-- general data -->
@@ -26,7 +29,8 @@
                 </select>
                 <br>
                 <br>
-                <input class= "field-check" type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
+                
+                <!-- <input class= "field-check" type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
                 <label for = "isFDA">Is FDA Regulated</label><br>
                 <input class= "field-check" type="checkbox" id="hasRes" name="hasRes" value='hasRes'>
                 <label for = "hasRes">Has Results</label><br>
@@ -35,27 +39,176 @@
                 <input class= "field-check" type="checkbox" id="compYear" name="compYear" value='compYear'>
                 <label for = "compYear">Completion Year</label><br>
                 <input class= "field-check" type="checkbox" id="url" name="url" value='url'>
-                <label for = "url">clinicalTials.gov url</label><br>
+                <label for = "url">clinicalTials.gov url</label><br> -->
 
-                <% for(let i=0; i<importantFields.length; i++){ %> 
-                    <input class= "field-check" type="checkbox" id="<%=importantFields[i]%>" name="<%=importantFields[i]%>" value="<%=importantFields%>">
-                    <label for = "<%=importantFields[i]%>"><%=importantFields[i]%></label><br>
-                    <%}%>
-                <br>
+                <div class="field-container">
+                    <div class="field-name" id="isFDA" name="isFDA">Is FDA Regulated</div>
+                    <button class="field-select-btn" onclick = "removeField()"><i class="fa-solid fa-x"></i></button>
+                </div>
+                <div class="field-container">
+                    <div class="field-name" id="hasRes" name="hasRes">Has Results</div>
+                    <button class="field-select-btn" onclick = "removeField()"><i class="fa-solid fa-x"></i></button>
+                </div>
+                <div class="field-container">
+                    <div class="field-name" id="startYear" name="startYear">Start Year</div>
+                    <button class="field-select-btn" onclick = "removeField()"><i class="fa-solid fa-x"></i></button>
+                </div>
+                <div class="field-container">
+                    <div class="field-name" id="compYear" name="compYear">Completion Year</div>
+                    <button class="field-select-btn" onclick = "removeField()"><i class="fa-solid fa-x"></i></button>
+                </div>
+                <div class="field-container">
+                    <div class="field-name" id="url" name="url">clinicalTials.gov url</div>
+                    <button class="field-select-btn" onclick = "removeField()"><i class="fa-solid fa-x"></i></button>
+                </div>
+
                 <script>
-                    function showMorefields(){
+                    function makeBoxes(field, importantFields){
+                        for(let i=0; i<importantFields.length; i++){
+                            makeBox(field, importantFields);
 
                     }
+                }
+                    function makeBox(field, importantFields){
+                        
+                        const mainContainer = document.getElementById("main-field-selection-container")
+                            const container = document.createElement('div');
+                            container.id = importantFields[i]+"Container";
+                            mainContainer.appendChild(container)
+                            
+
+                            const nameDiv = document.createElement('div');
+                            const nameDivID =importantFields[i]+"Name";
+                            nameDiv.id = nameDivID;
+                            nameDiv.innerHTML = importantFields[i];
+                            container.appendChild(nameDiv);
+
+                            const button = docuent.createElement('button');
+                            const buttonID = importantFields[i]+"Button"
+                            button.id = buttonID;
+                            button.innerHTML = "X";
+                            button.style.color = "white";
+                            container.appendChild(button)
+                          
+
+                            const propertyKey = importantFields[i];
+                            const propertyValue = true;
+                            fieldsStatus[propertyKey] = propertyValue;
+
+                            //const buttonName = importantFields[i]+"Button";
+                            const hiddenInput = document.createElement('input');
+                            const inputID = importantFields[i]+"Value";
+                            hiddenInput.id = inputID;
+                            hiddenInput.value = importantFields[i];
+                            container.appendChild(hiddenInput);
+
+                    }
+                    function removeField(field, fields){
+                        for(let i=0; i<fields.length; i++){
+                            if(fields[i]==field){
+                            const input  = document.getElementById(fields[i]);
+                            const parent = document.getElementById()
+                            const buttonID = fields[i]+"Button";
+                            const button = document.getElementById(buttonID);
+                            
+
+                            const propKey = field
+                            fieldsStatus[propKey] = false;
+                            //button.onclick = addField();
+                          }
+                        }
+                    }
+
+                    function addField(field, fields){
+                       for(let i=0; i<fields.length; i++){
+                        if(fields[i]==field){
+                        if(importantFields.includes(field)){
+                            const input = document.getElementById(fields[i]);
+                            const buttonID= fields[i]+"Button";
+                            const button = document.getElementById(buttonID)
+                            input.value = fields[i];
+                            button.onclick = removeField();
+                            const propKey = field;
+                            fieldsStatus[propKey] = true;
+                        }
+                        else{
+                            
+                        }
+                        }
+                       }
+                    }
+                    
                 </script>
-            <button class="menu-button" onclick = ></button>
+
+                <!-- <% for(let i=0; i<importantFields.length; i++){ %>  -->
+                    <!-- <div class="field-container"> -->
+                        <!-- <div class="field-name" id = "field-name"><%=importantFields[i]%></div> -->
+                        <script>
+                            
+                            const mainContainer = document.getElementById("main-field-selection-container")
+                            const container = document.createElement('div');
+                            container.id = importantFields[i]+"Container";
+                            mainContainer.appendChild(container)
+                            
+
+                            const nameDiv = document.createElement('div');
+                            const nameDivID =importantFields[i]+"Name";
+                            nameDiv.id = nameDivID;
+                            nameDiv.innerHTML = importantFields[i];
+                            container.appendChild(nameDiv);
+
+                            const button = docuent.createElement('button');
+                            const buttonID = importantFields[i]+"Button"
+                            button.id = buttonID;
+                            button.innerHTML = "X";
+                            button.style.color = "white";
+                            container.appendChild(button)
+                          
+
+                            const propertyKey = importantFields[i];
+                            const propertyValue = true;
+                            fieldsStatus[propertyKey] = propertyValue;
+
+                            //const buttonName = importantFields[i]+"Button";
+                            const hiddenInput = document.createElement('input');
+                            const inputID = importantFields[i]+"Value";
+                            hiddenInput.id = inputID;
+                            hiddenInput.value = importantFields[i];
+                            container.appendChild(hiddenInput);
+
+                        </script>
+                           <!-- <button class="field-select-btn" onclick = "removeImportantField()">X</i></button> -->
+                        <!-- <input type = "hidden" name="<%=importantFields[i]%>" id = "<%=importantFields[i]%>" value = "<%=importantFields[i]%>"> -->
+                    <!-- </div> -->
+                    
+                    <!-- <%}%> -->
+                <br>
+               
             <div class="other-fields" id ="other-fileds">
-                <%for(let i=0; i<fieldsArray.length; i++){%>
-                <%if(!importantFields.includes(fieldsArray[i].Name[0])){%>
-                <input type="checkbox" id="<%=fieldsArray[i].Name[0]%>" name="<%=fieldsArray[i].Name[0]%>" value="<%=fieldsArray[i].Name[0]%>">
-                <label for = "<%=fieldsArray[i].Name[0]%>"><%=fieldsArray[i].Name[0]%></label>
-            <br>
+            <select name="other-fields-select" id="other-fields-select">
+            <%for(let i=0; i<fieldsArray.length; i++){%>
+                <%if(!importantFields.includes(fieldsArray[i])){%>
+                    <script>
+                        const propertyKey2 = fieldsArray[i];
+                        const propertyValue2 = false;
+                        fieldsStatus[propertyKey2] = propertyValue2;
+                    </script>
+                    <option id = ""value="<%=fieldsArray[i]%>"><%=fieldsArray[i]%></option>
+                <!-- <div class="field-container">
+                    <div class="field-name"><%=fieldsArray[i]%></div>
+                    <button class="field-select-btn" id="456" onclick = "addField()"><i class="icon fa-solid fa-xmark"></i></button>
+                    <script>
+                        const buttonName2 = fieldsArray[i]+"Button";
+                        const button2 = documnet.getElementById("456");
+                        button2.name = buttonName2;
+                        button2.id = buttonName2;
+                    </script>
+                    <input type="hidden" id="<%=fieldsArray[i]%>" name="<%=fieldsArray[i]%>" value="none">
+                </div> -->
+                 <br>
                 <%}%>
-                <%}%>
+            <%}%>
+        </select>
             </div>
                 <button class = "menu-btn" type="submit">Get studies</button>
                 <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>

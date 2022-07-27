@@ -113,8 +113,12 @@ function getJSONFields() {
 }
 
 exports.getFindAll = (req, res, next) => {
+    const regularFields = [];
+    for(let i=0; i<studyFields.length; i++){
+        regularFields[i] = studyFields[i].Name[0];
+    }
     res.render('findStudies', {
-        fieldsArray: studyFields,
+        fieldsArray: regularFields,
         importantFields: importantFields
     });
 }
@@ -161,7 +165,7 @@ function getCompDate(jsonCDate) {
 function getFields(keys) {
     const fields = ['Condition', 'NCTId'];
     for (let j = 0; j < keys.length; j++) {
-        if (keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
+        if (keys[i]!=null && keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
             fields.push(keys[j])
         }
     }
@@ -171,7 +175,7 @@ function getURLFields(fields) {
     const urlFields = ['Condition', 'NCTId'];
 
     for (let i = 0; i < fields.length; i++) {
-        if (fields[i] != 'Condition' && fields[i] != "NCTId" && fields[i] != "startYear"
+        if (keys[i]!=null&& fields[i] != 'Condition' && fields[i] != "NCTId" && fields[i] != "startYear"
             && fields[i] != "compYear" && fields[i] != "url" && fields[i] != "hasRes" && fields[i] != "isFDA") {
             urlFields.push(fields[i])
         }
@@ -337,6 +341,7 @@ async function awaitJSON(urlFields){
 
     await Study.deleteMany().exec();
     const keys = Object.keys(req.body)
+    console.log(keys);
 
     const fields = getFields(keys);
     console.log('length', fields.length)
