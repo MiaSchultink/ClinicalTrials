@@ -40,7 +40,7 @@ xml2js.parseString(xml, { mergeAttrs: true }, (err, result) => {
     // `result` is a JavaScript object
     // convert it to a JSON string
     const jsonString = JSON.stringify(result, null, 4);
-    fs.writeFileSync('fields.json', jsonString)
+    //fs.writeFileSync('fields.json', jsonString)
     json = JSON.parse(jsonString);
 
 });

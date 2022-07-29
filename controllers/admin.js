@@ -519,8 +519,8 @@ exports.test = async (req, res, next) => {
 
 exports.run = async (req, res, next) => {
     //making studies
-    // await makeStudies();
-    // console.log("studies made");
+    await makeStudies();
+    console.log("studies made");
     //adding locations
     await addLocations();
     console.log("locations added");

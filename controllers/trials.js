@@ -102,7 +102,7 @@ function getJSONFields() {
         // `result` is a JavaScript object
         // convert it to a JSON string
         const jsonString = JSON.stringify(result, null, 4);
-        fs.writeFileSync('fields.json', jsonString)
+        //fs.writeFileSync('fields.json', jsonString)
         json = JSON.parse(jsonString);
 
     });
@@ -258,7 +258,7 @@ async function convertToOtherFormats(format, studies) {
     console.log('json studies', jsonStudies);
 
     if (format == 'json') {
-        fs.writeFileSync('public/docs/userStudies.json', jsonStringStudies);
+        //fs.writeFileSync('public/docs/userStudies.json', jsonStringStudies);
 
     }
     else if (format == 'csv') {
@@ -270,7 +270,7 @@ async function convertToOtherFormats(format, studies) {
             }
             // print CSV string
             console.log('csv from function', csv);
-            fs.writeFileSync('public/docs/userStudies.csv', csv);
+            //fs.writeFileSync('public/docs/userStudies.csv', csv);
         });
     }
     else if (format === 'pdf') {
