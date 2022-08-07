@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/MiaSchultink/Clinical-trials-database#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "bcryptjs": "^2.4.3",
     "clinical-trials-gov": "^1.2.0",
     "connect-mongodb-session": "^3.1.1",
     "csurf": "^1.11.0",

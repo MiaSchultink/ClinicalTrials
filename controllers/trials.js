@@ -6,27 +6,16 @@ const converter = require('json-2-csv');
 const xml2js = require('xml2js');
 
 const Study = require('../models/study');
-const Location = require('../models/location');
-
-const generalFields = ["NCTId", "OfficialTitle", "BriefSummary", "CollaboratorName", "LeadSponsorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle", "Condition", "StudyType"];
-const stateFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose"]
-
-const locationFields = ["NCTId", "LocationFacility", "LocationCity", "LocationCountry"];
-const methodFields = ["NCTId", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking", "FlowMilestoneComment", "OutcomeMeasureType"];
-const participantFields = ["NCTId", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers"];
-const resultFields = ["NCTId", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate"];
-const dateFields = ["NCTId", "StartDate", "CompletionDate"];
-
-const additionalFields = ["NCTId"];
-
-const searchFields = ["NCTId", "Phase", "OverallStatus", "DesignPrimaryPurpose", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "Gender", "MinimumAge", "MaximumAge", "LocationFacility", "LocationCity", "LocationCountry", "StartDate", "CompletionDate", "DesignInterventionModel"]
-
-
 
 //constnats and importnat variables
 let CONDITION = "Huntington's Disease"
 let KEYWORD = 'Huntington';
 const NUM_STUDIES_GENERATED = 20;
+
+const studyFields = getJSONFields();
+const importantFields = ["OfficialTitle", "BriefSummary", "CollaboratorName", "LeadSponsorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle", "Condition", "StudyType",
+    "Phase", "OverallStatus", "DesignPrimaryPurpose", "LocationFacility", "LocationCity", "LocationCountry", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking", "FlowMilestoneComment", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate",
+    "StartDate", "CompletionDate"];
 
 function makeJASONfile(data, fileName) {
     const name = fileName + ".json";
@@ -70,11 +59,6 @@ async function fetchJSON(fields) {
     const json = await response.json();
     return json;
 }
-
-const studyFields = getJSONFields();
-const importantFields = ["OfficialTitle", "BriefSummary", "CollaboratorName", "LeadSponsorName", "DetailedDescription", "EnrollmentCount", "IsFDARegulatedDevice", "IsFDARegulatedDrug", "AvailIPDURL", "BriefTitle", "Condition", "StudyType",
-    "Phase", "OverallStatus", "DesignPrimaryPurpose", "LocationFacility", "LocationCity", "LocationCountry", "DesignInterventionModel", "DesignInterventionModelDescription", "InterventionName", "InterventionType", "InterventionDescription", "DesignAllocation", "PrimaryOutcomeMeasure", "SecondaryOutcomeMeasure", "OutcomeMeasureDescription", "DesignMasking", "FlowMilestoneComment", "Gender", "MinimumAge", "MaximumAge", "HealthyVolunteers", "PrimaryOutcomeDescription", "SecondaryOutcomeDescription", "OtherOutcomeDescription", "WhyStopped", "ResultsFirstPostDate",
-    "StartDate", "CompletionDate"];
 
 function jsonToCSV(json) {
     converter.json2csv(json, (err, csv) => {
@@ -165,13 +149,13 @@ function getCompDate(jsonCDate) {
 function getFields(keys) {
     const fields = ['Condition', 'NCTId'];
     for (let j = 0; j < keys.length; j++) {
-        if (keys[i]!=null && keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
+        if (keys[j]!=null && keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
             fields.push(keys[j])
         }
     }
     return fields;
 }
-function getURLFields(fields) {
+function getURLFields(fields, keys) {
     const urlFields = ['Condition', 'NCTId'];
 
     for (let i = 0; i < fields.length; i++) {
@@ -315,11 +299,11 @@ exports.generateStudies = async (req, res, next) => {
         await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
     }
 
-    async function loopStudies(k, urlFields) {
+    async function loopStudies(k, keys,urlFieldsArrays) {
 
         const currentStudyFields = urlFieldsArrays[k];
         //console.log(currentStudyFields.length)
-        const currentURLFields = getURLFields(currentStudyFields);
+        const currentURLFields = getURLFields(currentStudyFields, keys);
         // console.log(currentURLFields.length);
 
         const json = await fetchJSON(currentURLFields);
@@ -388,13 +372,13 @@ async function awaitJSON(urlFields){
             //         p.push(mStudy(k, jsonStudy, currentStudyFields))
             //     }
             //     await Promise.all(p)
-            p1.push(loopStudies(k, urlFieldsArrays));
+            p1.push(loopStudies(k, keys,urlFieldsArrays));
         }
         await Promise.all(p1);
 
     }
     else {
-        const urlFields = getURLFields(fields);
+        const urlFields = getURLFields(fields, keys);
 
        const json = await fetchJSON(urlFields);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;

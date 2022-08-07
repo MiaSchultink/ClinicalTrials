@@ -36,6 +36,7 @@ const trialsController = require('./controllers/trials');
 
 const trialsRoutes = require('./routes/trials');
 const adminRoutes =require('./routes/admin')
+const userRoutes= require('./routes/user');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use('/trials', trialsRoutes);
+app.use('/user', userRoutes)
 
 app.get('/', async (req, res, next) => {
 

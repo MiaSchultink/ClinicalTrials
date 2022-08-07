@@ -1,0 +1,79 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/navigation.ejs') %> 
+    <div class="top">
+        <div class="fields-selection">
+            <form action="/trials/studies/make" method="post">
+
+                <!-- general data -->
+                <h1>Select Study Fields</h1>
+                <label for = "cond" id ="cond" name="cond">Study Condition</label>
+                <br>
+                <input class="fields-input" name="cond" id="cond" required>
+                
+                <br>
+                <label for="keyword">Keyword</label>
+                <br>
+                <input class="fields-input" name="keyword"  id = "keyword" required>
+                
+                <br>
+                <br>
+                <label class="file-select" for="fileType">Data Returned As:</label>
+                <select name="fileType" id="fileType">
+                    <option name="csv" value="csv">CSV</option>
+                    <option name="pdf" value="pdf">PDF</option> 
+                    <option name="json" value="json">JSON</option>
+                </select>
+                <br>
+                <br>
+            <div class="important-chekcs" id="important-chekcs">
+                <input class= "field-check" type="checkbox" id="isFDA" name="isFDA" value='isFDAReg'>
+                <label for = "isFDA">Is FDA Regulated</label><br>
+                <input class= "field-check" type="checkbox" id="hasRes" name="hasRes" value='hasRes'>
+                <label for = "hasRes">Has Results</label><br>
+                <input class= "field-check" type="checkbox" id="startYear" name="startYear" value='startYear'>
+                <label for = "startYear">Start Year</label><br>
+                <input class= "field-check" type="checkbox" id="compYear" name="compYear" value='compYear'>
+                <label for = "compYear">Completion Year</label><br>
+                <input class= "field-check" type="checkbox" id="url" name="url" value='url'>
+                <label for = "url">clinicalTials.gov url</label><br>
+                <% for(let i=0; i<importantFields.length; i++){ %> 
+                    <input class= "field-check" type="checkbox" id="<%=importantFields[i]%>" name="<%=importantFields[i]%>" value="<%=importantFields%>">
+                    <label for = "<%=importantFields[i]%>"><%=importantFields[i]%></label><br>
+                    <%}%>
+            </div>
+
+                <br>
+                <script>
+                    function showMoreFields(){
+                        const otherFieldsContainer = document.getElementById("other-fields");
+                        otherFieldsContainer.style.display= "block";
+                        const button = document.getElementById("show-more-btn");
+                        button.innerHTML = "Show Less Fields";
+                        button.onclick = showLessFields();
+                    }
+                    function showLessFields(){
+                        const otherFieldsContainer = document.getElementById("other-fields");
+                        otherFieldsContainer.style.display= "none";
+                        const button = document.getElementById("show-more-btn");
+                        button.innerHTML = "Show More Fields";
+                        button.onclick = showMoreFields();
+                    }
+                    
+                </script>
+        <div class="other-fields" id ="other-fields">
+            <%for(let i=0; i<fieldsArray.length; i++){%>
+                <%if(!importantFields.includes(fieldsArray[i])){%>
+                <input type="checkbox" id="<%=fieldsArray[i]%>" name="<%=fieldsArray[i]%>" value="<%=fieldsArray[i]%>">
+                <label for = "<%=fieldsArray[i]%>"><%=fieldsArray[i]%></label>
+                <br>
+                <%}%>
+            <%}%>
+        </div>
+                <button class = "menu-btn" type="submit">Get studies</button>
+                <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+              </form>
+              <button class="menu-btn" id="show-more-btn" onclick ="showMoreFields()" >Show More Fields</button>
+        </div>
+    </div>
+</body>
