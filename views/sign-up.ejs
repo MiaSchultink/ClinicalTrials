@@ -3,18 +3,26 @@
     <div class="top">
    <%-include('includes/navigation.ejs') %>
         <div class="main">
-            <div class="auth-form-container">
+            <div class="auth-container">
+         <div class="auth-form-container">
          <form class="form" action = "/user/sign-up" method="post">
             <label for="name">Name</label>
-            <input class="input-txt" name="name" type="email">
+            <br>
+            <input class="input-txt" name="name" type="text">
+            <br>
             <label for="email">Email</label>
+            <br>
             <input class="input-txt" name ="email" type="email">
+            <br>
             <label for="password">Password</label>
+            <br>
             <input class="input-txt" name="password" type="password">
+            <br>
             <button type = "submit" class="menu-btn">Sign-up</button>
             <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
          </form>
         </div>
+    </div>
         </div>
     </div>
 </body>

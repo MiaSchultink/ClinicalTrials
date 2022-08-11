@@ -10,7 +10,7 @@ const trialsController = require('../controllers/trials');
 
 // router.get('/test', trialsController.test);
 
-router.get('/get/fields',trialsController.getFindAll);
+router.get('/get-fields',trialsController.getFindAll);
 
 router.post('/studies/make', trialsController.generateStudies);
 

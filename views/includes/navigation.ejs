@@ -1,0 +1,12 @@
+
+         <div class="nav-container">
+            <%if(!locals.isLoggedIn){%>
+            <button class="nav-option" onclick ="location.assign('/user/login')">Login</button>
+            <button class="nav-option" onclick ="location.assign('/user/sign-up')">Sign up</button>
+            <%}%>
+            <button class="nav-option" onclick ="location.assign('/trials/get-fields')">Find Studies</button>
+            <%if(locals.isAdmin){%>
+            <button class="nav-option" onclick="location.assign('/admin')">Admin Control Pannel</button>
+            <%}%>
+         </div>
+       

@@ -3,6 +3,11 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail'); 
 
+const isAuth = require('../middlewear/is-auth')
+const isAdmin = require('../middlewear/is-admin')
+
+
+
 sgMail.setApiKey(process.env.API_KEY)
 
 exports.getLogIn = (req, res, next) => {
@@ -35,7 +40,7 @@ exports.postLogin = async (req, res, next) => {
         const user = await User.findOne({ email: email }).exec()
 
         if (!user) {
-            res.redirect('/users/login')
+            res.redirect('/user/login')
         }
         const passwordMatch = await bcrypt.compare(password, user.password)
         if (passwordMatch) {
@@ -46,7 +51,7 @@ exports.postLogin = async (req, res, next) => {
             res.redirect('/')
         }
         else {
-            res.redirect('/users/login')
+            res.redirect('/user/login')
         }
 
     }
@@ -88,7 +93,7 @@ exports.postSignUp = async (req, res, next) => {
             html: '<h1>You sucessfully signed up!</h1>'
         }
         sgMail.send(message)
-        res.redirect('/users/login')
+        res.redirect('/user/login')
     }
 
     catch (err) {

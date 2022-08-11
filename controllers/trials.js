@@ -72,8 +72,6 @@ function jsonToCSV(json) {
     });
 }
 
-const notIncludes = [];
-
 function getJSONFields() {
     let jsonFields = {};
     const xml = fs.readFileSync('StudyFields.xml');
@@ -98,7 +96,7 @@ function getJSONFields() {
 
 exports.getFindAll = (req, res, next) => {
     const regularFields = [];
-    for(let i=0; i<studyFields.length; i++){
+    for (let i = 0; i < studyFields.length; i++) {
         regularFields[i] = studyFields[i].Name[0];
     }
     res.render('findStudies', {
@@ -149,7 +147,7 @@ function getCompDate(jsonCDate) {
 function getFields(keys) {
     const fields = ['Condition', 'NCTId'];
     for (let j = 0; j < keys.length; j++) {
-        if (keys[j]!=null && keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
+        if (keys[j] != null && keys[j] != 'keyword' && keys[j] != 'cond' && keys[j] != "_csrf" && keys[j] && keys[j] != "fileType" && keys[j] != 'Condition' && keys[j] != "NCTId") {
             fields.push(keys[j])
         }
     }
@@ -159,7 +157,7 @@ function getURLFields(fields, keys) {
     const urlFields = ['Condition', 'NCTId'];
 
     for (let i = 0; i < fields.length; i++) {
-        if (keys[i]!=null&& fields[i] != 'Condition' && fields[i] != "NCTId" && fields[i] != "startYear"
+        if (keys[i] != null && fields[i] != 'Condition' && fields[i] != "NCTId" && fields[i] != "startYear"
             && fields[i] != "compYear" && fields[i] != "url" && fields[i] != "hasRes" && fields[i] != "isFDA") {
             urlFields.push(fields[i])
         }
@@ -183,7 +181,11 @@ function getURLFields(fields, keys) {
 }
 
 async function generateStudy(fields, jsonStudy, keyword, condition, study) {
-    if (jsonStudy.Condition[0].includes(keyword) || jsonStudy.Condition[0] == condition) {
+    let searchCondition = jsonStudy.Condition[0].includes(keyword) || jsonStudy.Condition[0] == condition;
+    if (keyword == "") {
+        searchCondition = jsonStudy.Condition[0] == condition
+    }
+    if (searchCondition) {
 
         for (let i = 0; i < fields.length; i++) {
             const studyField = fields[i];
@@ -237,12 +239,10 @@ async function generateStudy(fields, jsonStudy, keyword, condition, study) {
 async function convertToOtherFormats(format, studies) {
     let path = "";
     const jsonStringStudies = JSON.stringify(studies);
-    const jsonStudies = JSON.parse(jsonStringStudies)
-
-    console.log('json studies', jsonStudies);
+    const jsonStudies = JSON.parse(jsonStringStudies);
 
     if (format == 'json') {
-        //fs.writeFileSync('public/docs/userStudies.json', jsonStringStudies);
+        fs.writeFileSync('public/docs/userStudies.json', jsonStringStudies);
 
     }
     else if (format == 'csv') {
@@ -253,8 +253,7 @@ async function convertToOtherFormats(format, studies) {
                 throw err;
             }
             // print CSV string
-            console.log('csv from function', csv);
-            //fs.writeFileSync('public/docs/userStudies.csv', csv);
+            fs.writeFileSync('public/docs/userStudies.csv', csv);
         });
     }
     else if (format === 'pdf') {
@@ -265,17 +264,19 @@ async function convertToOtherFormats(format, studies) {
 
 }
 
-function getDownloadPath(format){
+function getDownloadPath(format) {
     let path = "";
-    if(format=='csv'){
+    if (format == 'csv') {
         path = 'public/docs/userStudies.csv';
     }
-    else if(format =='json'){
+    else if (format == 'json') {
         path = 'public/docs/userStudies.json';
     }
-    else if(format=='pdf'){
-        path="";
+    else if (format == 'pdf') {
+        path = "";
     }
+
+    return path;
 }
 
 
@@ -299,15 +300,13 @@ exports.generateStudies = async (req, res, next) => {
         await generateStudy(fields, jsonStudy, KEYWORD, CONDITION, study);
     }
 
-    async function loopStudies(k, keys,urlFieldsArrays) {
+    async function loopStudies(k, keys, urlFieldsArrays) {
 
         const currentStudyFields = urlFieldsArrays[k];
-        //console.log(currentStudyFields.length)
         const currentURLFields = getURLFields(currentStudyFields, keys);
-        // console.log(currentURLFields.length);
 
         const json = await fetchJSON(currentURLFields);
-        //console.log(json)
+        console.log(json)
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         const p = []
@@ -317,11 +316,12 @@ exports.generateStudies = async (req, res, next) => {
         await Promise.all(p)
 
     }
-async function awaitJSON(urlFields){
-    const json = await fetchJSON(urlFields);
-    return json;
 
-}
+    async function awaitJSON(urlFields) {
+        const json = await fetchJSON(urlFields);
+        return json;
+
+    }
 
     await Study.deleteMany().exec();
     const keys = Object.keys(req.body)
@@ -357,22 +357,7 @@ async function awaitJSON(urlFields){
 
         const p1 = []
         for (let k = 0; k < urlFieldsArrays.length; k++) {
-
-            //     const currentStudyFields = urlFieldsArrays[k];
-            //     //console.log(currentStudyFields.length)
-            //     const currentURLFields = getURLFields(currentStudyFields);
-            //     // console.log(currentURLFields.length);
-
-            //     const json = await fetchJSON(currentURLFields);
-            //     //console.log(json)
-            //     const jsonStudies = json.StudyFieldsResponse.StudyFields;
-
-            //     const p = []
-            //     for (jsonStudy of jsonStudies) {
-            //         p.push(mStudy(k, jsonStudy, currentStudyFields))
-            //     }
-            //     await Promise.all(p)
-            p1.push(loopStudies(k, keys,urlFieldsArrays));
+            p1.push(loopStudies(k, keys, urlFieldsArrays));
         }
         await Promise.all(p1);
 
@@ -380,7 +365,7 @@ async function awaitJSON(urlFields){
     else {
         const urlFields = getURLFields(fields, keys);
 
-       const json = await fetchJSON(urlFields);
+        const json = await fetchJSON(urlFields);
         const jsonStudies = json.StudyFieldsResponse.StudyFields;
 
         const p2 = [];
@@ -394,14 +379,12 @@ async function awaitJSON(urlFields){
     }
 
     const studies = await Study.find().exec();
-    console.log(studies);
 
-  await convertToOtherFormats(format, studies);
+    await convertToOtherFormats(format, studies);
+    const path = getDownloadPath(format);
+    console.log(format)
+    console.log(path)
+    res.download(path);
     res.redirect('/');
 }
 
-exports.downloadData =(req, res, next) =>{
-    const path = getDownloadPath(format);
-    res.download(path);
-    res.redirec('/')
-}

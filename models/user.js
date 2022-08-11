@@ -24,7 +24,13 @@ const userSchema = new Schema({
         required: true,
         default: 'user'
     },
- 
+    studies: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Study'
+        }
+    ]
+
 });
 
 module.exports = mongoose.model('User', userSchema);

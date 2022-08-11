@@ -108,6 +108,13 @@ width: 100vw;
     color:white;
     font-size: 14px;
 }
+.auth-conainer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .input-txt{
     width: 50%;
     height: 40px;
@@ -115,4 +122,25 @@ width: 100vw;
     background-color: var(--main-background);
     color: white;
     border: 1px solid white;
+}
+.nav-container{
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav-option{
+    font-size:15px;
+    color: white;
+    background-color: var(--med-accent);
+    border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    height: 30px;
+    width: 100px;
+    margin: 10px;
+    border-radius: 10px;
 }
